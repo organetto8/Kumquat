@@ -72,9 +72,11 @@ reading aloud, translation and summaries also run on the Mac.
 
 ## Optional extras
 
-Most formats work out of the box. A few rely on free programs Kumquat finds if they are installed:
+Most formats work out of the box. A few rely on free programs: open **Settings ▸ Engines** and click
+**Install** next to the ones you want. Kumquat downloads its own build for your Mac, with no Homebrew and no
+password needed. If you already use Homebrew, these commands work too and Kumquat finds what they install:
 
-| For | Install |
+| For | With Homebrew |
 |---|---|
 | Audio and video | `brew install ffmpeg` |
 | Saving WebP images, animated WebP | `brew install webp` |
@@ -86,15 +88,16 @@ Most formats work out of the box. A few rely on free programs Kumquat finds if t
 | WOFF2 fonts · TrueType ↔ OpenType | `brew install woff2` · `brew install fonttools` |
 | Pages, Keynote, PowerPoint, Numbers, XLS | Pages, Keynote and Numbers from the Mac App Store |
 
-**Settings ▸ Engines** shows what is ready and installs what is missing with one click, through Homebrew
-(or the App Store, for Pages, Keynote and Numbers). Options that need something missing appear dimmed in the wheel.
+For Pages, Keynote and Numbers, **Install** opens the App Store. Options that need something missing appear
+dimmed in the wheel.
 Translate and Summarize need macOS 26; Summarize also needs Apple Intelligence.
 
 ## Privacy
 
 All work happens locally with Apple frameworks (ImageIO, PDFKit, Vision, Core Image, Speech, Translation,
-Foundation Models, Model I/O, AppKit) and the optional tools above. Kumquat makes no requests to the internet:
-the Install buttons in Settings ▸ Engines hand the download to Homebrew or the App Store, and only when you click them.
+Foundation Models, Model I/O, AppKit) and the optional tools above. Kumquat makes no requests to the internet,
+except when you click **Install** in Settings ▸ Engines: it then downloads that one program from Kumquat's own
+[engines releases](https://github.com/organetto8/Kumquat/releases) and checks it against a fingerprint built into the app.
 Wi-Fi Share only serves the files you chose, through a private link in its QR code, to devices on your own network while its window is open.
 It asks for permissions only when a feature needs them:
 
@@ -134,7 +137,7 @@ Sources/KumquatCore/   conversion engines, no UI, covered by tests
   Executor.swift       runs an operation on a selection: dispatch, concurrency, progress, file names
 Sources/Kumquat/       the menu-bar app: drag detection, wheel, jobs, actions, Basket shelf, settings
 Tests/                 catalogue and end-to-end engine tests
-Scripts/               app bundle and icon build scripts
+Scripts/               app bundle and icon build scripts; engines/ builds the engine pack
 ```
 
 ## Releases and feedback
@@ -155,5 +158,6 @@ Kumquat is released under the [MIT licence](LICENSE).
 
 FFmpeg (LGPL/GPL), cwebp (BSD), cjxl (BSD), potrace (GPL), pandoc (GPL), Calibre (GPL), 7-Zip (LGPL),
 woff2 (MIT), fontTools (MIT) and Apple's iWork apps are separate programs that Kumquat launches when
-present. They are not included in the download. If you bundle FFmpeg inside the app, include its licence and
-a source offer.
+present. They are not included in the app: Settings ▸ Engines downloads them on request from the engines
+releases, which carry their source archives. If you bundle FFmpeg inside the app, include its licence and a
+source offer.

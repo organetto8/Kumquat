@@ -14,7 +14,8 @@ public enum Engines {
     public static var woff2Decompress: URL? { ExternalTool.locate("woff2_decompress") }
     public static var fonttools: URL? { ExternalTool.locate("fonttools") }
     public static var ebookConvert: URL? {
-        ExternalTool.locate("ebook-convert") ?? ["/Applications/calibre.app", NSHomeDirectory() + "/Applications/calibre.app"]
+        ExternalTool.locate("ebook-convert") ?? ["/Applications/calibre.app", NSHomeDirectory() + "/Applications/calibre.app",
+                                                 EnginePack.folder("calibre").appendingPathComponent("calibre.app").path]
             .map { URL(fileURLWithPath: $0 + "/Contents/MacOS/ebook-convert") }
             .first { FileManager.default.isExecutableFile(atPath: $0.path) }
     }
@@ -44,12 +45,13 @@ public enum Engines {
         }
     }
 
-    public static let ffmpegHint = String(localized: "Needs FFmpeg — brew install ffmpeg")
-    public static let webpHint = String(localized: "Needs cwebp — brew install webp")
+    public static let ffmpegHint = engineHint("FFmpeg")
+    public static let webpHint = engineHint("cwebp")
 
     public static func appHint(_ app: App) -> String { String(localized: "Needs \(app.rawValue) (free on the App Store)") }
 
-    static func brewHint(_ tool: String, _ formula: String) -> String { String(localized: "Needs \(tool) — brew install \(formula)") }
+    /// Settings ▸ Engines installs every optional program with one click, Homebrew or not.
+    static func engineHint(_ tool: String) -> String { String(localized: "Needs \(tool) — install it in Settings ▸ Engines") }
 
     /// Formats AVFoundation reads without FFmpeg (enough for transcription).
     static let nativeMedia: Set<FileFormat> = [.mp4, .mov, .m4a, .mp3, .wav, .aiff, .caf, .m4b, .m4r]
@@ -65,7 +67,7 @@ public enum Engines {
             let category = input.category
             if (category == .video || category == .audio), !Catalog.anyFile.contains(tool), ffmpeg == nil { return ffmpegHint }
             if Catalog.markupFormats.contains(input), [.merge, .wordCount, .translate, .summarize, .split].contains(tool), pandoc == nil {
-                return brewHint("pandoc", "pandoc")
+                return engineHint("pandoc")
             }
             return nil
         case .convert(let target):
@@ -88,8 +90,8 @@ public enum Engines {
         if input.category == .image {
             switch target {
             case .webp: return cwebp == nil ? webpHint : nil
-            case .jxl: return cjxl == nil ? brewHint("cjxl", "jpeg-xl") : nil
-            case .svg: return potrace == nil ? brewHint("potrace", "potrace") : nil
+            case .jxl: return cjxl == nil ? engineHint("cjxl") : nil
+            case .svg: return potrace == nil ? engineHint("potrace") : nil
             default: return nil
             }
         }
@@ -108,10 +110,10 @@ public enum Engines {
 
     static func documentRequirement(_ input: FileFormat, _ target: FileFormat) -> String? {
         if Catalog.ebooks.contains(input) || Catalog.ebooks.contains(target) {
-            return ebookConvert == nil ? String(localized: "Needs Calibre — brew install --cask calibre") : nil
+            return ebookConvert == nil ? engineHint("Calibre") : nil
         }
         if Catalog.markupFormats.contains(input) || Catalog.markupFormats.contains(target) {
-            return pandoc == nil ? brewHint("pandoc", "pandoc") : nil
+            return pandoc == nil ? engineHint("pandoc") : nil
         }
         if (input == .pages || target == .pages), !App.pages.isInstalled { return appHint(.pages) }
         return nil

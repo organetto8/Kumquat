@@ -242,17 +242,6 @@ private struct EngineSettings: View {
 
     var body: some View {
         Form {
-            if Homebrew.brew == nil {
-                Section {
-                    HStack {
-                        Text("The Install buttons use Homebrew, the free package manager for macOS. It isn't on this Mac yet.")
-                            .font(.caption).foregroundStyle(.orange)
-                        Spacer()
-                        Button("Install Homebrew…") { installer.installHomebrew() }
-                            .controlSize(.small)
-                    }
-                }
-            }
             Section {
                 row(String(localized: "Images, PDF, documents, spreadsheets, subtitles, archives"),
                     detail: String(localized: "Built in (ImageIO, PDFKit, Vision, libarchive)"), ready: true) { EmptyView() }
@@ -282,7 +271,7 @@ private struct EngineSettings: View {
         }
         .formStyle(.grouped)
         .id(installer.generation)
-        // Picks up Homebrew, or an engine, installed in Terminal while Kumquat was in the background.
+        // Picks up an engine installed in Terminal while Kumquat was in the background.
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in installer.recheck() }
     }
 
@@ -294,17 +283,21 @@ private struct EngineSettings: View {
         }
     }
 
-    /// An engine from Homebrew: where it was found, or an Install button and how far the install has got.
+    /// An optional program: where it was found, or an Install button and how far the install has got.
     private func engine(_ title: String, at location: URL?, from package: Homebrew.Package) -> some View {
         let progress = installer.progress[package], failure = installer.failures[package]
-        return row(title, detail: location?.path ?? progress ?? failure ?? package.command, ready: location != nil,
+        let size = EnginePack.asset(for: package.name).map { ByteCountFormatter.string(fromByteCount: $0.size, countStyle: .file) }
+        let idle = size.map { String(localized: "\($0) download") } ?? package.command
+        let available = installer.canInstall(package)
+        return row(title, detail: location?.path ?? progress ?? failure ?? idle, ready: location != nil,
                    failed: location == nil && progress == nil && failure != nil) {
             if progress != nil {
                 ProgressView().controlSize(.small)
             } else {
                 Button("Install") { installer.install(package) }
                     .controlSize(.small)
-                    .disabled(Homebrew.brew == nil)
+                    .disabled(!available)
+                    .help(available ? "" : String(localized: "Not available for this Mac yet. Right-click to copy the Homebrew command."))
             }
         }
         .contextMenu {

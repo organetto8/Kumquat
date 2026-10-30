@@ -111,4 +111,21 @@ import Testing
         #expect(Homebrew.Package.cask("calibre").arguments == ["install", "--cask", "calibre"])
         #expect(Engines.App.allCases.allSatisfy { $0.appStoreURL.scheme == "macappstore" })
     }
+
+    @Test func enginePack() throws {
+        // Every pinned file belongs to an engine the pack knows, for one of the two processors.
+        for key in EnginePack.assets.keys {
+            let parts = key.split(separator: "-")
+            #expect(EnginePack.engines.contains(parts.dropLast().joined(separator: "-")), "\(key)")
+            #expect(["arm64", "x86_64"].contains(String(parts.last ?? "")), "\(key)")
+        }
+        let ffmpeg = EnginePack.folder("ffmpeg").appendingPathComponent("bin")
+        #expect(ExternalTool.searchDirectories.contains(ffmpeg.path))
+        #expect(EnginePack.contains(ffmpeg.appendingPathComponent("ffmpeg")) && !EnginePack.contains(URL(fileURLWithPath: "/opt/homebrew/bin/ffmpeg")))
+
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("kumquat-\(UUID().uuidString)")
+        try Data("abc".utf8).write(to: file)
+        defer { try? FileManager.default.removeItem(at: file) }
+        #expect(try EnginePack.sha256(of: file) == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
+    }
 }

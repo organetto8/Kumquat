@@ -132,6 +132,16 @@
         }
       }
     },
+    "%@ download" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ da scaricare"
+          }
+        }
+      }
+    },
     "%@ encoding" : {
       "localizations" : {
         "it" : {
@@ -1952,6 +1962,16 @@
         }
       }
     },
+    "Couldn't download %@." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile scaricare %@."
+          }
+        }
+      }
+    },
     "Couldn't duplicate" : {
       "localizations" : {
         "it" : {
@@ -2240,6 +2260,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scarica %1$@ e %2$@ in Impostazioni di Sistema ▸ Generali ▸ Lingua e Zona ▸ Lingue di traduzione, poi riprova."
+          }
+        }
+      }
+    },
+    "Downloading…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download in corso…"
+          }
+        }
+      }
+    },
+    "Downloading… %@" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download in corso… %@"
           }
         }
       }
@@ -3330,12 +3370,12 @@
         }
       }
     },
-    "Install Homebrew…" : {
+    "Installing…" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installa Homebrew…"
+            "value" : "Installazione…"
           }
         }
       }
@@ -4002,48 +4042,12 @@
         }
       }
     },
-    "Needs %@ — brew install %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Needs %1$@ — brew install %2$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Richiede %1$@ — brew install %2$@"
-          }
-        }
-      }
-    },
-    "Needs Calibre — brew install --cask calibre" : {
+    "Needs %@ — install it in Settings ▸ Engines" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Richiede Calibre — brew install --cask calibre"
-          }
-        }
-      }
-    },
-    "Needs FFmpeg — brew install ffmpeg" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Richiede FFmpeg — brew install ffmpeg"
-          }
-        }
-      }
-    },
-    "Needs cwebp — brew install webp" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Richiede cwebp — brew install webp"
+            "value" : "Richiede %@ — installalo da Impostazioni ▸ Motori"
           }
         }
       }
@@ -4502,6 +4506,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Normalizza"
+          }
+        }
+      }
+    },
+    "Not available for this Mac yet. Right-click to copy the Homebrew command." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non ancora disponibile per questo Mac. Fai clic destro per copiare il comando di Homebrew."
           }
         }
       }
@@ -6722,16 +6736,6 @@
         }
       }
     },
-    "The Install buttons use Homebrew, the free package manager for macOS. It isn't on this Mac yet." : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I pulsanti Installa usano Homebrew, il gestore di pacchetti gratuito per macOS, che non è ancora su questo Mac."
-          }
-        }
-      }
-    },
     "The area to keep is the whole frame." : {
       "localizations" : {
         "it" : {
@@ -6758,6 +6762,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'area da mantenere è l'intera immagine."
+          }
+        }
+      }
+    },
+    "The download of %@ was damaged. Try again." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il download di %@ è danneggiato. Riprova."
           }
         }
       }

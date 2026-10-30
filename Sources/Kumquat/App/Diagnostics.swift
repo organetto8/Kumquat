@@ -23,7 +23,7 @@ enum Diagnostics {
         Language: \(Bundle.main.preferredLocalizations.first ?? "?") (system \(Locale.preferredLanguages.first ?? "?"))
         Wheel keys: \(keys.joined(separator: ", ")) · drag gesture \(Prefs.dragGesture ? "on" : "off")
         Input Monitoring: \(CGPreflightListenEventAccess() ? "granted" : "not granted")
-        Engines: \(engines.map { "\($0.0) \($0.1 == nil ? "–" : "✓")" }.joined(separator: ", "))
+        Engines: \(engines.map { "\($0.0) \($0.1.map { EnginePack.contains($0) ? "✓ pack" : "✓" } ?? "–")" }.joined(separator: ", "))
         Apps: \(Engines.App.allCases.map { "\($0.rawValue) \($0.isInstalled ? "✓" : "–")" }.joined(separator: ", "))
         """
     }

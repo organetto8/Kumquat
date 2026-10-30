@@ -7,10 +7,13 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ### Added
 
-- **Install** buttons in Settings ▸ Engines: missing engines install through Homebrew in the background, one
-  after another, with each step shown under the line. Pages, Keynote and Numbers open in the App Store.
-  Without Homebrew, **Install Homebrew…** opens its official installer in Terminal. **Copy Command** moved to
-  the right-click menu.
+- **Install** buttons in Settings ▸ Engines: Kumquat downloads its own build of a missing engine (FFmpeg,
+  WebP, JPEG XL, potrace, pandoc, Calibre, 7-Zip, WOFF2, fontTools) from its engines release on GitHub, checks
+  it against a SHA-256 built into the app and unpacks it in Application Support. No Homebrew or password
+  needed; Homebrew is used when the pack has nothing for the Mac. Pages, Keynote and Numbers open in the App
+  Store. **Copy Command** moved to the right-click menu, and dimmed wheel options now point to Settings ▸ Engines.
+- The engine pack itself: `Scripts/engines/build.sh` and the Engines workflow build every engine for Apple
+  silicon and Intel and publish them as an `engines-N` release.
 
 ## [1.0.0] - 2026-10-30
 
