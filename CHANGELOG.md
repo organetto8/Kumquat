@@ -10,6 +10,10 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 - **All Actions** in the menu bar panel (and the right-click menu): every conversion, tool and action, browsable by
   kind of file, with a one-line description of each tool and action and the reason a dimmed one can't run yet.
   Choosing an entry runs it on the Finder selection, or asks for the files it works on.
+- Automatic updates from GitHub releases, once a day or from **Check for Updates…** in the menu bar menu, with
+  betas as an option (Settings ▸ General ▸ Updates). An update is installed only if it carries the release key's
+  Ed25519 signature, is newer than the installed version and keeps an intact code signature; Kumquat never asks
+  for a password to install it. This check is the only time Kumquat goes online, and it can be turned off.
 
 ### Changed
 

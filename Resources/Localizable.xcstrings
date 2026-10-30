@@ -1532,6 +1532,36 @@
         }
       }
     },
+    "Check Now" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla ora"
+          }
+        }
+      }
+    },
+    "Check for Updates…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca aggiornamenti…"
+          }
+        }
+      }
+    },
+    "Check for updates automatically" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca aggiornamenti automaticamente"
+          }
+        }
+      }
+    },
     "Check the archive isn't damaged" : {
       "localizations" : {
         "it" : {
@@ -2264,6 +2294,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile analizzare “%@”."
+          }
+        }
+      }
+    },
+    "Couldn't check for updates" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile cercare aggiornamenti"
           }
         }
       }
@@ -3556,6 +3596,16 @@
         }
       }
     },
+    "GitHub didn't answer as expected. Try again later." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub non ha risposto come previsto. Riprova più tardi."
+          }
+        }
+      }
+    },
     "Gray" : {
       "localizations" : {
         "it" : {
@@ -3776,6 +3826,46 @@
         }
       }
     },
+    "Include beta versions" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Includi le versioni beta"
+          }
+        }
+      }
+    },
+    "Install Kumquat %@ and Relaunch" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa Kumquat %@ e riavvia"
+          }
+        }
+      }
+    },
+    "Install and Relaunch" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa e riavvia"
+          }
+        }
+      }
+    },
+    "Install the update from the menu bar icon when it's done." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa l'aggiornamento dall'icona nella barra dei menu quando ha finito."
+          }
+        }
+      }
+    },
     "Instant" : {
       "localizations" : {
         "it" : {
@@ -3962,6 +4052,26 @@
         }
       }
     },
+    "Kumquat %@ is available" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È disponibile Kumquat %@"
+          }
+        }
+      }
+    },
+    "Kumquat %@ is ready to install" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumquat %@ è pronto per l'installazione"
+          }
+        }
+      }
+    },
     "Kumquat Settings" : {
       "localizations" : {
         "it" : {
@@ -3978,6 +4088,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kumquat non può aggiungere a Foto"
+          }
+        }
+      }
+    },
+    "Kumquat can't replace itself where it is. Move it into the Applications folder, or install the new version by hand." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumquat non può sostituirsi nella posizione in cui si trova. Spostalo nella cartella Applicazioni, oppure installa la nuova versione a mano."
+          }
+        }
+      }
+    },
+    "Kumquat is still working" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumquat sta ancora lavorando"
+          }
+        }
+      }
+    },
+    "Kumquat is up to date" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumquat è aggiornato"
           }
         }
       }
@@ -4028,6 +4168,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lingua"
+          }
+        }
+      }
+    },
+    "Later" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Più tardi"
           }
         }
       }
@@ -5348,6 +5498,16 @@
         }
       }
     },
+    "Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. This is the only time Kumquat goes online, and nothing about you or your files is sent." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta al giorno Kumquat chiede a GitHub se c'è una nuova versione, e la installa solo se è firmata con la chiave di rilascio di Kumquat. È l'unico momento in cui Kumquat va online, e non invia nulla su di te o sui tuoi file."
+          }
+        }
+      }
+    },
     "One file per" : {
       "localizations" : {
         "it" : {
@@ -5444,6 +5604,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri e usa"
+          }
+        }
+      }
+    },
+    "Open Download Page" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri la pagina di download"
           }
         }
       }
@@ -7868,6 +8038,36 @@
         }
       }
     },
+    "The download doesn't contain a valid copy of Kumquat, so it wasn't installed." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il download non contiene una copia valida di Kumquat, quindi non è stato installato."
+          }
+        }
+      }
+    },
+    "The download is larger than any Kumquat release, so it was stopped." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il download è più grande di qualsiasi versione di Kumquat, quindi è stato interrotto."
+          }
+        }
+      }
+    },
+    "The download isn't signed with Kumquat's release key, so it wasn't installed." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il download non è firmato con la chiave di rilascio di Kumquat, quindi non è stato installato."
+          }
+        }
+      }
+    },
     "The fade must last between 0.1 and 30 seconds." : {
       "localizations" : {
         "it" : {
@@ -7964,6 +8164,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Questo Mac non supporta Apple Intelligence"
+          }
+        }
+      }
+    },
+    "This copy of Kumquat was built without the release key, so it can't update itself." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa copia di Kumquat è stata compilata senza la chiave di rilascio, quindi non può aggiornarsi da sola."
           }
         }
       }
@@ -8244,6 +8454,16 @@
         }
       }
     },
+    "Updates" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornamenti"
+          }
+        }
+      }
+    },
     "Use This Frame" : {
       "localizations" : {
         "it" : {
@@ -8280,6 +8500,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verifica"
+          }
+        }
+      }
+    },
+    "Version %@" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione %@"
           }
         }
       }
@@ -8460,6 +8690,16 @@
         }
       }
     },
+    "What's New" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novità"
+          }
+        }
+      }
+    },
     "Wheel keys" : {
       "localizations" : {
         "it" : {
@@ -8586,6 +8826,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sì"
+          }
+        }
+      }
+    },
+    "You have version %@. The new version was downloaded from GitHub and its signature verified. Kumquat will quit and open again." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hai la versione %@. La nuova versione è stata scaricata da GitHub e la sua firma è stata verificata. Kumquat si chiuderà e si riaprirà."
           }
         }
       }
@@ -8836,6 +9086,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS non può scrivere file %@"
+          }
+        }
+      }
+    },
+    "macOS didn't let Kumquat replace itself. Allow Kumquat in System Settings ▸ Privacy & Security ▸ App Management and try again, or install the new version by hand." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha permesso a Kumquat di sostituirsi. Consenti Kumquat in Impostazioni di Sistema ▸ Privacy e sicurezza ▸ Gestione app e riprova, oppure installa la nuova versione a mano."
           }
         }
       }

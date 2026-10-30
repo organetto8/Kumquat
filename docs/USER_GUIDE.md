@@ -314,6 +314,8 @@ Open it with the gear button in the menu bar panel (or ⌘, while the panel or a
 - **Terminal action opens**: pick Terminal, iTerm, Warp or Ghostty, when more than one is installed.
 - **Language**: English or Italiano, or **Same as the system** to follow macOS. Click **Restart Now** to
   switch straight away.
+- **Updates**: **Check for updates automatically** (on by default), **Include beta versions**, and
+  **Check Now**. See [section 10](#10-updating-and-uninstalling).
 
 **Output**: where results go (section 6).
 
@@ -337,14 +339,30 @@ Kumquat asks only when a feature needs it.
 | Photos | First Add to Library with photos or videos | System Settings ▸ Privacy & Security ▸ Photos |
 | Local Network | First Wi-Fi Share | System Settings ▸ Privacy & Security ▸ Local Network |
 
-Modifier keys (⇧ ⌘ ⌃ ⌥) need no permission. Kumquat does not ask for Accessibility access and never
-connects to the internet; Wi-Fi Share only answers devices on your own network that have its private link, while its window is open.
+Modifier keys (⇧ ⌘ ⌃ ⌥) need no permission. Kumquat does not ask for Accessibility access. It connects to the
+internet only to look for updates on GitHub (section 10), never with your files; Wi-Fi Share only answers devices
+on your own network that have its private link, while its window is open.
 
 ## 10. Updating and uninstalling
 
-**Update**: quit Kumquat (the power button in the menu bar panel), download the new DMG and drag Kumquat onto
-Applications again, choosing **Replace**. Your settings are kept. If you use number keys, macOS may ask
-for Input Monitoring again after an update: remove Kumquat from that list and add it back.
+**Update**: Kumquat looks for a new version on GitHub once a day. When one is out it downloads it, checks
+that it is signed with Kumquat's release key, and asks you: **Install and Relaunch** replaces the app and opens
+the new version within seconds; **Later** keeps it ready under the menu bar icon ▸ **Install Kumquat x.y.z and
+Relaunch**. To look straight away, choose **Check for Updates…** in the same menu. Your settings are kept.
+
+- Nothing is installed unless its signature matches, and never a version older than yours. Kumquat never asks
+  for your password to update.
+- The daily check only asks GitHub for the list of releases: it sends nothing about you, your Mac or your files.
+  Turn it off in Settings ▸ General ▸ Updates; **Check Now** there still works.
+- **Include beta versions** also offers pre-releases, such as `1.2.0-beta.1`.
+- If Kumquat can't replace itself where it is (it's running from the disk image, or the folder needs an
+  administrator), it offers the download page instead. If macOS blocks it, allow Kumquat in System Settings ▸
+  Privacy & Security ▸ App Management and choose **Check for Updates…** again. Or update by hand: quit Kumquat
+  (the power button in the menu bar panel), download the new DMG and drag Kumquat onto Applications again, choosing
+  **Replace**.
+
+If you use number keys, macOS may ask for Input Monitoring again after an update: remove Kumquat from that list
+and add it back.
 
 **Uninstall**
 
@@ -385,6 +403,10 @@ macOS is set to.
 
 **A Pages, Keynote or Numbers conversion fails**
 Install the app from the Mac App Store, open it once, and allow Kumquat to control it when asked.
+
+**An update "isn't signed with Kumquat's release key" or "doesn't contain a valid copy of Kumquat"**
+Kumquat refused a download that doesn't come from its maintainer, and installed nothing. Don't install that
+version by hand: report it privately as [SECURITY.md](../SECURITY.md) explains.
 
 **Still stuck?**
 Open an [issue](https://github.com/organetto8/Kumquat/issues) with your macOS version, the file type and
