@@ -92,7 +92,7 @@ password needed. If you already use Homebrew, these commands work too and Kumqua
 | Pages, Keynote, PowerPoint, Numbers, XLS | Pages, Keynote and Numbers from the Mac App Store |
 
 For Pages, Keynote and Numbers, **Install** opens the App Store. Options that need something missing appear
-dimmed in the wheel.
+dimmed in the wheels and in All Actions.
 Translate and Summarize need macOS 26; Summarize also needs Apple Intelligence.
 
 ## Privacy

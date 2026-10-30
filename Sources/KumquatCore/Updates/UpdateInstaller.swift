@@ -114,24 +114,28 @@ public enum UpdateInstaller {
 
 /// One HTTPS download into a file, stopped as soon as it passes `limit` bytes. Redirects are followed only to
 /// GitHub over HTTPS, and the session keeps no cookies or cache and sends a plain user agent, so the request
-/// says nothing about the user or the Mac.
+/// says nothing about the user or the Mac. The updater and the engine pack both download through it.
 final class Transfer: NSObject, URLSessionDownloadDelegate, @unchecked Sendable {
     private let destination: URL
     private let limit: Int64
+    private let progress: (@Sendable (Int64) -> Void)?
     private let lock = NSLock()
     private var task: URLSessionDownloadTask?
     private var continuation: CheckedContinuation<Void, any Error>?
     private var failure: (any Error)?
 
-    private init(destination: URL, limit: Int64) {
+    private init(destination: URL, limit: Int64, progress: (@Sendable (Int64) -> Void)?) {
         self.destination = destination
         self.limit = limit
+        self.progress = progress
     }
 
-    static func run(_ request: URLRequest, to destination: URL, limit: Int64) async throws {
+    /// `timeout` bounds the whole download; `progress` hears the number of bytes received so far.
+    static func run(_ request: URLRequest, to destination: URL, limit: Int64, timeout: TimeInterval = 15 * 60,
+                    progress: (@Sendable (Int64) -> Void)? = nil) async throws {
         guard let url = request.url, isAllowed(url) else { throw UpdateError.unreachable }
-        let transfer = Transfer(destination: destination, limit: limit)
-        let session = URLSession(configuration: configuration, delegate: transfer, delegateQueue: nil)
+        let transfer = Transfer(destination: destination, limit: limit, progress: progress)
+        let session = URLSession(configuration: configuration(timeout: timeout), delegate: transfer, delegateQueue: nil)
         // The session holds its delegate until it is invalidated.
         defer { session.finishTasksAndInvalidate() }
         let task = session.downloadTask(with: request)
@@ -154,14 +158,14 @@ final class Transfer: NSObject, URLSessionDownloadDelegate, @unchecked Sendable 
         return host == "github.com" || host == "api.github.com" || host.hasSuffix(".githubusercontent.com")
     }
 
-    private static var configuration: URLSessionConfiguration {
+    private static func configuration(timeout: TimeInterval) -> URLSessionConfiguration {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpCookieStorage = nil
         configuration.httpShouldSetCookies = false
         configuration.urlCache = nil
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.timeoutIntervalForRequest = 30
-        configuration.timeoutIntervalForResource = 15 * 60
+        configuration.timeoutIntervalForResource = timeout
         configuration.tlsMinimumSupportedProtocolVersion = .TLSv12
         configuration.httpAdditionalHeaders = ["User-Agent": "Kumquat"]
         return configuration
@@ -184,7 +188,10 @@ final class Transfer: NSObject, URLSessionDownloadDelegate, @unchecked Sendable 
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64,
                     totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        guard totalBytesWritten > limit || totalBytesExpectedToWrite > limit else { return }
+        guard totalBytesWritten > limit || totalBytesExpectedToWrite > limit else {
+            progress?(totalBytesWritten)
+            return
+        }
         fail(UpdateError.tooLarge)
         downloadTask.cancel()
     }

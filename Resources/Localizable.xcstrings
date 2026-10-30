@@ -5532,12 +5532,12 @@
         }
       }
     },
-    "Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. This is the only time Kumquat goes online, and nothing about you or your files is sent." : {
+    "Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. Apart from Install in Settings ▸ Engines, this is the only time Kumquat goes online, and nothing about you or your files is sent." : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una volta al giorno Kumquat chiede a GitHub se c'è una nuova versione, e la installa solo se è firmata con la chiave di rilascio di Kumquat. È l'unico momento in cui Kumquat va online, e non invia nulla su di te o sui tuoi file."
+            "value" : "Una volta al giorno Kumquat chiede a GitHub se c'è una nuova versione, e la installa solo se è firmata con la chiave di rilascio di Kumquat. A parte il pulsante Installa in Impostazioni ▸ Motori, questo è l'unico momento in cui Kumquat va online, e non invia nulla su di te o sui tuoi file."
           }
         }
       }

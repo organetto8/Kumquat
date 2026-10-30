@@ -1,10 +1,10 @@
 import AppKit
 import KumquatCore
 
-/// Keeps Kumquat current from its GitHub releases, the one thing in it that goes online. Once a day, or when
-/// asked, it reads the release list, downloads a newer version and installs it only after `UpdateInstaller` has
-/// checked it against the release key in Info.plist (`KumquatUpdatePublicKey`). A build without that key never
-/// looks for updates.
+/// Keeps Kumquat current from its GitHub releases, one of the two things in it that go online (the other is
+/// Install in Settings ▸ Engines). Once a day, or when asked, it reads the release list, downloads a newer version
+/// and installs it only after `UpdateInstaller` has checked it against the release key in Info.plist
+/// (`KumquatUpdatePublicKey`). A build without that key never looks for updates.
 final class Updater {
     static let shared = Updater()
     static let repository = "organetto8/Kumquat"
@@ -74,7 +74,7 @@ final class Updater {
                         return
                     }
                 }
-                // Never in the middle of a job; the menu bar menu offers it meanwhile.
+                // Never in the middle of a job or an engine install; the menu bar panel offers it meanwhile.
                 if let pending = self.pending, userInitiated || !self.isBusy() { self.offer(pending) }
             } catch {
                 if userInitiated { self.notice(String(localized: "Couldn't check for updates"), error.localizedDescription, true) }

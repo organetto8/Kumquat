@@ -67,7 +67,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if !Prefs.welcomed { welcome.show() }
 
         Updater.shared.notice = { [weak self] title, detail, failed in self?.jobs.notice(title, detail: detail, failed: failed) }
-        Updater.shared.isBusy = { [weak self] in self?.jobs.isRunning ?? false }
+        // A relaunch would also cut short an engine being downloaded or unpacked from Settings ▸ Engines.
+        Updater.shared.isBusy = { [weak self] in (self?.jobs.isRunning ?? false) || EngineInstaller.shared.isBusy }
         Updater.shared.start()
     }
 
@@ -331,7 +332,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showStatusPanel(takesKeyboard: Bool) {
         guard !statusPanel.isOpen, let status = statusItem, let anchor = status.buttonFrameOnScreen else { return }
-        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible) { [weak self] command in
+        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible, update: Updater.shared.pending?.version) { [weak self] command in
             self?.statusPanel.close()
             self?.handle(command)
         }
@@ -356,6 +357,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .welcome: welcome.show()
         case .about: showAbout(nil)
         case .diagnostics: copyDiagnostics(nil)
+        case .checkForUpdates: checkForUpdates(nil)
+        case .installUpdate: installUpdate(nil)
         case .quit: NSApp.terminate(nil)
         }
     }

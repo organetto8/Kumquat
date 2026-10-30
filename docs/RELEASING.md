@@ -41,7 +41,7 @@ and an app build) is green.
    signing key in the keychain.
 6. Smoke test the DMG on a Mac, ideally in a second user account that never ran Kumquat:
    install it, open it, drag a photo and convert it to PNG, open the Edit and Send wheels, look at
-   Settings ▸ Engines, and check that **Copy Diagnostic Info** shows the new version.
+   Settings ▸ Engines, and check that **⋯ ▸ Copy Diagnostic Info** in the menu bar panel shows the new version.
 7. Publish: `make publish`. It tags `vx.y.z`, pushes the commit and the tag, and creates the GitHub release
    with the files from `build/` and the notes from that version's `CHANGELOG.md` section. A hyphenated
    version becomes a pre-release; anything else becomes Latest.

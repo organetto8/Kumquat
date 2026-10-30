@@ -138,7 +138,8 @@ does without holding a file. Click it and a menu opens under the icon (the right
 
 Use the mouse or the arrow keys, and type the first letters of a name to jump to it. Rest the pointer on a
 tool or action to see what it does. Dimmed choices need something this Mac doesn't have yet, usually a free
-program from [section 7](#7-audio-video-and-iwork-support): the menu says what.
+program from [section 7](#7-audio-video-and-iwork-support): the menu says what, and **Install** in Settings ▸
+Engines adds it.
 
 Choosing an entry runs it on the files selected in Finder when Finder is in front and the selection suits
 it. Otherwise Kumquat asks for the files, and only the ones the entry works on can be picked. Tools ask for
@@ -304,7 +305,8 @@ a line in Settings ▸ Engines and choose **Copy Command** for its `brew` comman
 Kumquat was open is found when you come back to Settings, or with **Check Again**.
 
 The downloads come from Kumquat's own [engines releases](https://github.com/organetto8/Kumquat/releases) on
-GitHub, the only time Kumquat goes online, and only when you click Install. Each file is checked against a
+GitHub, only when you click Install; apart from the update check ([section 10](#10-updating-and-uninstalling)),
+it's the only time Kumquat goes online. Each file is checked against a
 fingerprint built into the app before it's used. They live in `~/Library/Application Support/Kumquat/Engines`,
 one folder per program: delete a folder to remove that program. A program that needs a newer macOS than
 yours isn't offered; its line keeps the Homebrew command instead.
@@ -350,15 +352,18 @@ Kumquat asks only when a feature needs it.
 | Local Network | First Wi-Fi Share | System Settings ▸ Privacy & Security ▸ Local Network |
 
 Modifier keys (⇧ ⌘ ⌃ ⌥) need no permission. Kumquat does not ask for Accessibility access. It connects to the
-internet only to look for updates on GitHub (section 10), never with your files; Wi-Fi Share only answers devices
-on your own network that have its private link, while its window is open.
+internet only to GitHub, never with your files: to look for updates (section 10) and, when you click **Install**
+in Settings ▸ Engines, to download that program (section 7). Wi-Fi Share only answers devices on your own network
+that have its private link, while its window is open.
 
 ## 10. Updating and uninstalling
 
 **Update**: Kumquat looks for a new version on GitHub once a day. When one is out it downloads it, checks
 that it is signed with Kumquat's release key, and asks you: **Install and Relaunch** replaces the app and opens
-the new version within seconds; **Later** keeps it ready under the menu bar icon ▸ **Install Kumquat x.y.z and
-Relaunch**. To look straight away, choose **Check for Updates…** in the same menu. Your settings are kept.
+the new version within seconds; **Later** keeps it ready at the top of the menu bar panel as **Install Kumquat
+x.y.z and Relaunch** (and in the right-click menu). To look straight away, click the kumquat icon and choose
+**⋯ ▸ Check for Updates…**. Your settings are kept. Kumquat never installs an update in the middle of a job or
+an engine install: the daily check then leaves it waiting in the panel.
 
 - Nothing is installed unless its signature matches, and never a version older than yours. Kumquat never asks
   for your password to update.
@@ -367,7 +372,7 @@ Relaunch**. To look straight away, choose **Check for Updates…** in the same m
 - **Include beta versions** also offers pre-releases, such as `1.2.0-beta.1`.
 - If Kumquat can't replace itself where it is (it's running from the disk image, or the folder needs an
   administrator), it offers the download page instead. If macOS blocks it, allow Kumquat in System Settings ▸
-  Privacy & Security ▸ App Management and choose **Check for Updates…** again. Or update by hand: quit Kumquat
+  Privacy & Security ▸ App Management and choose **⋯ ▸ Check for Updates…** again. Or update by hand: quit Kumquat
   (the power button in the menu bar panel), download the new DMG and drag Kumquat onto Applications again, choosing
   **Replace**.
 
@@ -378,10 +383,12 @@ and add it back.
 
 1. Quit Kumquat.
 2. Move `/Applications/Kumquat.app` to the Bin.
-3. Optionally delete its settings:
+3. Optionally delete its settings, and the folder with your saved signature and the engines it installed
+   (section 7):
 
 ```bash
 defaults delete app.kumquat.Kumquat
+rm -rf ~/Library/Application\ Support/Kumquat
 ```
 
 ## 11. Troubleshooting

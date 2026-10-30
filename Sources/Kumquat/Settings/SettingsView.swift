@@ -137,7 +137,7 @@ private struct GeneralSettings: View {
             } header: {
                 Text("Updates")
             } footer: {
-                Text("Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. This is the only time Kumquat goes online, and nothing about you or your files is sent.")
+                Text("Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. Apart from Install in Settings ▸ Engines, this is the only time Kumquat goes online, and nothing about you or your files is sent.")
                     .font(.caption).foregroundStyle(.secondary)
             }
         }

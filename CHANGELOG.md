@@ -10,11 +10,12 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 - **All Actions** in the menu bar panel (and the right-click menu): every conversion, tool and action, browsable by
   kind of file, with a one-line description of each tool and action and the reason a dimmed one can't run yet.
   Choosing an entry runs it on the Finder selection, or asks for the files it works on.
-- Automatic updates from GitHub releases, once a day or from **Check for Updates…** in the menu bar menu, with
-  betas as an option (Settings ▸ General ▸ Updates). An update is installed only if it carries the release key's
-  Ed25519 signature, is newer than the installed version and keeps an intact code signature; Kumquat never asks
-  for a password to install it. This check, which can be turned off, and **Install** in Settings ▸ Engines are the
-  only times Kumquat goes online.
+- Automatic updates from GitHub releases, once a day or from **⋯ ▸ Check for Updates…** in the menu bar panel,
+  with betas as an option (Settings ▸ General ▸ Updates). An update you put off waits in the panel as **Install
+  Kumquat x.y.z and Relaunch**, and none is installed while a job or an engine install is running. An update is
+  installed only if it carries the release key's Ed25519 signature, is newer than the installed version and keeps
+  an intact code signature; Kumquat never asks for a password to install it. This check, which can be turned off,
+  and **Install** in Settings ▸ Engines are the only times Kumquat goes online.
 - **Install** buttons in Settings ▸ Engines: Kumquat downloads its own build of a missing engine (FFmpeg,
   WebP, JPEG XL, potrace, pandoc, Calibre, 7-Zip, WOFF2, fontTools) from its engines release on GitHub, checks
   it against a SHA-256 built into the app and unpacks it in Application Support. No Homebrew or password

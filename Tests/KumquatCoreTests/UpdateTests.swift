@@ -43,6 +43,8 @@ import Testing
             entry("v1.1.0"),
             entry("v1.0.0"),
             entry("nightly"),
+            // The engine pack's releases share the list; their tags are not app versions.
+            entry("engines-1"),
         ])
         let installed = try #require(ReleaseVersion("1.0.0"))
         #expect(try UpdateFeed.newest(in: json, after: installed, includingBetas: false)?.version.description == "1.2.0")

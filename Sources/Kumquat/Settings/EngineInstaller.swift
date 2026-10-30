@@ -20,6 +20,9 @@ final class EngineInstaller {
 
     private init() {}
 
+    /// Whether an install is queued or running, which an app update waits for.
+    var isBusy: Bool { !progress.isEmpty }
+
     /// Whether Install can do anything for `package` on this Mac.
     func canInstall(_ package: Homebrew.Package) -> Bool {
         EnginePack.asset(for: package.name) != nil || Homebrew.brew != nil

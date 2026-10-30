@@ -3,8 +3,8 @@ import Foundation
 
 /// Engines Kumquat installs by itself, so a Mac needs neither Homebrew nor an administrator password:
 /// builds published as an `engines-N` release of Kumquat (by .github/workflows/engines.yml), checked
-/// against the SHA-256 compiled into the app, and unpacked into one folder per engine. This is the
-/// only network request Kumquat makes, and only when the user clicks Install.
+/// against the SHA-256 compiled into the app, and unpacked into one folder per engine. Apart from the
+/// update check, this is the only network request Kumquat makes, and only when the user clicks Install.
 public enum EnginePack {
     public struct Asset: Sendable {
         let file: String
@@ -66,25 +66,25 @@ public enum EnginePack {
         ExternalTool.resetCache()
     }
 
-    /// URLSession's download, with the byte count read four times a second for `progress`.
+    /// Through the updater's `Transfer`: GitHub over HTTPS only, no cookies or cache, stopped past the pinned
+    /// size. `progress` hears each new whole percent; a big engine on a slow line gets two hours.
     private static func download(_ url: URL, to destination: URL, size: Int64, progress: @escaping @Sendable (Double) -> Void) async throws {
-        let watcher = TaskWatcher()
-        let reporter = Task {
-            while !Task.isCancelled {
-                if let received = watcher.task.value?.countOfBytesReceived, received > 0 {
-                    progress(min(Double(received) / Double(max(size, 1)), 0.99))
+        try? FileManager.default.removeItem(at: destination)
+        let reported = LockedBox(0)
+        do {
+            try await Transfer.run(URLRequest(url: url), to: destination, limit: size, timeout: 2 * 60 * 60) { received in
+                let fraction = min(Double(received) / Double(max(size, 1)), 0.99)
+                let percent = Int(fraction * 100)
+                let isNew = reported.mutate { (last: inout Int) -> Bool in
+                    guard percent > last else { return false }
+                    last = percent
+                    return true
                 }
-                try? await Task.sleep(for: .milliseconds(250))
+                if isNew { progress(fraction) }
             }
-        }
-        defer { reporter.cancel() }
-        let (temporary, response) = try await URLSession.shared.download(from: url, delegate: watcher)
-        defer { try? FileManager.default.removeItem(at: temporary) }
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+        } catch is UpdateError {
             throw KumquatError.noResult(String(localized: "Couldn't download \(url.lastPathComponent)."))
         }
-        try? FileManager.default.removeItem(at: destination)
-        try FileManager.default.moveItem(at: temporary, to: destination)
     }
 
     static func sha256(of file: URL) throws -> String {
@@ -93,14 +93,5 @@ public enum EnginePack {
         var hash = SHA256()
         while let chunk = try handle.read(upToCount: 1 << 20), !chunk.isEmpty { hash.update(data: chunk) }
         return hash.finalize().map { String(format: "%02x", $0) }.joined()
-    }
-}
-
-/// Hands over the task URLSession creates for a download, so its byte count can be read while it runs.
-private final class TaskWatcher: NSObject, URLSessionTaskDelegate, Sendable {
-    let task = LockedBox<URLSessionTask?>(nil)
-
-    func urlSession(_ session: URLSession, didCreateTask task: URLSessionTask) {
-        self.task.mutate { $0 = task }
     }
 }
