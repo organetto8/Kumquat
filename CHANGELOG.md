@@ -5,6 +5,12 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Added
+
+- **All Actions** in the menu bar menu: every conversion, tool and action, browsable by kind of file, with a
+  one-line description of each tool and action and the reason a dimmed one can't run yet. Choosing an entry runs
+  it on the Finder selection, or asks for the files it works on.
+
 ## [1.0.0] - 2026-10-30
 
 First public release.

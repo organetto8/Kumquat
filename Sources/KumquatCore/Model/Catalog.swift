@@ -83,10 +83,15 @@ public enum Catalog {
     }
 
     /// Tools every file and folder gets, at the end of each wheel.
-    static let anyFile: [ToolKind] = [.lock, .archive]
+    public static let anyFile: [ToolKind] = [.lock, .archive]
 
     public static func tools(for category: FormatCategory?) -> [ToolKind] {
-        let specific: [ToolKind] = switch category {
+        specificTools(for: category) + anyFile
+    }
+
+    /// The tools a kind of file gets on top of Lock and Zip; `nil` means folders.
+    public static func specificTools(for category: FormatCategory?) -> [ToolKind] {
+        switch category {
         case .image?: [.compress, .crop, .resize, .rotate, .flip, .removeBackground, .stripMetadata, .recognizeText, .readQRCode,
                        .merge, .scanDocument, .blurFaces, .frame, .enhance, .filter, .palette, .iconSet, .watermark, .autoTag]
         case .video?: [.trim, .crop, .rotate, .compress, .split, .merge, .mute, .extractAudio, .changeSpeed, .resize, .extractFrames, .makeGIF,
@@ -105,7 +110,6 @@ public enum Catalog {
         case .data?, .font?, .model?: []
         case nil: [.sortFolder, .findDuplicates, .flatten, .listFiles]
         }
-        return specific + anyFile
     }
 
     /// Formats a tool is limited to inside its category; `nil` means all of them.
@@ -122,6 +126,11 @@ public enum Catalog {
         case (.encryptArchive, _): [.zip, .tar, .gzip, .xz, .bz2, .sevenZip, .rar]
         default: nil
         }
+    }
+
+    /// "Only for DOCX, PPTX and XLSX files".
+    public static func onlyFor(_ names: [String]) -> String {
+        String(localized: "Only for \(ListFormatter.localizedString(byJoining: names)) files")
     }
 
     /// Tools that only make sense on a folder.
@@ -528,7 +537,7 @@ public enum Catalog {
             items = tools(for: category).map { tool in
                 var missing = Engines.missingRequirement(for: .tool(tool), input: selected.first)
                 if missing == nil, let allowed = formats(for: tool, category: category), !selected.contains(where: allowed.contains) {
-                    missing = String(localized: "Only for \(ListFormatter.localizedString(byJoining: allowed.map(\.displayName).sorted())) files")
+                    missing = onlyFor(allowed.map(\.displayName).sorted())
                 }
                 if missing == nil, category == nil, folderTools.contains(tool), !urls.contains(where: isFolder) {
                     missing = String(localized: "Only for folders")

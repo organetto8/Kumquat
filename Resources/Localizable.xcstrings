@@ -270,6 +270,16 @@
         }
       }
     },
+    "%lld actions" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld azioni"
+          }
+        }
+      }
+    },
     "%lld archives" : {
       "localizations" : {
         "it" : {
@@ -286,6 +296,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld file audio"
+          }
+        }
+      }
+    },
+    "%lld conversions" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld conversioni"
           }
         }
       }
@@ -542,6 +562,16 @@
         }
       }
     },
+    "%lld tools" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld strumenti"
+          }
+        }
+      }
+    },
     "%lld turned" : {
       "localizations" : {
         "it" : {
@@ -642,6 +672,16 @@
         }
       }
     },
+    "A CSV that Excel opens correctly" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un CSV che Excel apre correttamente"
+          }
+        }
+      }
+    },
     "A destination sets size, resolution and codec for you" : {
       "localizations" : {
         "it" : {
@@ -652,12 +692,32 @@
         }
       }
     },
+    "A disk image that needs a password" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un'immagine disco protetta da password"
+          }
+        }
+      }
+    },
     "A folder I choose" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Una cartella a scelta"
+          }
+        }
+      }
+    },
+    "A new message with the files attached" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un nuovo messaggio con i file allegati"
           }
         }
       }
@@ -692,6 +752,16 @@
         }
       }
     },
+    "Add Finder tags that describe the photo" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiunge tag del Finder che descrivono la foto"
+          }
+        }
+      }
+    },
     "Add Folder…" : {
       "localizations" : {
         "it" : {
@@ -722,12 +792,42 @@
         }
       }
     },
+    "Add or remove a color tag" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiunge o toglie un tag colorato"
+          }
+        }
+      }
+    },
+    "Add subtitles from an .srt or .vtt file" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiunge i sottotitoli da un file .srt o .vtt"
+          }
+        }
+      }
+    },
     "Add to Library" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "In libreria"
+          }
+        }
+      }
+    },
+    "Add to Photos or Music" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiunge a Foto o Musica"
           }
         }
       }
@@ -802,6 +902,16 @@
         }
       }
     },
+    "All Actions" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutte le azioni"
+          }
+        }
+      }
+    },
     "All of these" : {
       "localizations" : {
         "it" : {
@@ -858,6 +968,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Qualsiasi"
+          }
+        }
+      }
+    },
+    "Any File or Folder" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualsiasi file o cartella"
           }
         }
       }
@@ -1062,6 +1182,16 @@
         }
       }
     },
+    "Automate" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatizza"
+          }
+        }
+      }
+    },
     "Background" : {
       "localizations" : {
         "it" : {
@@ -1172,6 +1302,16 @@
         }
       }
     },
+    "Black out words, emails, IBANs or phone numbers for good" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oscura per sempre parole, email, IBAN o numeri di telefono"
+          }
+        }
+      }
+    },
     "Blur" : {
       "localizations" : {
         "it" : {
@@ -1238,6 +1378,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "In basso a destra"
+          }
+        }
+      }
+    },
+    "Bring every file out of its subfolders" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta tutti i file fuori dalle sottocartelle"
           }
         }
       }
@@ -1382,12 +1532,38 @@
         }
       }
     },
+    "Check the archive isn't damaged" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla che l'archivio non sia danneggiato"
+          }
+        }
+      }
+    },
     "Checksum" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Checksum"
+          }
+        }
+      }
+    },
+    "Choose %@ files to convert to %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose %1$@ files to convert to %2$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli i file %@ da convertire in %@."
           }
         }
       }
@@ -1442,6 +1618,26 @@
         }
       }
     },
+    "Choose the files for “%@”." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli i file per “%@”."
+          }
+        }
+      }
+    },
+    "Choose the folders for “%@”." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli le cartelle per “%@”."
+          }
+        }
+      }
+    },
     "Choose where Kumquat saves results." : {
       "localizations" : {
         "it" : {
@@ -1478,6 +1674,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Svuota"
+          }
+        }
+      }
+    },
+    "Clipboard" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appunti"
           }
         }
       }
@@ -1592,6 +1798,16 @@
         }
       }
     },
+    "Compress into a ZIP file" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprime in un file ZIP"
+          }
+        }
+      }
+    },
     "Connect this Mac to a Wi-Fi or wired network first." : {
       "localizations" : {
         "it" : {
@@ -1618,6 +1834,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Converti"
+          }
+        }
+      }
+    },
+    "Convert %@ to" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converti %@ in"
           }
         }
       }
@@ -1902,12 +2128,102 @@
         }
       }
     },
+    "Copy a Markdown link to it" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia un link Markdown al file"
+          }
+        }
+      }
+    },
+    "Copy it as a data URI" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo copia come data URI"
+          }
+        }
+      }
+    },
+    "Copy the SHA-256" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia lo SHA-256"
+          }
+        }
+      }
+    },
+    "Copy the full path" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia il percorso completo"
+          }
+        }
+      }
+    },
+    "Copy the picture, or the text inside" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia l'immagine o il testo contenuto"
+          }
+        }
+      }
+    },
+    "Copy the text in the picture" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia il testo dell'immagine"
+          }
+        }
+      }
+    },
     "Copy to" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copia in"
+          }
+        }
+      }
+    },
+    "Copy to a favorite or recent folder" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia in una cartella preferita o recente"
+          }
+        }
+      }
+    },
+    "Copy to paste in Finder or any app" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia per incollare nel Finder o in un'app"
+          }
+        }
+      }
+    },
+    "Copy what a QR code or barcode says" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia il contenuto di un codice QR o a barre"
           }
         }
       }
@@ -2068,6 +2384,16 @@
         }
       }
     },
+    "Count words and characters, and the reading time" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conta parole, caratteri e tempo di lettura"
+          }
+        }
+      }
+    },
     "Cover" : {
       "localizations" : {
         "it" : {
@@ -2104,6 +2430,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Taglia silenzi"
+          }
+        }
+      }
+    },
+    "Cut away the edges" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taglia via i bordi"
+          }
+        }
+      }
+    },
+    "Cut it into several files" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo divide in più file"
+          }
+        }
+      }
+    },
+    "Cut out the subject on a transparent background" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scontorna il soggetto su uno sfondo trasparente"
           }
         }
       }
@@ -2336,6 +2692,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disegna l'area da mantenere."
+          }
+        }
+      }
+    },
+    "Draw the sound as a picture" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disegna il suono come immagine"
           }
         }
       }
@@ -2690,6 +3056,16 @@
         }
       }
     },
+    "Even out the loudness" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniforma il volume percepito"
+          }
+        }
+      }
+    },
     "Event" : {
       "localizations" : {
         "it" : {
@@ -2820,6 +3196,16 @@
         }
       }
     },
+    "Fade in and out" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dissolvenza in entrata e in uscita"
+          }
+        }
+      }
+    },
     "Faded" : {
       "localizations" : {
         "it" : {
@@ -2880,12 +3266,52 @@
         }
       }
     },
+    "Find and replace text" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trova e sostituisce del testo"
+          }
+        }
+      }
+    },
     "First number" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Primo numero"
+          }
+        }
+      }
+    },
+    "Fit into 9:16 for Reels, Stories and TikTok" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adatta a 9:16 per Reels, Storie e TikTok"
+          }
+        }
+      }
+    },
+    "Fix light and color automatically" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corregge luce e colori in automatico"
+          }
+        }
+      }
+    },
+    "Fix subtitles that drift out of sync" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corregge i sottotitoli che perdono il sincrono"
           }
         }
       }
@@ -2916,6 +3342,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cartella"
+          }
+        }
+      }
+    },
+    "Folders" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartelle"
           }
         }
       }
@@ -3370,6 +3806,26 @@
         }
       }
     },
+    "Join into one PDF, strip, grid or GIF" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le unisce in un PDF, una striscia, una griglia o una GIF"
+          }
+        }
+      }
+    },
+    "Join the files into one" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unisce i file in uno solo"
+          }
+        }
+      }
+    },
     "Keep" : {
       "localizations" : {
         "it" : {
@@ -3396,6 +3852,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tieni i file a portata di mano"
+          }
+        }
+      }
+    },
+    "Keep only part of the clip" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiene solo una parte della clip"
           }
         }
       }
@@ -3706,12 +4172,102 @@
         }
       }
     },
+    "Make Mac and web icons from a picture" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea icone per Mac e web da un'immagine"
+          }
+        }
+      }
+    },
+    "Make a Finder alias" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un alias del Finder"
+          }
+        }
+      }
+    },
+    "Make a copy next to it" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea una copia accanto"
+          }
+        }
+      }
+    },
+    "Make a copy that needs a password" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea una copia protetta da password"
+          }
+        }
+      }
+    },
+    "Make a scanned PDF searchable" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rende ricercabile un PDF scansionato"
+          }
+        }
+      }
+    },
+    "Make forms and comments part of the page" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rende moduli e commenti parte della pagina"
+          }
+        }
+      }
+    },
+    "Make it bigger or smaller" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo ingrandisce o lo rimpicciolisce"
+          }
+        }
+      }
+    },
+    "Make it louder or quieter" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alza o abbassa il volume"
+          }
+        }
+      }
+    },
     "Make one in the Shortcuts app" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Creane uno nell'app Comandi Rapidi"
+          }
+        }
+      }
+    },
+    "Make the file smaller" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rende il file più leggero"
           }
         }
       }
@@ -3796,6 +4352,16 @@
         }
       }
     },
+    "Messages, Mail, Notes and other apps" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messaggi, Mail, Note e altre app"
+          }
+        }
+      }
+    },
     "Min" : {
       "localizations" : {
         "it" : {
@@ -3806,12 +4372,32 @@
         }
       }
     },
+    "Mirror it horizontally or vertically" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo specchia in orizzontale o in verticale"
+          }
+        }
+      }
+    },
     "Mix under" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "In sottofondo"
+          }
+        }
+      }
+    },
+    "Mono or stereo, and the sample rate" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mono o stereo e frequenza di campionamento"
           }
         }
       }
@@ -3882,12 +4468,42 @@
         }
       }
     },
+    "Move repeated files aside" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mette da parte i file ripetuti"
+          }
+        }
+      }
+    },
     "Move to" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sposta in"
+          }
+        }
+      }
+    },
+    "Move to a favorite or recent folder" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta in una cartella preferita o recente"
+          }
+        }
+      }
+    },
+    "Move to the Trash" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta nel Cestino"
           }
         }
       }
@@ -4466,6 +5082,16 @@
         }
       }
     },
+    "Noir, sepia, vivid and other looks" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noir, seppia, vivido e altri stili"
+          }
+        }
+      }
+    },
     "None" : {
       "localizations" : {
         "it" : {
@@ -4626,6 +5252,16 @@
         }
       }
     },
+    "Number the pages" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numera le pagine"
+          }
+        }
+      }
+    },
     "Numbered" : {
       "localizations" : {
         "it" : {
@@ -4688,6 +5324,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Un file per"
+          }
+        }
+      }
+    },
+    "One picture with frames from the whole clip" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un'immagine con fotogrammi da tutta la clip"
           }
         }
       }
@@ -4762,6 +5408,16 @@
         }
       }
     },
+    "Open & Use" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri e usa"
+          }
+        }
+      }
+    },
     "Open Settings" : {
       "localizations" : {
         "it" : {
@@ -4792,6 +5448,16 @@
         }
       }
     },
+    "Open a Terminal window in the folder" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apre una finestra di Terminale nella cartella"
+          }
+        }
+      }
+    },
     "Open wheels while dragging files" : {
       "localizations" : {
         "it" : {
@@ -4818,6 +5484,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arancione"
+          }
+        }
+      }
+    },
+    "Organize" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organizza"
           }
         }
       }
@@ -5214,6 +5890,16 @@
         }
       }
     },
+    "Pick the app that opens it" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sceglie l'app con cui aprirlo"
+          }
+        }
+      }
+    },
     "Pick two different frame rates." : {
       "localizations" : {
         "it" : {
@@ -5304,6 +5990,26 @@
         }
       }
     },
+    "Pixelate faces, or an area you draw" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pixela i volti o un'area che disegni"
+          }
+        }
+      }
+    },
+    "Place your signature" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisce la tua firma"
+          }
+        }
+      }
+    },
     "Plain borders are found and trimmed automatically" : {
       "localizations" : {
         "it" : {
@@ -5320,6 +6026,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Riproduci"
+          }
+        }
+      }
+    },
+    "Play it backwards, or as a boomerang" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo riproduce al contrario o a boomerang"
+          }
+        }
+      }
+    },
+    "Play it faster or slower" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo rende più veloce o più lento"
           }
         }
       }
@@ -5394,12 +6120,42 @@
         }
       }
     },
+    "Preview without opening an app" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anteprima senza aprire un'app"
+          }
+        }
+      }
+    },
     "Print" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stampa"
+          }
+        }
+      }
+    },
+    "Print everything in one go" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stampa tutto in una volta"
+          }
+        }
+      }
+    },
+    "Protect it with a password, or unlock it" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo protegge con una password o lo sblocca"
           }
         }
       }
@@ -5420,6 +6176,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Per annullare, usa Ripristina nel Cestino"
+          }
+        }
+      }
+    },
+    "Put a screenshot on a colored background" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mette uno screenshot su uno sfondo colorato"
+          }
+        }
+      }
+    },
+    "Put the files in a new folder" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mette i file in una nuova cartella"
           }
         }
       }
@@ -5514,6 +6290,16 @@
         }
       }
     },
+    "Reduce noise" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riduce il rumore"
+          }
+        }
+      }
+    },
     "Regular expression" : {
       "localizations" : {
         "it" : {
@@ -5564,12 +6350,52 @@
         }
       }
     },
+    "Remove repeated rows" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuove le righe ripetute"
+          }
+        }
+      }
+    },
     "Remove shortcut" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rimuovi abbreviazione"
+          }
+        }
+      }
+    },
+    "Remove stray tags, symbols and spaces" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuove tag, simboli e spazi superflui"
+          }
+        }
+      }
+    },
+    "Remove the location, camera and other hidden details" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuove posizione, fotocamera e altri dati nascosti"
+          }
+        }
+      }
+    },
+    "Remove the sound" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toglie l'audio"
           }
         }
       }
@@ -5594,6 +6420,16 @@
         }
       }
     },
+    "Rename several files in one go" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rinomina più file in una volta"
+          }
+        }
+      }
+    },
     "Renamed %@" : {
       "localizations" : {
         "it" : {
@@ -5604,12 +6440,32 @@
         }
       }
     },
+    "Reorder, turn or delete pages" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riordina, ruota o elimina le pagine"
+          }
+        }
+      }
+    },
     "Replace" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sostituisci"
+          }
+        }
+      }
+    },
+    "Replace the sound with music, or mix it in" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostituisce l'audio con una musica o la mixa sotto"
           }
         }
       }
@@ -5764,12 +6620,42 @@
         }
       }
     },
+    "Run one of your shell scripts" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegue uno dei tuoi script di shell"
+          }
+        }
+      }
+    },
+    "Run one of your shortcuts" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegue uno dei tuoi comandi rapidi"
+          }
+        }
+      }
+    },
     "Runs instantly" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Si avvia subito"
+          }
+        }
+      }
+    },
+    "Runs on the files selected in Finder, or asks for them" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agisce sui file selezionati nel Finder, o te li chiede"
           }
         }
       }
@@ -5814,12 +6700,102 @@
         }
       }
     },
+    "Save a frame, or make it the cover" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva un fotogramma o lo usa come copertina"
+          }
+        }
+      }
+    },
+    "Save a list of everything inside" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva un elenco di tutto il contenuto"
+          }
+        }
+      }
+    },
+    "Save frames as pictures" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva i fotogrammi come immagini"
+          }
+        }
+      }
+    },
     "Save results" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salva i risultati"
+          }
+        }
+      }
+    },
+    "Save some pages as a new PDF" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva alcune pagine in un nuovo PDF"
+          }
+        }
+      }
+    },
+    "Save the main colors and copy their codes" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva i colori principali e ne copia i codici"
+          }
+        }
+      }
+    },
+    "Save the pictures inside" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva le immagini contenute"
+          }
+        }
+      }
+    },
+    "Save the sound on its own" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva solo l'audio"
+          }
+        }
+      }
+    },
+    "Save the speaker notes and media" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva note del relatore e contenuti multimediali"
+          }
+        }
+      }
+    },
+    "Save the subtitle tracks inside the video" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva le tracce di sottotitoli del video"
           }
         }
       }
@@ -5870,6 +6846,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scansiona"
+          }
+        }
+      }
+    },
+    "Scan a QR code to download on a phone" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquadra un codice QR per scaricarli sul telefono"
           }
         }
       }
@@ -5974,6 +6960,16 @@
         }
       }
     },
+    "Send to a nearby Apple device" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invia a un dispositivo Apple vicino"
+          }
+        }
+      }
+    },
     "Send wheel" : {
       "localizations" : {
         "it" : {
@@ -5990,6 +6986,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seppia"
+          }
+        }
+      }
+    },
+    "Set it as the desktop picture" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La imposta come sfondo della scrivania"
+          }
+        }
+      }
+    },
+    "Set or remove the title and author" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta o rimuove titolo e autore"
+          }
+        }
+      }
+    },
+    "Set the title, artist, album and cover" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta titolo, artista, album e copertina"
           }
         }
       }
@@ -6030,6 +7056,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Condividi"
+          }
+        }
+      }
+    },
+    "Share with Others" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi con altri"
           }
         }
       }
@@ -6114,6 +7150,16 @@
         }
       }
     },
+    "Shorten long pauses" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accorcia le pause lunghe"
+          }
+        }
+      }
+    },
     "Show" : {
       "localizations" : {
         "it" : {
@@ -6134,6 +7180,16 @@
         }
       }
     },
+    "Show every line earlier or later" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anticipa o ritarda tutte le battute"
+          }
+        }
+      }
+    },
     "Show in Finder" : {
       "localizations" : {
         "it" : {
@@ -6150,6 +7206,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostra i risultati nel Finder al termine"
+          }
+        }
+      }
+    },
+    "Shrink the pictures inside" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riduce le immagini al suo interno"
           }
         }
       }
@@ -6250,6 +7316,16 @@
         }
       }
     },
+    "Smooth out shaky footage" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riduce il tremolio delle riprese"
+          }
+        }
+      }
+    },
     "Sort" : {
       "localizations" : {
         "it" : {
@@ -6266,6 +7342,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Smista per"
+          }
+        }
+      }
+    },
+    "Sort into subfolders by kind or month" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smista in sottocartelle per tipo o mese"
           }
         }
       }
@@ -6340,6 +7426,16 @@
         }
       }
     },
+    "Split it into parts of a set size" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo divide in parti di dimensione fissa"
+          }
+        }
+      }
+    },
     "Splitting %@ files" : {
       "localizations" : {
         "it" : {
@@ -6376,6 +7472,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stabilizza"
+          }
+        }
+      }
+    },
+    "Stamp a text across it" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ci stampa sopra un testo"
           }
         }
       }
@@ -6520,6 +7626,16 @@
         }
       }
     },
+    "Sum up each column" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riassume ogni colonna"
+          }
+        }
+      }
+    },
     "Summarize" : {
       "localizations" : {
         "it" : {
@@ -6546,6 +7662,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tramonto"
+          }
+        }
+      }
+    },
+    "Swap rows and columns" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scambia righe e colonne"
           }
         }
       }
@@ -6882,6 +8008,16 @@
         }
       }
     },
+    "Translate it on this Mac" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo traduce su questo Mac"
+          }
+        }
+      }
+    },
     "Translating from %@ to %@ isn't supported." : {
       "localizations" : {
         "en" : {
@@ -6958,6 +8094,26 @@
         }
       }
     },
+    "Turn a photo of a page into a clean scan" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trasforma la foto di un foglio in una scansione pulita"
+          }
+        }
+      }
+    },
+    "Turn left, right or upside down" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruota a sinistra, a destra o sottosopra"
+          }
+        }
+      }
+    },
     "Turn on Apple Intelligence in System Settings" : {
       "localizations" : {
         "it" : {
@@ -6968,12 +8124,42 @@
         }
       }
     },
+    "Turn part of the clip into a GIF" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trasforma una parte della clip in GIF"
+          }
+        }
+      }
+    },
+    "Turn the colors into shades of gray" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converte i colori in scala di grigi"
+          }
+        }
+      }
+    },
     "Turns every page" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ruota tutte le pagine"
+          }
+        }
+      }
+    },
+    "Two or four pages per sheet, or a booklet" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due o quattro pagine per foglio, o un libretto"
           }
         }
       }
@@ -7004,6 +8190,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Annulla"
+          }
+        }
+      }
+    },
+    "Unpack the archive" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estrae il contenuto dell'archivio"
           }
         }
       }
@@ -7320,6 +8516,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Conta parole"
+          }
+        }
+      }
+    },
+    "Write a summary with Apple Intelligence" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrive un riassunto con Apple Intelligence"
           }
         }
       }

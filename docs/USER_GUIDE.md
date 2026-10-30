@@ -116,6 +116,7 @@ picked last time. The wheel's centre tells you which is which: **Instant · ⌥ 
 |---|---|
 | Keyboard | Select files in Finder and press **⌃⌥K**. The Convert wheel opens. Arrow keys move, **Return** applies, **Esc** cancels, the wheel keys switch wheel. |
 | Menu bar | Drop files on the kumquat icon, or open its menu and choose **Convert / Edit / Send Finder Selection…** |
+| All Actions | Open the kumquat menu and browse **Convert**, **Edit** or **Send** under **All Actions**. See below. |
 | Finder Services | Right-click files ▸ **Services ▸ Convert with Kumquat**. |
 | Terminal | `/Applications/Kumquat.app/Contents/MacOS/Kumquat --run convert:png photo.heic` runs a job directly. `--wheel tools clip.mp4` opens a wheel for the file. |
 
@@ -123,6 +124,24 @@ picked last time. The wheel's centre tells you which is which: **Instant · ⌥ 
 and `action:<action>` (for example `action:copy`). Tools run with the options you used last.
 `--options <tool> <files…>` (for example `--options trim clip.mp4`) shows a tool's options panel instead.
 `--diagnostics` prints the same text as **Copy Diagnostic Info** and quits, handy for bug reports.
+
+### Browse everything from the menu bar
+
+The kumquat menu lists every conversion, tool and action under **All Actions**, so you can see what
+Kumquat does without holding a file:
+
+- **Convert** ▸ kind of file ▸ format ▸ what it can become, for example **Images ▸ HEIC ▸ PNG**.
+- **Edit** ▸ kind of file ▸ its tools, for example **PDFs ▸ Sign**. **Folders** has the folder tools;
+  **Lock** and **Zip**, which work on anything, are at the bottom.
+- **Send**: the actions, grouped into sharing, organising, clipboard, opening and automation.
+
+Use the mouse or the arrow keys, and type the first letters of a name to jump to it. Rest the pointer on a
+tool or action to see what it does. Dimmed choices need something this Mac doesn't have yet, usually a free
+program from [section 7](#7-audio-video-and-iwork-support): the menu says what.
+
+Choosing an entry runs it on the files selected in Finder when Finder is in front and the selection suits
+it. Otherwise Kumquat asks for the files, and only the ones the entry works on can be picked. Tools ask for
+their options just as they do from the wheel.
 
 ## 5. What each wheel offers
 

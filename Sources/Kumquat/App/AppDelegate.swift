@@ -116,6 +116,55 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         openWheel(kind, files: selection)
     }
 
+    /// Where option panels open when no wheel is on screen.
+    private var screenCentre: NSPoint {
+        NSScreen.main.map { NSPoint(x: $0.visibleFrame.midX, y: $0.visibleFrame.midY) } ?? .zero
+    }
+
+    /// An entry of All Actions: runs on the Finder selection when it holds files the entry suits,
+    /// otherwise on files the user picks.
+    @objc func runCatalogChoice(_ sender: NSMenuItem) {
+        guard let choice = sender.representedObject as? CatalogMenu.Choice else { return }
+        let operation = choice.operation
+        let selection = FinderBridge.isFinderFrontmost ? FinderBridge.selection() : []
+        var files = Catalog.inputs(among: selection, for: operation, under: choice.inputs)
+        if files.isEmpty { files = Catalog.inputs(among: chooseFiles(for: choice), for: operation, under: choice.inputs) }
+        guard !files.isEmpty else { return }
+        switch operation {
+        case .action(let action):
+            actions.perform(action, files: files)
+        case .convert:
+            jobs.start(operation, files: files)
+        case .tool(let tool):
+            runTool(tool, files: files, wheel: Catalog.wheel(.tools, for: files), anchor: screenCentre)
+        }
+    }
+
+    /// Open panel for an entry of All Actions; only the files it suits can be picked.
+    private func chooseFiles(for choice: CatalogMenu.Choice) -> [URL] {
+        let operation = choice.operation, inputs = choice.inputs
+        let filter = OpenPanelFilter { Catalog.accepts($0, for: operation, under: inputs) }
+        NSApp.activate()
+        let panel = NSOpenPanel()
+        panel.delegate = filter
+        panel.allowsMultipleSelection = true
+        panel.canChooseFiles = inputs != .folder
+        panel.canChooseDirectories = inputs == .folder || inputs == .anything
+        switch (operation, inputs) {
+        case (.convert(let target), .format(let source)):
+            panel.prompt = String(localized: "Convert")
+            panel.message = String(localized: "Choose \(source.displayName) files to convert to \(target.displayName).")
+        case (_, .folder):
+            panel.prompt = operation.title
+            panel.message = String(localized: "Choose the folders for “\(operation.title)”.")
+        default:
+            panel.prompt = operation.title
+            panel.message = String(localized: "Choose the files for “\(operation.title)”.")
+        }
+        let chosen = withExtendedLifetime(filter) { panel.runModal() == .OK }
+        return chosen ? panel.urls : []
+    }
+
     private func chooseFolder() -> URL? {
         NSApp.activate()
         let panel = NSOpenPanel()
@@ -149,7 +198,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let urls = files(after: flag)
             let wheel = Catalog.wheel(.tools, for: urls)
             guard !urls.isEmpty, wheel.items.contains(where: { $0.operation == .tool(tool) }) else { return }
-            let centre = NSScreen.main.map { NSPoint(x: $0.visibleFrame.midX, y: $0.visibleFrame.midY) } ?? .zero
+            let centre = screenCentre
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
                 self?.runTool(tool, files: urls, wheel: wheel, anchor: centre, showsOptions: true)
             }
@@ -268,6 +317,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem(String(localized: "Edit Finder Selection…"), #selector(toolsSelection(_:))))
         menu.addItem(menuItem(String(localized: "Send Finder Selection…"), #selector(actionsSelection(_:))))
         menu.addItem(menuItem(basket.isVisible ? String(localized: "Hide Basket") : String(localized: "Show Basket"), #selector(toggleBasket(_:))))
+        menu.addItem(.separator())
+        for item in CatalogMenu(target: self, action: #selector(runCatalogChoice(_:))).items() { menu.addItem(item) }
         menu.addItem(.separator())
         let drag = menuItem(String(localized: "Open Wheels While Dragging"), #selector(toggleDragGesture(_:)))
         drag.state = Prefs.dragGesture ? .on : .off
