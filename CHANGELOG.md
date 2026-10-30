@@ -11,6 +11,11 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
   click for the Finder selection or drop files on, the wheel keys and shortcut at a glance, the Basket, the main
   switches, Settings and help. Holding a file drag on the icon opens the panel too. Right-click still shows the menu.
 
+### Fixed
+
+- The Welcome window wraps long lines instead of cutting them off, so the Italian instructions are readable
+  in full ([#2](https://github.com/organetto8/Kumquat/issues/2)).
+
 ## [1.0.0] - 2026-10-30
 
 First public release.
