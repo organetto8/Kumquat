@@ -5,6 +5,12 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Added
+
+- **All Actions** in the menu bar panel (and the right-click menu): every conversion, tool and action, browsable by
+  kind of file, with a one-line description of each tool and action and the reason a dimmed one can't run yet.
+  Choosing an entry runs it on the Finder selection, or asks for the files it works on.
+
 ### Changed
 
 - Clicking the menu bar icon opens a panel instead of a plain menu: Convert, Edit and Send as large tiles you

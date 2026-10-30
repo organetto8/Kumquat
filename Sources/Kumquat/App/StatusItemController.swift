@@ -41,10 +41,11 @@ final class StatusItemController {
 
     var buttonWindow: NSWindow? { item.button?.window }
 
-    func showMenu() {
+    /// The right-click menu under the icon, or `menu` in its place.
+    func showMenu(_ menu: NSMenu? = nil) {
         guard let button = item.button else { return }
         button.highlight(true)
-        menuProvider().popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 4), in: button)
+        (menu ?? menuProvider()).popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 4), in: button)
         button.highlight(false)
     }
 }

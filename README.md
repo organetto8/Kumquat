@@ -50,6 +50,9 @@ Requires macOS 14 Sonoma or later, on Apple silicon or Intel.
 
 No mouse? Select files in Finder and press **⌃⌥K**, then use the arrow keys and Return.
 
+Want to see everything Kumquat can do? Click the kumquat icon ▸ **All Actions** and browse Convert, Edit and Send
+by kind of file. Choosing an entry runs it on the Finder selection, or asks for the files.
+
 ## Supported formats
 
 | Input | Can become |

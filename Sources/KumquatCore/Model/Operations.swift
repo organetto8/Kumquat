@@ -192,6 +192,90 @@ public enum ToolKind: String, Sendable, CaseIterable, Identifiable {
         }
     }
 
+    /// What the tool does, in one line for menus; a few work differently on some kinds of file (`nil` = folders).
+    public func summary(for category: FormatCategory?) -> String {
+        switch (self, category) {
+        case (.compress, .document?), (.compress, .slides?), (.compress, .spreadsheet?): String(localized: "Shrink the pictures inside")
+        case (.compress, _): String(localized: "Make the file smaller")
+        case (.crop, _): String(localized: "Cut away the edges")
+        case (.trim, _): String(localized: "Keep only part of the clip")
+        case (.split, _): String(localized: "Cut it into several files")
+        case (.merge, .image?): String(localized: "Join into one PDF, strip, grid or GIF")
+        case (.merge, _): String(localized: "Join the files into one")
+        case (.resize, _): String(localized: "Make it bigger or smaller")
+        case (.rotate, _): String(localized: "Turn left, right or upside down")
+        case (.flip, _): String(localized: "Mirror it horizontally or vertically")
+        case (.removeBackground, _): String(localized: "Cut out the subject on a transparent background")
+        case (.stripMetadata, .pdf?): String(localized: "Set or remove the title and author")
+        case (.stripMetadata, _): String(localized: "Remove the location, camera and other hidden details")
+        case (.recognizeText, .pdf?): String(localized: "Make a scanned PDF searchable")
+        case (.recognizeText, _): String(localized: "Copy the text in the picture")
+        case (.readQRCode, _): String(localized: "Copy what a QR code or barcode says")
+        case (.mute, _): String(localized: "Remove the sound")
+        case (.extractAudio, _): String(localized: "Save the sound on its own")
+        case (.changeSpeed, _): String(localized: "Play it faster or slower")
+        case (.extractFrames, _): String(localized: "Save frames as pictures")
+        case (.makeGIF, _): String(localized: "Turn part of the clip into a GIF")
+        case (.normalizeVolume, _): String(localized: "Even out the loudness")
+        case (.adjustVolume, _): String(localized: "Make it louder or quieter")
+        case (.extractPages, _): String(localized: "Save some pages as a new PDF")
+        case (.password, _): String(localized: "Protect it with a password, or unlock it")
+        case (.watermark, _): String(localized: "Stamp a text across it")
+        case (.shiftTiming, _): String(localized: "Show every line earlier or later")
+        case (.extract, _): String(localized: "Unpack the archive")
+        case (.archive, _): String(localized: "Compress into a ZIP file")
+        case (.encryptArchive, _): String(localized: "Make a copy that needs a password")
+        case (.scanDocument, _): String(localized: "Turn a photo of a page into a clean scan")
+        case (.blurFaces, _): String(localized: "Pixelate faces, or an area you draw")
+        case (.frame, _): String(localized: "Put a screenshot on a colored background")
+        case (.enhance, _): String(localized: "Fix light and color automatically")
+        case (.filter, _): String(localized: "Noir, sepia, vivid and other looks")
+        case (.palette, _): String(localized: "Save the main colors and copy their codes")
+        case (.iconSet, _): String(localized: "Make Mac and web icons from a picture")
+        case (.autoTag, _): String(localized: "Add Finder tags that describe the photo")
+        case (.vertical, _): String(localized: "Fit into 9:16 for Reels, Stories and TikTok")
+        case (.addSubtitles, _): String(localized: "Add subtitles from an .srt or .vtt file")
+        case (.extractSubtitles, _): String(localized: "Save the subtitle tracks inside the video")
+        case (.contactSheet, _): String(localized: "One picture with frames from the whole clip")
+        case (.poster, _): String(localized: "Save a frame, or make it the cover")
+        case (.replaceAudio, _): String(localized: "Replace the sound with music, or mix it in")
+        case (.reverse, _): String(localized: "Play it backwards, or as a boomerang")
+        case (.fade, _): String(localized: "Fade in and out")
+        case (.stabilize, _): String(localized: "Smooth out shaky footage")
+        case (.removeSilence, _): String(localized: "Shorten long pauses")
+        case (.denoise, _): String(localized: "Reduce noise")
+        case (.tags, _): String(localized: "Set the title, artist, album and cover")
+        case (.waveform, _): String(localized: "Draw the sound as a picture")
+        case (.channels, _): String(localized: "Mono or stereo, and the sample rate")
+        case (.reorderPages, _): String(localized: "Reorder, turn or delete pages")
+        case (.sign, _): String(localized: "Place your signature")
+        case (.redact, _): String(localized: "Black out words, emails, IBANs or phone numbers for good")
+        case (.pageNumbers, _): String(localized: "Number the pages")
+        case (.flatten, nil): String(localized: "Bring every file out of its subfolders")
+        case (.flatten, _): String(localized: "Make forms and comments part of the page")
+        case (.nUp, _): String(localized: "Two or four pages per sheet, or a booklet")
+        case (.extractImages, _): String(localized: "Save the pictures inside")
+        case (.grayscale, _): String(localized: "Turn the colors into shades of gray")
+        case (.wordCount, _): String(localized: "Count words and characters, and the reading time")
+        case (.findReplace, _): String(localized: "Find and replace text")
+        case (.clean, _): String(localized: "Remove stray tags, symbols and spaces")
+        case (.translate, _): String(localized: "Translate it on this Mac")
+        case (.summarize, _): String(localized: "Write a summary with Apple Intelligence")
+        case (.extractNotes, _): String(localized: "Save the speaker notes and media")
+        case (.csvExcel, _): String(localized: "A CSV that Excel opens correctly")
+        case (.dedupe, _): String(localized: "Remove repeated rows")
+        case (.columnStats, _): String(localized: "Sum up each column")
+        case (.transpose, _): String(localized: "Swap rows and columns")
+        case (.changeFPS, _): String(localized: "Fix subtitles that drift out of sync")
+        case (.splitVolumes, _): String(localized: "Split it into parts of a set size")
+        case (.verify, _): String(localized: "Check the archive isn't damaged")
+        case (.lock, _): String(localized: "A disk image that needs a password")
+        case (.sortFolder, _): String(localized: "Sort into subfolders by kind or month")
+        case (.findDuplicates, _): String(localized: "Move repeated files aside")
+        case (.listFiles, _): String(localized: "Save a list of everything inside")
+        }
+    }
+
     /// Tools that run once over every dropped file (a merge, or a video plus its subtitles, music or cover).
     public var combinesInputs: Bool { [.merge, .addSubtitles, .replaceAudio, .tags].contains(self) }
 }
@@ -264,6 +348,39 @@ public enum ActionKind: String, Sendable, CaseIterable, Identifiable {
         case .markdownLink: "link.badge.plus"
         case .shortcut: "square.stack.3d.forward.dottedline"
         case .script: "applescript"
+        }
+    }
+
+    /// What the action does, in one line for menus.
+    public var summary: String {
+        switch self {
+        case .airDrop: String(localized: "Send to a nearby Apple device")
+        case .basket: String(localized: "Keep files at hand")
+        case .copy: String(localized: "Copy to paste in Finder or any app")
+        case .move: String(localized: "Move to a favorite or recent folder")
+        case .copyPath: String(localized: "Copy the full path")
+        case .terminal: String(localized: "Open a Terminal window in the folder")
+        case .share: String(localized: "Messages, Mail, Notes and other apps")
+        case .quickLook: String(localized: "Preview without opening an app")
+        case .openWith: String(localized: "Pick the app that opens it")
+        case .copyContents: String(localized: "Copy the picture, or the text inside")
+        case .rename: String(localized: "Rename several files in one go")
+        case .trash: String(localized: "Move to the Trash")
+        case .copyTo: String(localized: "Copy to a favorite or recent folder")
+        case .duplicate: String(localized: "Make a copy next to it")
+        case .newFolder: String(localized: "Put the files in a new folder")
+        case .tag: String(localized: "Add or remove a color tag")
+        case .mail: String(localized: "A new message with the files attached")
+        case .wifiShare: String(localized: "Scan a QR code to download on a phone")
+        case .print: String(localized: "Print everything in one go")
+        case .wallpaper: String(localized: "Set it as the desktop picture")
+        case .addToLibrary: String(localized: "Add to Photos or Music")
+        case .alias: String(localized: "Make a Finder alias")
+        case .checksum: String(localized: "Copy the SHA-256")
+        case .base64: String(localized: "Copy it as a data URI")
+        case .markdownLink: String(localized: "Copy a Markdown link to it")
+        case .shortcut: String(localized: "Run one of your shortcuts")
+        case .script: String(localized: "Run one of your shell scripts")
         }
     }
 }

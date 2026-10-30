@@ -20,6 +20,24 @@ public enum FormatCategory: String, Sendable, CaseIterable {
         }
     }
 
+    /// SF Symbol for menus that list this kind of file.
+    public var symbol: String {
+        switch self {
+        case .image: "photo"
+        case .video: "film"
+        case .audio: "music.note"
+        case .pdf: "doc.richtext"
+        case .document: "doc.text"
+        case .slides: "rectangle.on.rectangle.angled"
+        case .spreadsheet: "tablecells"
+        case .subtitle: "captions.bubble"
+        case .archive: "archivebox"
+        case .data: "curlybraces"
+        case .font: "textformat"
+        case .model: "cube"
+        }
+    }
+
     /// Name of the folder Sort puts this kind of file in.
     public var folderName: String {
         switch self {
