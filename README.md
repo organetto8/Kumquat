@@ -143,7 +143,7 @@ to hear about new versions. Changes are listed in the [changelog](CHANGELOG.md).
 
 - Questions and ideas: [Discussions](https://github.com/organetto8/Kumquat/discussions).
 - Bugs and requests: [issues](https://github.com/organetto8/Kumquat/issues/new/choose). For a bug, paste the text
-  from **Copy Diagnostic Info** in the menu bar menu.
+  from **⋯ ▸ Copy Diagnostic Info** in the menu bar panel.
 - Security problems: report them privately, as [SECURITY.md](SECURITY.md) explains.
 - Pull requests are welcome: start with [CONTRIBUTING.md](CONTRIBUTING.md).
 

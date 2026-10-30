@@ -5,6 +5,12 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Changed
+
+- Clicking the menu bar icon opens a panel instead of a plain menu: Convert, Edit and Send as large tiles you
+  click for the Finder selection or drop files on, the wheel keys and shortcut at a glance, the Basket, the main
+  switches, Settings and help. Holding a file drag on the icon opens the panel too. Right-click still shows the menu.
+
 ### Fixed
 
 - The Welcome window wraps long lines instead of cutting them off, so the Italian instructions are readable
