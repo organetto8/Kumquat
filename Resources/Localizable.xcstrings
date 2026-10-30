@@ -1482,6 +1482,16 @@
         }
       }
     },
+    "Click for the Finder selection, or drop files on a wheel." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clicca per la selezione del Finder, o rilascia dei file su una ruota."
+          }
+        }
+      }
+    },
     "Clipping" : {
       "localizations" : {
         "it" : {
@@ -4668,6 +4678,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oceano"
+          }
+        }
+      }
+    },
+    "Offline, instant, unlimited." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline, immediato, senza limiti."
           }
         }
       }

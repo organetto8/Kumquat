@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     private let services = ServiceProvider()
     private var statusItem: StatusItemController?
+    private let statusPanel = StatusPanel()
     private lazy var settings = WindowPresenter(title: String(localized: "Kumquat Settings")) { SettingsView() }
     private lazy var welcome = WindowPresenter(title: String(localized: "Welcome to Kumquat")) { [weak self] in
         WelcomeView { self?.finishWelcome() }
@@ -31,12 +32,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         _ = hud
 
         let status = StatusItemController()
-        status.onLeftClick = { [weak status] in status?.showMenu() }
+        status.onLeftClick = { [weak self] in self?.toggleStatusPanel() }
+        status.onDragRest = { [weak self] in self?.showStatusPanel(takesKeyboard: false) }
         status.onDrop = { [weak self, weak status] files in
             guard let self, let frame = status?.buttonFrameOnScreen else { return }
+            self.statusPanel.close()
             self.wheel.present(.convert, files: files, at: NSPoint(x: frame.midX, y: frame.minY - WheelView.side / 2 + 30), keyboard: true)
         }
         status.menuProvider = { [weak self] in self?.statusMenu() ?? NSMenu() }
+        statusPanel.onClose = { [weak status] in status?.isPanelOpen = false }
         statusItem = status
 
         dragMonitor.onModifierTap = { [weak self] kind, files in
@@ -255,6 +259,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         jobs.notice(String(localized: "Copied diagnostic info"), detail: String(localized: "Paste it into your bug report."))
     }
 
+    // MARK: - Menu bar panel
+
+    private func toggleStatusPanel() {
+        statusPanel.isOpen ? statusPanel.close() : showStatusPanel(takesKeyboard: true)
+    }
+
+    private func showStatusPanel(takesKeyboard: Bool) {
+        guard !statusPanel.isOpen, let status = statusItem, let anchor = status.buttonFrameOnScreen else { return }
+        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible) { [weak self] command in
+            self?.statusPanel.close()
+            self?.handle(command)
+        }
+        statusPanel.show(view, below: anchor, anchorWindow: status.buttonWindow, takesKeyboard: takesKeyboard)
+        status.isPanelOpen = true
+    }
+
+    private func handle(_ command: StatusCommand) {
+        switch command {
+        case .selection(let kind): openWheelForFinderSelection(kind)
+        case .files(let kind, let files): openWheel(kind, files: files)
+        case .basket: basket.toggle()
+        case .settings: settings.show()
+        case .welcome: welcome.show()
+        case .about: showAbout(nil)
+        case .diagnostics: copyDiagnostics(nil)
+        case .quit: NSApp.terminate(nil)
+        }
+    }
+
+    /// Right-click: the same choices as a plain menu.
     private func statusMenu() -> NSMenu {
         let menu = NSMenu()
         let keys = WheelKind.allCases.map { Prefs.modifier(for: $0).symbol }.joined(separator: " / ")
@@ -262,11 +296,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         hint.isEnabled = false
         menu.addItem(hint)
         menu.addItem(.separator())
-        let convert = menuItem(String(localized: "Convert Finder Selection…"), #selector(convertSelection(_:)))
+        let convert = menuItem(WheelKind.convert.selectionTitle, #selector(convertSelection(_:)))
         if let combo = Prefs.hotKey { convert.title += "   \(combo.display)" }
         menu.addItem(convert)
-        menu.addItem(menuItem(String(localized: "Edit Finder Selection…"), #selector(toolsSelection(_:))))
-        menu.addItem(menuItem(String(localized: "Send Finder Selection…"), #selector(actionsSelection(_:))))
+        menu.addItem(menuItem(WheelKind.tools.selectionTitle, #selector(toolsSelection(_:))))
+        menu.addItem(menuItem(WheelKind.actions.selectionTitle, #selector(actionsSelection(_:))))
         menu.addItem(menuItem(basket.isVisible ? String(localized: "Hide Basket") : String(localized: "Show Basket"), #selector(toggleBasket(_:))))
         menu.addItem(.separator())
         let drag = menuItem(String(localized: "Open Wheels While Dragging"), #selector(toggleDragGesture(_:)))
