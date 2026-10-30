@@ -125,6 +125,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSScreen.main.map { NSPoint(x: $0.visibleFrame.midX, y: $0.visibleFrame.midY) } ?? .zero
     }
 
+    /// All Actions, for the panel's row and the right-click menu.
+    private var catalog: CatalogMenu {
+        CatalogMenu(target: self, action: #selector(runCatalogChoice(_:)))
+    }
+
     /// An entry of All Actions: runs on the Finder selection when it holds files the entry suits,
     /// otherwise on files the user picks.
     @objc func runCatalogChoice(_ sender: NSMenuItem) {
@@ -328,6 +333,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         switch command {
         case .selection(let kind): openWheelForFinderSelection(kind)
         case .files(let kind, let files): openWheel(kind, files: files)
+        case .allActions:
+            // Once the panel's click is over, under the icon where the panel was, as the right-click menu opens.
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                let menu = NSMenu()
+                for item in self.catalog.items(icons: true) { menu.addItem(item) }
+                self.statusItem?.showMenu(menu)
+            }
         case .basket: basket.toggle()
         case .settings: settings.show()
         case .welcome: welcome.show()
@@ -352,7 +365,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem(WheelKind.actions.selectionTitle, #selector(actionsSelection(_:))))
         menu.addItem(menuItem(basket.isVisible ? String(localized: "Hide Basket") : String(localized: "Show Basket"), #selector(toggleBasket(_:))))
         menu.addItem(.separator())
-        for item in CatalogMenu(target: self, action: #selector(runCatalogChoice(_:))).items() { menu.addItem(item) }
+        for item in catalog.items() { menu.addItem(item) }
         menu.addItem(.separator())
         let drag = menuItem(String(localized: "Open Wheels While Dragging"), #selector(toggleDragGesture(_:)))
         drag.state = Prefs.dragGesture ? .on : .off

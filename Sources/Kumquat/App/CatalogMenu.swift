@@ -1,7 +1,8 @@
 import AppKit
 import KumquatCore
 
-/// "All Actions" in the menu bar menu: everything the three wheels can offer, browsable by kind of file.
+/// "All Actions", from the menu bar panel and the right-click menu: everything the three wheels can offer,
+/// browsable by kind of file.
 /// Hovering shows what an entry does; ones that need something installed are dimmed, with the reason.
 /// Submenus are built as they open, so the status menu itself opens at once.
 struct CatalogMenu {
@@ -15,11 +16,12 @@ struct CatalogMenu {
     let target: AnyObject
     let action: Selector
 
-    /// A section header, then Convert, Edit and Send.
-    func items() -> [NSMenuItem] {
+    /// A section header, then Convert, Edit and Send; `icons` gives them the panel's wheel symbols, for a menu
+    /// of their own (the right-click menu has no icons).
+    func items(icons: Bool = false) -> [NSMenuItem] {
         var items = [NSMenuItem.sectionHeader(title: String(localized: "All Actions"))]
         for kind in WheelKind.allCases {
-            items.append(submenuItem(kind.title, subtitle: Self.count(for: kind)) { menu in
+            items.append(submenuItem(kind.title, symbol: icons ? kind.symbol : nil, subtitle: Self.count(for: kind)) { menu in
                 menu.addItem(Self.note(String(localized: "Runs on the files selected in Finder, or asks for them")))
                 menu.addItem(.separator())
                 switch kind {
@@ -126,8 +128,8 @@ struct CatalogMenu {
         }
     }
 
-    /// An item whose submenu is built the first time it opens (no icon in the status menu itself, which has none).
-    /// The item keeps the submenu's filler alive, since a menu only holds its delegate weakly.
+    /// An item whose submenu is built the first time it opens. The item keeps the submenu's filler alive,
+    /// since a menu only holds its delegate weakly.
     private func submenuItem(_ title: String, symbol: String? = nil, subtitle: String? = nil, fill: @escaping (NSMenu) -> Void) -> NSMenuItem {
         let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         item.image = symbol.flatMap { NSImage(systemSymbolName: $0, accessibilityDescription: nil) }

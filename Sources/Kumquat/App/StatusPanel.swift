@@ -6,7 +6,7 @@ import SwiftUI
 enum StatusCommand {
     case selection(WheelKind)
     case files(WheelKind, [URL])
-    case basket, settings, welcome, about, diagnostics, quit
+    case allActions, basket, settings, welcome, about, diagnostics, quit
 }
 
 /// The panel under the menu bar icon. Like a menu it closes on a click elsewhere, on Escape and
@@ -227,6 +227,17 @@ struct StatusPanelView: View {
 
     private var options: some View {
         VStack(spacing: 2) {
+            Button { perform(.allActions) } label: {
+                HStack {
+                    RowLabel(symbol: "list.bullet", title: "All Actions")
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.tertiary)
+                }
+            }
+            .buttonStyle(RowButtonStyle())
+            .help("Every conversion, tool and action, by kind of file")
             Button { perform(.basket) } label: {
                 HStack {
                     RowLabel(symbol: "basket", title: basketVisible ? "Hide Basket" : "Show Basket")
