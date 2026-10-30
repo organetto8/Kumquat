@@ -280,9 +280,13 @@ to have Finder reveal each result automatically.
 ## 7. Audio, video and iWork support
 
 Images, PDFs, documents, spreadsheets, data, subtitles, archives and 3D models work right after installing.
-A few formats need free software that Kumquat uses if it finds it:
+A few formats need free software. Open **Settings ▸ Engines** and click **Install** next to anything
+missing: Kumquat downloads its own build of that program for your Mac, checks it, and turns the line green
+when it's ready. There's no Homebrew to set up and no password to type. You can keep working meanwhile, and
+several installs wait their turn. For Pages, Keynote and Numbers, **Install** opens the app's page in the
+App Store.
 
-| For | Install |
+| For | With Homebrew instead |
 |---|---|
 | Audio and video | [FFmpeg](https://ffmpeg.org): `brew install ffmpeg` |
 | Saving WebP images, animated WebP | `brew install webp` |
@@ -295,9 +299,15 @@ A few formats need free software that Kumquat uses if it finds it:
 | TrueType ↔ OpenType outlines | `brew install fonttools` |
 | Pages, Keynote, PowerPoint, Numbers, XLS | Pages, Keynote and Numbers from the Mac App Store |
 
-The `brew` commands need [Homebrew](https://brew.sh). After installing, open **Settings ▸ Engines** and
-click **Check Again**. Each line turns green when its program is found; **Copy Command** copies the install
-command for anything missing.
+Programs installed with [Homebrew](https://brew.sh) work just as well, and Kumquat uses them first; right-click
+a line in Settings ▸ Engines and choose **Copy Command** for its `brew` command. Something installed while
+Kumquat was open is found when you come back to Settings, or with **Check Again**.
+
+The downloads come from Kumquat's own [engines releases](https://github.com/organetto8/Kumquat/releases) on
+GitHub, the only time Kumquat goes online, and only when you click Install. Each file is checked against a
+fingerprint built into the app before it's used. They live in `~/Library/Application Support/Kumquat/Engines`,
+one folder per program: delete a folder to remove that program. A program that needs a newer macOS than
+yours isn't offered; its line keeps the Homebrew command instead.
 
 ## 8. Settings
 
@@ -322,7 +332,7 @@ Open it with the gear button in the menu bar panel (or ⌘, while the panel or a
 **Send**: favourite folders for Copy To and Move, and the shell scripts the Script action offers. Each
 script runs in zsh with the files as `"$@"` (also one per line in `$KUMQUAT_FILES`).
 
-**Engines**: which optional programs are installed (section 7).
+**Engines**: which optional programs are installed, with an **Install** button for each missing one (section 7).
 
 **About**: version and licence.
 
@@ -391,7 +401,7 @@ Enable Kumquat in System Settings ▸ Privacy & Security ▸ Input Monitoring, t
 Allow Kumquat to control Finder in System Settings ▸ Privacy & Security ▸ Automation.
 
 **Video or audio options are dimmed**
-FFmpeg is not installed. Run `brew install ffmpeg`, then Settings ▸ Engines ▸ **Check Again**.
+FFmpeg is not installed. Click **Install** next to Audio & video in Settings ▸ Engines.
 
 **Translate or Summarize is dimmed**
 Both need macOS 26. Translate also needs the language downloaded in System Settings ▸ General ▸ Language &

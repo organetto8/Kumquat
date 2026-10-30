@@ -50,6 +50,28 @@ and an app build) is green.
 Releases are **immutable**: once published, their files and tag can't be changed or moved, so nobody can
 swap a download later. A mistake in a published release is fixed with a new patch version.
 
+## Engine pack
+
+**Install** in Settings ▸ Engines downloads the optional programs from an `engines-N` release of this
+repository, not from Homebrew. `Scripts/engines/build.sh` builds each one for Apple silicon and Intel, to run
+on macOS 14 with nothing else installed (pandoc and Calibre are upstream's own builds and may need newer). The
+**Engines** workflow runs it whenever `Scripts/engines/` changes, so a branch shows whether the builds still
+work; its artifacts are the files a release would contain.
+
+To publish a new pack, for example after raising a version in `build.sh`:
+
+1. Check that the Engines workflow is green for the commit.
+2. Tag it and push the tag: `git tag engines-2 && git push origin engines-2`. The workflow builds everything
+   again and publishes the release with the archives, every source archive (`engines-2-sources.tar`) and
+   `EnginePackManifest.swift`. It is never marked Latest, so the README's download link keeps pointing at
+   the app.
+3. Replace `Sources/KumquatCore/Support/EnginePackManifest.swift` with the copy attached to the release (the
+   workflow summary shows it too) and commit it. Apps built from then on install from the new pack; older
+   ones keep using the pack they were built with, which stays online because releases are immutable.
+
+Never delete an engines release: published apps download from it. Downloads with an unpinned SHA-256 show
+as notices in the workflow log; pin them in `build.sh` after a build you trust.
+
 ## Signing
 
 Releases are signed ad hoc and not notarised, so the first launch needs **Open Anyway** in

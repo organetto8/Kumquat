@@ -132,6 +132,16 @@
         }
       }
     },
+    "%@ download" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ da scaricare"
+          }
+        }
+      }
+    },
     "%@ encoding" : {
       "localizations" : {
         "it" : {
@@ -2318,6 +2328,16 @@
         }
       }
     },
+    "Couldn't download %@." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile scaricare %@."
+          }
+        }
+      }
+    },
     "Couldn't duplicate" : {
       "localizations" : {
         "it" : {
@@ -2646,6 +2666,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scarica %1$@ e %2$@ in Impostazioni di Sistema ▸ Generali ▸ Lingua e Zona ▸ Lingue di traduzione, poi riprova."
+          }
+        }
+      }
+    },
+    "Downloading…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download in corso…"
+          }
+        }
+      }
+    },
+    "Downloading… %@" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download in corso… %@"
           }
         }
       }
@@ -3836,6 +3876,16 @@
         }
       }
     },
+    "Install" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa"
+          }
+        }
+      }
+    },
     "Install Kumquat %@ and Relaunch" : {
       "localizations" : {
         "it" : {
@@ -3862,6 +3912,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Installa l'aggiornamento dall'icona nella barra dei menu quando ha finito."
+          }
+        }
+      }
+    },
+    "Installing…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installazione…"
           }
         }
       }
@@ -4768,48 +4828,12 @@
         }
       }
     },
-    "Needs %@ — brew install %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Needs %1$@ — brew install %2$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Richiede %1$@ — brew install %2$@"
-          }
-        }
-      }
-    },
-    "Needs Calibre — brew install --cask calibre" : {
+    "Needs %@ — install it in Settings ▸ Engines" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Richiede Calibre — brew install --cask calibre"
-          }
-        }
-      }
-    },
-    "Needs FFmpeg — brew install ffmpeg" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Richiede FFmpeg — brew install ffmpeg"
-          }
-        }
-      }
-    },
-    "Needs cwebp — brew install webp" : {
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Richiede cwebp — brew install webp"
+            "value" : "Richiede %@ — installalo da Impostazioni ▸ Motori"
           }
         }
       }
@@ -5282,6 +5306,16 @@
         }
       }
     },
+    "Not available for this Mac yet. Right-click to copy the Homebrew command." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non ancora disponibile per questo Mac. Fai clic destro per copiare il comando di Homebrew."
+          }
+        }
+      }
+    },
     "Not chosen" : {
       "localizations" : {
         "it" : {
@@ -5664,6 +5698,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri le ruote durante il trascinamento dei file"
+          }
+        }
+      }
+    },
+    "Opens %@ in the App Store" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apre %@ su App Store"
           }
         }
       }
@@ -7716,6 +7760,16 @@
         }
       }
     },
+    "Starting Homebrew…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvio di Homebrew…"
+          }
+        }
+      }
+    },
     "Still frame" : {
       "localizations" : {
         "it" : {
@@ -8064,6 +8118,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il download non è firmato con la chiave di rilascio di Kumquat, quindi non è stato installato."
+          }
+        }
+      }
+    },
+    "The download of %@ was damaged. Try again." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il download di %@ è danneggiato. Riprova."
           }
         }
       }
@@ -8616,6 +8680,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Font web WOFF2"
+          }
+        }
+      }
+    },
+    "Waiting…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In attesa…"
           }
         }
       }

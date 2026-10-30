@@ -13,7 +13,16 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 - Automatic updates from GitHub releases, once a day or from **Check for Updates…** in the menu bar menu, with
   betas as an option (Settings ▸ General ▸ Updates). An update is installed only if it carries the release key's
   Ed25519 signature, is newer than the installed version and keeps an intact code signature; Kumquat never asks
-  for a password to install it. This check is the only time Kumquat goes online, and it can be turned off.
+  for a password to install it. This check, which can be turned off, and **Install** in Settings ▸ Engines are the
+  only times Kumquat goes online.
+- **Install** buttons in Settings ▸ Engines: Kumquat downloads its own build of a missing engine (FFmpeg,
+  WebP, JPEG XL, potrace, pandoc, Calibre, 7-Zip, WOFF2, fontTools) from its engines release on GitHub, checks
+  it against a SHA-256 built into the app and unpacks it in Application Support. No Homebrew or password
+  needed; Homebrew is used when the pack has nothing for the Mac. Pages, Keynote and Numbers open in the App
+  Store. **Copy Command** moved to the right-click menu, and dimmed options in the wheels and in All Actions now
+  point to Settings ▸ Engines.
+- The engine pack itself: `Scripts/engines/build.sh` and the Engines workflow build every engine for Apple
+  silicon and Intel and publish them as an `engines-N` release.
 
 ### Changed
 

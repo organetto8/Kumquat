@@ -6,10 +6,12 @@ expect and how to make a report or a change land quickly.
 ## What Kumquat is, and isn't
 
 - Everything runs on the Mac. No uploads, no account, no telemetry. Changes that add a network request are
-  declined. The exceptions are Wi-Fi Share, which only talks to the local network, and the signed update
-  check with GitHub, which users can turn off.
+  declined. The exceptions are Wi-Fi Share, which only talks to the local network, the signed update check
+  with GitHub, which users can turn off, and **Install** in Settings ▸ Engines, which downloads the program the
+  user clicked from Kumquat's own releases.
 - Apple frameworks first. Formats Apple can't handle use free command-line tools that the user installs,
-  usually from Homebrew, and that Kumquat finds on its own. Nothing is bundled.
+  usually from Homebrew, and that Kumquat finds on its own, or installs from its engine pack
+  ([Scripts/engines](Scripts/engines/build.sh)). Nothing is bundled in the app.
 - English and Italian are both complete. New text the user sees needs both.
 
 ## Asking, reporting, requesting

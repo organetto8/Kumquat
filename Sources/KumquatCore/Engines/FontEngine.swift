@@ -29,9 +29,9 @@ public enum FontEngine {
     /// What a pair needs that this Mac lacks, or `nil`. (A WOFF or WOFF2 source may still need
     /// fontTools for TTF/OTF output, but only its content can tell: that is reported when it runs.)
     static func requirement(_ input: FileFormat, _ target: FileFormat) -> String? {
-        if input == .woff2, Engines.woff2Decompress == nil { return Engines.brewHint("woff2", "woff2") }
-        if target == .woff2, Engines.woff2Compress == nil { return Engines.brewHint("woff2", "woff2") }
-        if Set([input, target]) == [.ttf, .otf], Engines.fonttools == nil { return Engines.brewHint("fontTools", "fonttools") }
+        if input == .woff2, Engines.woff2Decompress == nil { return Engines.engineHint("woff2") }
+        if target == .woff2, Engines.woff2Compress == nil { return Engines.engineHint("woff2") }
+        if Set([input, target]) == [.ttf, .otf], Engines.fonttools == nil { return Engines.engineHint("fontTools") }
         return nil
     }
 
@@ -277,7 +277,7 @@ extension FontEngine {
 extension FontEngine {
     /// woff2_compress writes "<name>.woff2" next to its input, so it works in a private folder.
     static func woff2Encode(_ font: Data) async throws -> Data {
-        guard let tool = Engines.woff2Compress else { throw KumquatError.noResult(Engines.brewHint("woff2", "woff2")) }
+        guard let tool = Engines.woff2Compress else { throw KumquatError.noResult(Engines.engineHint("woff2")) }
         let folder = try ArchiveEngine.privateFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
         let source = folder.appendingPathComponent("font.ttf")
@@ -287,7 +287,7 @@ extension FontEngine {
     }
 
     static func woff2Decode(_ input: URL) async throws -> Data {
-        guard let tool = Engines.woff2Decompress else { throw KumquatError.noResult(Engines.brewHint("woff2", "woff2")) }
+        guard let tool = Engines.woff2Decompress else { throw KumquatError.noResult(Engines.engineHint("woff2")) }
         let folder = try ArchiveEngine.privateFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
         let source = folder.appendingPathComponent("font.woff2")
@@ -302,7 +302,7 @@ extension FontEngine {
     /// quadratic TrueType ones (cu2qu, within 1 unit) or the other way round (exact). TrueType hinting is
     /// dropped; a variable font is pinned to its default instance first.
     static func convertOutlines(_ font: Data, to outlines: Outlines) async throws -> Data {
-        guard let python = fontToolsPython else { throw KumquatError.noResult(Engines.brewHint("fontTools", "fonttools")) }
+        guard let python = fontToolsPython else { throw KumquatError.noResult(Engines.engineHint("fontTools")) }
         let folder = try ArchiveEngine.privateFolder()
         defer { try? FileManager.default.removeItem(at: folder) }
         let source = folder.appendingPathComponent("source.font"), result = folder.appendingPathComponent("result.font")
@@ -315,7 +315,12 @@ extension FontEngine {
     /// The interpreter fontTools is installed for: the one the `fonttools` script's shebang names
     /// (`#!/path/python`, `#!/usr/bin/env python3`, or pip's `#!/bin/sh` + `'''exec' "/path/python"` trampoline).
     static var fontToolsPython: URL? {
-        guard let script = Engines.fonttools, let handle = try? FileHandle(forReadingFrom: script) else { return nil }
+        guard let script = Engines.fonttools else { return nil }
+        // The engine pack's `fonttools` is a shell launcher for the Python unpacked beside its folder.
+        if EnginePack.contains(script) {
+            return executable(script.deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("python/bin/python3").path)
+        }
+        guard let handle = try? FileHandle(forReadingFrom: script) else { return nil }
         defer { try? handle.close() }
         let head = String(decoding: (try? handle.read(upToCount: 1024)) ?? Data(), as: UTF8.self)
         let lines = head.split(separator: "\n", omittingEmptySubsequences: false)
