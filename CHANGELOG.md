@@ -5,6 +5,11 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Fixed
+
+- The Welcome window wraps long lines instead of cutting them off, so the Italian instructions are readable
+  in full ([#2](https://github.com/organetto8/Kumquat/issues/2)).
+
 ## [1.0.0] - 2026-10-30
 
 First public release.
