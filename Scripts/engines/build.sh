@@ -137,7 +137,8 @@ build_ffmpeg() {
     command -v pkg-config >/dev/null || brew install pkgconf
     [[ $ARCH == arm64 ]] || brew install nasm
 
-    source_archive "https://github.com/mirror/x264/archive/$x264.tar.gz" "x264-$x264.tar.gz"
+    source_archive "https://github.com/mirror/x264/archive/$x264.tar.gz" "x264-$x264.tar.gz" \
+        d053c9d86988d6bc78237ca5205865c5ddf99c98ef4cd9927eec8f6d388f6dd9
     (cd "$WORK/src/x264-$x264" && ./configure --prefix="$PREFIX" --host="$HOST" --enable-static --enable-pic \
         --disable-cli --disable-opencl && make -j"$JOBS" && make install)
 
@@ -145,24 +146,29 @@ build_ffmpeg() {
         ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
     (cd "$WORK/src/lame-3.100" && sed -i '' '/lame_init_old/d' include/libmp3lame.sym && configure_make --disable-frontend)
 
-    source_archive https://downloads.xiph.org/releases/ogg/libogg-1.3.6.tar.gz libogg-1.3.6.tar.gz
+    source_archive https://downloads.xiph.org/releases/ogg/libogg-1.3.6.tar.gz libogg-1.3.6.tar.gz \
+        83e6704730683d004d20e21b8f7f55dcb3383cdf84c0daedf30bde175f774638
     (cd "$WORK/src/libogg-1.3.6" && configure_make)
 
-    source_archive https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz libvorbis-1.3.7.tar.gz
+    source_archive https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz libvorbis-1.3.7.tar.gz \
+        0e982409a9c3fc82ee06e08205b1355e5c6aa4c36bca58146ef399621b0ce5ab
     # The darwin flags libvorbis adds are refused by today's clang.
     (cd "$WORK/src/libvorbis-1.3.7" && sed -i '' 's/ -force_cpusubtype_ALL//g' configure &&
         configure_make --with-ogg="$PREFIX" --disable-examples)
 
-    source_archive https://downloads.xiph.org/releases/opus/opus-1.6.1.tar.gz opus-1.6.1.tar.gz
+    source_archive https://downloads.xiph.org/releases/opus/opus-1.6.1.tar.gz opus-1.6.1.tar.gz \
+        6ffcb593207be92584df15b32466ed64bbec99109f007c82205f0194572411a1
     (cd "$WORK/src/opus-1.6.1" && configure_make --disable-doc --disable-extra-programs)
 
-    source_archive "https://github.com/webmproject/libvpx/archive/refs/tags/v$vpx.tar.gz" "libvpx-$vpx.tar.gz"
+    source_archive "https://github.com/webmproject/libvpx/archive/refs/tags/v$vpx.tar.gz" "libvpx-$vpx.tar.gz" \
+        1020f184046187baa2985dbde38e0691f49c44088bca7a1842b0236c6081dc0a
     target=$([[ $ARCH == arm64 ]] && echo arm64-darwin23-gcc || echo x86_64-darwin23-gcc)
     (cd "$WORK/src/libvpx-$vpx" && ./configure --prefix="$PREFIX" --target="$target" --disable-shared --enable-static \
         --enable-pic --enable-vp9-highbitdepth --disable-examples --disable-tools --disable-docs --disable-unit-tests &&
         make -j"$JOBS" && make install)
 
-    source_archive "https://ffmpeg.org/releases/ffmpeg-$version.tar.xz" "ffmpeg-$version.tar.xz"
+    source_archive "https://ffmpeg.org/releases/ffmpeg-$version.tar.xz" "ffmpeg-$version.tar.xz" \
+        7138d28c96d9d3e3af4ee3d8cad72741f8ffb40da90c1112235dea3ecd3178a3
     # GPL for cropdetect and boxblur, which Kumquat uses; only macOS's own libraries are detected.
     (cd "$WORK/src/ffmpeg-$version" && ./configure --prefix="$PREFIX" --pkg-config-flags=--static \
         --extra-cflags="-I$PREFIX/include" --extra-ldflags="-L$PREFIX/lib" --extra-libs=-liconv \
@@ -191,9 +197,11 @@ build_webp() {
     local version=1.6.0 png=1.6.59 jpeg=3.2.1 src
     [[ $ARCH == arm64 ]] || brew install nasm
     # cwebp reads PNG and JPEG through these; TIFF reaches it already converted to PNG.
-    source_archive "https://github.com/pnggroup/libpng/archive/refs/tags/v$png.tar.gz" "libpng-$png.tar.gz"
+    source_archive "https://github.com/pnggroup/libpng/archive/refs/tags/v$png.tar.gz" "libpng-$png.tar.gz" \
+        2540302a1844ad2b2b501977abecfa850f265f97b78f065a712ab4074a89f5b5
     cmake_install "$WORK/src/libpng-$png" -DPNG_SHARED=OFF -DPNG_TESTS=OFF -DPNG_TOOLS=OFF -DPNG_FRAMEWORK=OFF
-    source_archive "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/$jpeg.tar.gz" "libjpeg-turbo-$jpeg.tar.gz"
+    source_archive "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/refs/tags/$jpeg.tar.gz" "libjpeg-turbo-$jpeg.tar.gz" \
+        6f5819c51649bce2571a23b1b0cd41eae2f57fc3f8908c7ec9e7047efb65ca13
     cmake_install "$WORK/src/libjpeg-turbo-$jpeg" -DENABLE_SHARED=OFF -DWITH_TURBOJPEG=OFF
 
     source_archive "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-$version.tar.gz" \
@@ -258,7 +266,8 @@ build_pandoc() {
     unzip -q "$zip" -d "$WORK/src"
     cp "$WORK/src/pandoc-$version-$ARCH/bin/pandoc" "$STAGE/bin/"
     check_binary "$STAGE/bin/pandoc"
-    keep_source "$(fetch "https://github.com/jgm/pandoc/archive/refs/tags/$version.tar.gz" "pandoc-$version.tar.gz")"
+    keep_source "$(fetch "https://github.com/jgm/pandoc/archive/refs/tags/$version.tar.gz" "pandoc-$version.tar.gz" \
+        fbf6044766b0c9be5ccbf18ffe657124449e8563a177d85662ecb6f031f9c308)"
 
     "$STAGE/bin/pandoc" --version | sed -n 1p
     package "$version"
@@ -266,9 +275,11 @@ build_pandoc() {
 
 build_woff2() {
     local version=1.0.2 brotli=1.2.1 src
-    source_archive "https://github.com/google/brotli/archive/refs/tags/v$brotli.tar.gz" "brotli-$brotli.tar.gz"
+    source_archive "https://github.com/google/brotli/archive/refs/tags/v$brotli.tar.gz" "brotli-$brotli.tar.gz" \
+        98d35d11a78dc453aebb7d10c3748f3f73ff78c8267c0dc697b8631f67bf7e8f
     cmake_install "$WORK/src/brotli-$brotli" -DBROTLI_DISABLE_TESTS=ON
-    source_archive "https://github.com/google/woff2/archive/refs/tags/v$version.tar.gz" "woff2-$version.tar.gz"
+    source_archive "https://github.com/google/woff2/archive/refs/tags/v$version.tar.gz" "woff2-$version.tar.gz" \
+        add272bb09e6384a4833ffca4896350fdb16e0ca22df68c0384773c67a175594
     src=$WORK/src/woff2-$version
     # The static Brotli decoder and encoder need the common part too, which woff2's CMake leaves out.
     cmake_configure "$src" -DCMAKE_EXE_LINKER_FLAGS="-L$PREFIX/lib -lbrotlicommon"
@@ -333,7 +344,8 @@ build_sevenzip() {
 # Upstream's universal, signed and notarised app, unchanged: Kumquat runs its ebook-convert.
 build_calibre() {
     local version=9.17.0 dmg mount=$WORK/mount
-    dmg=$(fetch "https://github.com/kovidgoyal/calibre/releases/download/v$version/calibre-$version.dmg" "calibre-$version.dmg")
+    dmg=$(fetch "https://github.com/kovidgoyal/calibre/releases/download/v$version/calibre-$version.dmg" "calibre-$version.dmg" \
+        fdab4bd1400996c381845b7a95026f96bd9f68bfec68cf3d49afd458b4717842)
     mkdir -p "$mount"
     hdiutil attach -quiet -nobrowse -readonly -mountpoint "$mount" "$dmg"
     ditto "$mount/calibre.app" "$STAGE/calibre.app"
@@ -342,7 +354,8 @@ build_calibre() {
     codesign --verify --deep --strict "$STAGE/calibre.app" || fail "calibre.app's signature doesn't verify"
     note_minos "$STAGE/calibre.app/Contents/MacOS/calibre"
     note_minos "$STAGE/calibre.app/Contents/MacOS/ebook-convert"
-    keep_source "$(fetch "https://github.com/kovidgoyal/calibre/releases/download/v$version/calibre-$version.tar.xz" "calibre-$version.tar.xz")"
+    keep_source "$(fetch "https://github.com/kovidgoyal/calibre/releases/download/v$version/calibre-$version.tar.xz" "calibre-$version.tar.xz" \
+        07507ea8ace5f8a0f768c13afdb799ad685a636c1cdbd8b11162ddb419743be5)"
 
     "$STAGE/calibre.app/Contents/MacOS/ebook-convert" --version | sed -n 1p
     package "$version" universal
