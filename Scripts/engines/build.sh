@@ -165,7 +165,7 @@ build_ffmpeg() {
     source_archive "https://ffmpeg.org/releases/ffmpeg-$version.tar.xz" "ffmpeg-$version.tar.xz"
     # GPL for cropdetect and boxblur, which Kumquat uses; only macOS's own libraries are detected.
     (cd "$WORK/src/ffmpeg-$version" && ./configure --prefix="$PREFIX" --pkg-config-flags=--static \
-        --extra-cflags="-I$PREFIX/include" --extra-ldflags="-L$PREFIX/lib" \
+        --extra-cflags="-I$PREFIX/include" --extra-ldflags="-L$PREFIX/lib" --extra-libs=-liconv \
         --disable-autodetect --enable-gpl --enable-videotoolbox --enable-audiotoolbox --enable-zlib --enable-bzlib \
         --enable-iconv --enable-libx264 --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx \
         --disable-ffplay --disable-doc --disable-debug &&
