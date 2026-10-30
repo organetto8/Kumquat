@@ -131,11 +131,9 @@ struct CatalogMenu {
     private func submenuItem(_ title: String, symbol: String? = nil, subtitle: String? = nil, fill: @escaping (NSMenu) -> Void) -> NSMenuItem {
         let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         item.image = symbol.flatMap { NSImage(systemSymbolName: $0, accessibilityDescription: nil) }
-        let submenu = NSMenu(title: title)
-        let filler = MenuFiller(fill)
-        submenu.delegate = filler
+        let filler = MenuFiller(title: title, fill: fill)
         item.representedObject = filler
-        item.submenu = submenu
+        item.submenu = filler.menu
         if #available(macOS 14.4, *), let subtitle { item.subtitle = subtitle }
         return item
     }
@@ -148,20 +146,27 @@ struct CatalogMenu {
     }
 }
 
-/// Fills a submenu the first time it opens.
+/// A submenu and what fills it the first time it opens. It fills its own `menu`, not the one AppKit passes
+/// in, so nothing nonisolated crosses into the main actor.
 private final class MenuFiller: NSObject, NSMenuDelegate {
+    let menu: NSMenu
     private var fill: ((NSMenu) -> Void)?
 
-    init(_ fill: @escaping (NSMenu) -> Void) {
+    init(title: String, fill: @escaping (NSMenu) -> Void) {
+        menu = NSMenu(title: title)
         self.fill = fill
+        super.init()
+        menu.delegate = self
     }
 
     nonisolated func menuNeedsUpdate(_ menu: NSMenu) {
-        MainActor.assumeIsolated {
-            guard let fill else { return }
-            self.fill = nil
-            fill(menu)
-        }
+        MainActor.assumeIsolated { fillOnce() }
+    }
+
+    private func fillOnce() {
+        guard let fill else { return }
+        self.fill = nil
+        fill(menu)
     }
 }
 
