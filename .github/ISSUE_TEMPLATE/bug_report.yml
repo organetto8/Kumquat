@@ -1,0 +1,63 @@
+name: Bug report
+description: Something doesn't work, crashes, or gives a wrong result.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. One bug per issue, in English please.
+        Search the [open and closed issues](https://github.com/organetto8/Kumquat/issues?q=is%3Aissue) first: it may already be known or fixed.
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostic info
+      description: Click the kumquat in the menu bar, choose **Copy Diagnostic Info**, and paste it here. It holds versions and settings only, no file names.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw, including the exact text of any error message.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Drag a HEIC photo from an iPhone 15
+        2. Tap ⇧ and drop it on PNG
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: file
+    attributes:
+      label: File involved
+      description: Type, size and where it came from. If you can share a sample that shows the problem, attach it (only if it holds nothing private).
+      placeholder: 12 MB MOV recorded on an iPhone 15 Pro
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log (optional)
+      description: |
+        Reproduce the problem, then run this in Terminal and paste the output:
+        `log show --last 5m --info --debug --predicate 'subsystem == "app.kumquat.Kumquat"'`
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: I'm using the latest release.
+          required: true

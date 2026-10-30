@@ -1,0 +1,39 @@
+name: Feature or format request
+description: A new format, tool, action, or a change to how Kumquat works.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Kumquat works entirely on the Mac: requests that need an online service or an account are out of scope.
+        Search the [existing requests](https://github.com/organetto8/Kumquat/issues?q=is%3Aissue+label%3Aenhancement) first, and add a 👍 to one that matches instead of opening a new one.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of request
+      options:
+        - New format to convert from or to
+        - New tool (Edit wheel)
+        - New action (Send wheel)
+        - Change to an existing feature
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: What you want to do
+      description: The task you're trying to get done, and how you do it today.
+      placeholder: I receive voice notes as .opus files and want them as MP3 for my car stereo.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How it could work in Kumquat
+      description: Optional. Which wheel, which options, what the result looks like.
+  - type: input
+    id: tool
+    attributes:
+      label: Free tool or library that can do it
+      description: Optional. A command-line tool (ideally on Homebrew) or an Apple framework that already handles this.

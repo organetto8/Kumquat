@@ -1,0 +1,10 @@
+# Keeps the pinned workflow actions up to date; Kumquat itself has no package dependencies.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]

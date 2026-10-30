@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+      # FFmpeg and pandoc enable the media and markup tests; the rest run with Apple frameworks only.
+      - name: Optional engines
+        run: brew install ffmpeg pandoc
+      - name: Test
+        run: make test
+      - name: Build the app bundle
+        run: make app

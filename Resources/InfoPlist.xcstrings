@@ -1,0 +1,91 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSAppleEventsUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kumquat asks Finder for the selected files so the shortcut can open the conversion wheel, and drives Pages, Keynote and Numbers to convert iWork and Office documents."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kumquat chiede al Finder i file selezionati, così l'abbreviazione può aprire la ruota di conversione, e usa Pages, Keynote e Numbers per convertire i documenti iWork e Office."
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Free and open source (MIT)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gratuito e open source (MIT)."
+          }
+        }
+      }
+    },
+    "NSSpeechRecognitionUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kumquat recognises speech on this Mac to turn audio and video into subtitles or text."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kumquat riconosce il parlato su questo Mac per trasformare audio e video in sottotitoli o testo."
+          }
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kumquat adds the photos and videos you choose to your Photos library."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kumquat aggiunge alla libreria di Foto le foto e i video che scegli."
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi Share lets a phone on your network download the files you share."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Condividi via Wi-Fi permette a un telefono sulla tua rete di scaricare i file che condividi."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
