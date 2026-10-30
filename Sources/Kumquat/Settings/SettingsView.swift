@@ -335,6 +335,7 @@ struct WelcomeView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Welcome to Kumquat").font(.title.weight(.bold))
                     Text("Convert any file by dragging it. Offline, instant, unlimited.").foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
             VStack(alignment: .leading, spacing: 12) {
@@ -346,6 +347,7 @@ struct WelcomeView: View {
             }
             if let combo = Prefs.hotKey {
                 Text("Keyboard only? Select files in Finder and press \(combo.display).").font(.callout).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             HStack {
                 Toggle("Launch at login", isOn: $launchAtLogin)
@@ -356,6 +358,8 @@ struct WelcomeView: View {
         }
         .padding(26)
         .frame(width: 520)
+        // Long translations wrap and the window grows to fit, instead of truncating to one line.
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     private func step(_ badge: String, _ text: LocalizedStringKey) -> some View {
@@ -364,7 +368,7 @@ struct WelcomeView: View {
                 .font(.system(size: 13, weight: .bold))
                 .frame(width: 28, height: 28)
                 .background(Circle().fill(Color.orange.opacity(0.18)))
-            Text(text)
+            Text(text).fixedSize(horizontal: false, vertical: true)
         }
     }
 }

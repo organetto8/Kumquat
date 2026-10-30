@@ -11,7 +11,7 @@ body:
     id: diagnostics
     attributes:
       label: Diagnostic info
-      description: Click the kumquat in the menu bar, choose **Copy Diagnostic Info**, and paste it here. It holds versions and settings only, no file names.
+      description: Click the kumquat in the menu bar, choose **⋯ ▸ Copy Diagnostic Info**, and paste it here. It holds versions and settings only, no file names.
       render: text
     validations:
       required: true

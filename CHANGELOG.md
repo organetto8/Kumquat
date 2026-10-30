@@ -7,9 +7,20 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ### Added
 
-- **All Actions** in the menu bar menu: every conversion, tool and action, browsable by kind of file, with a
-  one-line description of each tool and action and the reason a dimmed one can't run yet. Choosing an entry runs
-  it on the Finder selection, or asks for the files it works on.
+- **All Actions** in the menu bar panel (and the right-click menu): every conversion, tool and action, browsable by
+  kind of file, with a one-line description of each tool and action and the reason a dimmed one can't run yet.
+  Choosing an entry runs it on the Finder selection, or asks for the files it works on.
+
+### Changed
+
+- Clicking the menu bar icon opens a panel instead of a plain menu: Convert, Edit and Send as large tiles you
+  click for the Finder selection or drop files on, the wheel keys and shortcut at a glance, the Basket, the main
+  switches, Settings and help. Holding a file drag on the icon opens the panel too. Right-click still shows the menu.
+
+### Fixed
+
+- The Welcome window wraps long lines instead of cutting them off, so the Italian instructions are readable
+  in full ([#2](https://github.com/organetto8/Kumquat/issues/2)).
 
 ## [1.0.0] - 2026-10-30
 

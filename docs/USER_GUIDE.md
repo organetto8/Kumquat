@@ -60,8 +60,9 @@ xattr -dr com.apple.quarantine /Applications/Kumquat.app
 You only do this once. Afterwards Kumquat opens like any other app.
 
 When it starts, a kumquat icon appears in the menu bar and the welcome window shows the basics. Tick
-**Launch at login** there if you want Kumquat available all the time. You can reopen the welcome window
-later from the menu bar icon ▸ **How Kumquat Works**.
+**Launch at login** there if you want Kumquat available all the time. Click the icon at any time for
+Kumquat's panel: the three wheels, the Basket, the main switches, Settings and help. You can reopen the
+welcome window from there with **How Kumquat Works**.
 
 ## 3. Using the wheels
 
@@ -115,8 +116,8 @@ picked last time. The wheel's centre tells you which is which: **Instant · ⌥ 
 | Method | How |
 |---|---|
 | Keyboard | Select files in Finder and press **⌃⌥K**. The Convert wheel opens. Arrow keys move, **Return** applies, **Esc** cancels, the wheel keys switch wheel. |
-| Menu bar | Drop files on the kumquat icon, or open its menu and choose **Convert / Edit / Send Finder Selection…** |
-| All Actions | Open the kumquat menu and browse **Convert**, **Edit** or **Send** under **All Actions**. See below. |
+| Menu bar | Click the kumquat icon, then **Convert**, **Edit** or **Send** for the Finder selection, or drop files on one of the three. Files dropped straight on the icon open the Convert wheel; hold them there for a moment and the panel opens so you can pick another wheel. Right-click the icon for a plain menu. |
+| All Actions | Click the kumquat icon ▸ **All Actions** and browse **Convert**, **Edit** or **Send**. See below. |
 | Finder Services | Right-click files ▸ **Services ▸ Convert with Kumquat**. |
 | Terminal | `/Applications/Kumquat.app/Contents/MacOS/Kumquat --run convert:png photo.heic` runs a job directly. `--wheel tools clip.mp4` opens a wheel for the file. |
 
@@ -127,8 +128,8 @@ and `action:<action>` (for example `action:copy`). Tools run with the options yo
 
 ### Browse everything from the menu bar
 
-The kumquat menu lists every conversion, tool and action under **All Actions**, so you can see what
-Kumquat does without holding a file:
+**All Actions** in the menu bar panel lists every conversion, tool and action, so you can see what Kumquat
+does without holding a file. Click it and a menu opens under the icon (the right-click menu has it too):
 
 - **Convert** ▸ kind of file ▸ format ▸ what it can become, for example **Images ▸ HEIC ▸ PNG**.
 - **Edit** ▸ kind of file ▸ its tools, for example **PDFs ▸ Sign**. **Folders** has the folder tools;
@@ -300,11 +301,11 @@ command for anything missing.
 
 ## 8. Settings
 
-Open it from the menu bar icon ▸ **Settings…** (or ⌘, while a Kumquat window is in front).
+Open it with the gear button in the menu bar panel (or ⌘, while the panel or a Kumquat window is in front).
 
 **General**
 
-- **Open wheels while dragging files**: turn off to use only the keyboard shortcut and the menu.
+- **Open wheels while dragging files**: turn off to use only the keyboard shortcut and the menu bar panel.
 - **Convert / Edit / Send wheel**: the key for each wheel. Choose ⇧, ⌘, ⌃, ⌥, or the number keys 1, 2, 3.
   Each wheel needs its own key. Number keys are useful when another app already reacts to modifier keys
   during a drag, and they need the Input Monitoring permission (see below).
@@ -341,7 +342,7 @@ connects to the internet; Wi-Fi Share only answers devices on your own network t
 
 ## 10. Updating and uninstalling
 
-**Update**: quit Kumquat (menu bar icon ▸ **Quit Kumquat**), download the new DMG and drag Kumquat onto
+**Update**: quit Kumquat (the power button in the menu bar panel), download the new DMG and drag Kumquat onto
 Applications again, choosing **Replace**. Your settings are kept. If you use number keys, macOS may ask
 for Input Monitoring again after an update: remove Kumquat from that list and add it back.
 
@@ -361,7 +362,7 @@ defaults delete app.kumquat.Kumquat
 Follow [section 2](#2-first-launch). If macOS says the app is damaged, run the `xattr` command shown there.
 
 **The wheel does not open while dragging**
-- Check the menu bar icon ▸ **Open Wheels While Dragging** is ticked.
+- Check that **Open Wheels While Dragging** is switched on in the menu bar panel.
 - Tap the key *after* you start dragging, not before.
 - Another utility may claim the same key during drags. Switch the wheels to other keys in Settings ▸ General.
 
