@@ -170,6 +170,8 @@ struct StatusPanelView: View {
                 .padding(.vertical, 6)
         }
         .frame(width: StatusPanel.width)
+        // Long translations wrap and the panel grows to fit, instead of truncating to one line.
+        .fixedSize(horizontal: false, vertical: true)
         .overlay(RoundedRectangle(cornerRadius: StatusPanel.cornerRadius).strokeBorder(Color.primary.opacity(0.1), lineWidth: 0.5))
         .tint(.orange)
     }
@@ -194,6 +196,7 @@ struct StatusPanelView: View {
                 }
             }
             Text("Click for the Finder selection, or drop files on a wheel.")
+                .fixedSize(horizontal: false, vertical: true)
                 .font(.system(size: 11))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -205,14 +208,14 @@ struct StatusPanelView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: "hand.point.up.left").frame(width: 16)
-                Text("Drag a file, then tap \(wheelKeys)")
+                Text("Drag a file, then tap \(wheelKeys)").fixedSize(horizontal: false, vertical: true)
             }
             // Dimmed rather than hidden, so switching the gesture doesn't resize the panel.
             .opacity(dragGesture ? 1 : 0.45)
             if let combo = Prefs.hotKey {
                 HStack(spacing: 8) {
                     Image(systemName: "keyboard").frame(width: 16)
-                    Text("Shortcut for the Finder selection")
+                    Text("Shortcut for the Finder selection").fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 4)
                     KeyCap(text: combo.display)
                 }
@@ -333,7 +336,7 @@ private struct RowLabel: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 24, height: 24)
                 .background(RoundedRectangle(cornerRadius: 6).fill(Color.primary.opacity(0.07)))
-            Text(title).font(.system(size: 13))
+            Text(title).font(.system(size: 13)).fixedSize(horizontal: false, vertical: true)
         }
     }
 }
