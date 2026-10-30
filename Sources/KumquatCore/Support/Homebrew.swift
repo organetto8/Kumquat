@@ -1,6 +1,6 @@
 import Foundation
 
-/// Installs the optional engines when the user clicks Install in Settings ▸ Engines. Homebrew does
+/// Install in Settings ▸ Engines when Kumquat's engine pack has nothing for this Mac. Homebrew does
 /// the downloading; Kumquat only starts it.
 public enum Homebrew {
     /// The formula or cask that provides an engine.
