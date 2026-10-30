@@ -17,12 +17,14 @@ enum Diagnostics {
         let names: [WheelKind: String] = [.convert: "Convert", .tools: "Edit", .actions: "Send"]
         let keys = WheelKind.allCases.map { "\(names[$0] ?? $0.rawValue) \(Prefs.modifier(for: $0).symbol)" }
         let os = ProcessInfo.processInfo.operatingSystemVersion
+        let updates = Updater.isAvailable ? (Prefs.checkForUpdates ? "automatic" : "manual") + (Prefs.betaUpdates ? ", betas" : "") : "not available"
         return """
         Kumquat \(version) (\(build))
         macOS \(os.majorVersion).\(os.minorVersion).\(os.patchVersion) (\(sysctl("kern.osversion"))) · \(sysctl("hw.model")) · \(sysctl("machdep.cpu.brand_string"))
         Language: \(Bundle.main.preferredLocalizations.first ?? "?") (system \(Locale.preferredLanguages.first ?? "?"))
         Wheel keys: \(keys.joined(separator: ", ")) · drag gesture \(Prefs.dragGesture ? "on" : "off")
         Input Monitoring: \(CGPreflightListenEventAccess() ? "granted" : "not granted")
+        Updates: \(updates)
         Engines: \(engines.map { "\($0.0) \($0.1 == nil ? "–" : "✓")" }.joined(separator: ", "))
         Apps: \(Engines.App.allCases.map { "\($0.rawValue) \($0.isInstalled ? "✓" : "–")" }.joined(separator: ", "))
         """

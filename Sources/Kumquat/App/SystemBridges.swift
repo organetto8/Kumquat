@@ -40,6 +40,18 @@ enum LoginItem {
     }
 }
 
+enum AppRelaunch {
+    /// Opens a fresh copy once this one has quit, so a new language or a new version is read at launch.
+    static func now() {
+        let pid = ProcessInfo.processInfo.processIdentifier
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/bin/sh")
+        task.arguments = ["-c", "while kill -0 \(pid) 2>/dev/null; do sleep 0.1; done; open \"$0\"", Bundle.main.bundlePath]
+        try? task.run()
+        NSApp.terminate(nil)
+    }
+}
+
 /// Finder ▸ Services ▸ "Convert with Kumquat" (declared in Info.plist `NSServices`).
 final class ServiceProvider: NSObject {
     var handler: ([URL]) -> Void = { _ in }

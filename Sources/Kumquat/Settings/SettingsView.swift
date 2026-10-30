@@ -49,6 +49,8 @@ private struct GeneralSettings: View {
     @AppStorage(Prefs.Key.actionsKey) private var actionsKey = WheelModifier.control.rawValue
     @AppStorage(Prefs.Key.playSounds) private var playSounds = true
     @AppStorage(Prefs.Key.terminalApp) private var terminalApp = "com.apple.Terminal"
+    @AppStorage(Prefs.Key.checkForUpdates) private var checkForUpdates = true
+    @AppStorage(Prefs.Key.betaUpdates) private var betaUpdates = false
     @State private var launchAtLogin = LoginItem.isEnabled
     @State private var loginError: String?
     @State private var hotKey = Prefs.hotKey
@@ -115,22 +117,31 @@ private struct GeneralSettings: View {
                     HStack {
                         Text("Kumquat shows the new language after it restarts.").font(.caption).foregroundStyle(.secondary)
                         Spacer()
-                        Button("Restart Now", action: relaunch).controlSize(.small)
+                        Button("Restart Now") { AppRelaunch.now() }.controlSize(.small)
                     }
                 }
             }
+            Section {
+                if Updater.isAvailable {
+                    Toggle("Check for updates automatically", isOn: $checkForUpdates)
+                    Toggle("Include beta versions", isOn: $betaUpdates)
+                    HStack {
+                        Text("Version \(Updater.installedVersion?.description ?? "?")").foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Check Now") { Updater.shared.check(userInitiated: true) }.controlSize(.small)
+                    }
+                } else {
+                    Text("This copy of Kumquat was built without the release key, so it can't update itself.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("Updates")
+            } footer: {
+                Text("Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. This is the only time Kumquat goes online, and nothing about you or your files is sent.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
-    }
-
-    /// Opens a fresh copy once this one has quit, so the new language is read at launch.
-    private func relaunch() {
-        let pid = ProcessInfo.processInfo.processIdentifier
-        let task = Process()
-        task.executableURL = URL(fileURLWithPath: "/bin/sh")
-        task.arguments = ["-c", "while kill -0 \(pid) 2>/dev/null; do sleep 0.1; done; open \"$0\"", Bundle.main.bundlePath]
-        try? task.run()
-        NSApp.terminate(nil)
     }
 
     private func keyPicker(_ title: LocalizedStringKey, selection: Binding<String>) -> some View {

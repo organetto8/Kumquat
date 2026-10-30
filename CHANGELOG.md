@@ -5,6 +5,13 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Added
+
+- Automatic updates from GitHub releases, once a day or from **Check for Updates…** in the menu bar menu, with
+  betas as an option (Settings ▸ General ▸ Updates). An update is installed only if it carries the release key's
+  Ed25519 signature, is newer than the installed version and keeps an intact code signature; Kumquat never asks
+  for a password to install it. This check is the only time Kumquat goes online, and it can be turned off.
+
 ## [1.0.0] - 2026-10-30
 
 First public release.

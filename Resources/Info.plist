@@ -41,6 +41,8 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Free and open source (MIT).</string>
+	<key>KumquatUpdatePublicKey</key>
+	<string></string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>Kumquat asks Finder for the selected files so the shortcut can open the conversion wheel, and drives Pages, Keynote and Numbers to convert iWork and Office documents.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

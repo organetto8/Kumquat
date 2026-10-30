@@ -1,4 +1,4 @@
-.PHONY: build test app universal run install dmg release publish icon strings notarize clean
+.PHONY: build test app universal run install dmg release publish update-key icon strings notarize clean
 
 APP := build/Kumquat.app
 VERSION := $(shell cat VERSION)
@@ -34,16 +34,22 @@ dmg: universal
 	hdiutil create -volname "Kumquat $(VERSION)" -srcfolder build/dmg -ov -format UDZO $(DMG)
 	rm -rf build/dmg
 
-# GitHub release files: DMG, ZIP and checksums. Ad-hoc signed unless SIGN_IDENTITY is set.
+# GitHub release files: DMG, ZIP, the ZIP's update signature and checksums. Ad-hoc signed unless
+# SIGN_IDENTITY is set; the update signature needs the key from `make update-key`.
 release:
 	SIGN_IDENTITY="$${SIGN_IDENTITY:--}" $(MAKE) dmg
-	rm -f $(ZIP)
+	rm -f $(ZIP) $(ZIP).sig
 	ditto -c -k --norsrc --noextattr --keepParent $(APP) $(ZIP)
-	cd build && shasum -a 256 $(notdir $(DMG)) $(notdir $(ZIP)) > SHA256SUMS.txt
+	swift Scripts/update-signing.swift sign $(APP) $(ZIP)
+	cd build && shasum -a 256 $(notdir $(DMG)) $(notdir $(ZIP)) $(notdir $(ZIP)).sig > SHA256SUMS.txt
 
 # GitHub release from those files, notes from CHANGELOG.md (see docs/RELEASING.md).
 publish:
 	./Scripts/publish.sh
+
+# Once per maintainer: the updater's signing key, into the login keychain (see docs/RELEASING.md).
+update-key:
+	swift Scripts/update-signing.swift generate
 
 icon:
 	./Scripts/make-icon.sh

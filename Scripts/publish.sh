@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 
 VERSION="$(cat VERSION)"
 TAG="v$VERSION"
-FILES=("build/Kumquat-$VERSION.dmg" "build/Kumquat-$VERSION.zip" "build/SHA256SUMS.txt")
+FILES=("build/Kumquat-$VERSION.dmg" "build/Kumquat-$VERSION.zip" "build/Kumquat-$VERSION.zip.sig" "build/SHA256SUMS.txt")
 
 fail() { echo "error: $*" >&2; exit 1; }
 
@@ -15,6 +15,9 @@ fail() { echo "error: $*" >&2; exit 1; }
 for file in "${FILES[@]}"; do [[ -f "$file" ]] || fail "$file is missing: run make release"; done
 built="$(plutil -extract CFBundleShortVersionString raw build/Kumquat.app/Contents/Info.plist)"
 [[ "$built" == "$VERSION" ]] || fail "build/Kumquat.app is $built, VERSION says $VERSION: run make release"
+# Without the release key's public half, this version could never update itself.
+[[ -n "$(plutil -extract KumquatUpdatePublicKey raw build/Kumquat.app/Contents/Info.plist 2>/dev/null)" ]] ||
+    fail "build/Kumquat.app has no KumquatUpdatePublicKey: run make update-key (docs/RELEASING.md)"
 gh release view "$TAG" >/dev/null 2>&1 && fail "release $TAG already exists"
 
 # The lines between "## [VERSION]" and the next heading or link reference.

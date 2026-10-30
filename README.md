@@ -92,7 +92,8 @@ Translate and Summarize need macOS 26; Summarize also needs Apple Intelligence.
 ## Privacy
 
 All work happens locally with Apple frameworks (ImageIO, PDFKit, Vision, Core Image, Speech, Translation,
-Foundation Models, Model I/O, AppKit) and the optional tools above. Kumquat makes no requests to the internet;
+Foundation Models, Model I/O, AppKit) and the optional tools above. The only internet request Kumquat makes is
+the daily [update check](#updates) with GitHub, which you can turn off; your files never leave the Mac.
 Wi-Fi Share only serves the files you chose, through a private link in its QR code, to devices on your own network while its window is open.
 It asks for permissions only when a feature needs them:
 
@@ -115,7 +116,7 @@ make install
 | `make test` | runs the test suite (media tests run when FFmpeg is installed) |
 | `make app` | builds `build/Kumquat.app` for this Mac |
 | `make install` | builds, copies to /Applications and launches |
-| `make release` | universal DMG, ZIP and `SHA256SUMS.txt` in `build/`, ready for a GitHub release |
+| `make release` | universal DMG, ZIP, the ZIP's update signature and `SHA256SUMS.txt` in `build/`, ready for a GitHub release |
 | `make notarize` | notarised DMG (needs a Developer ID and a `notarytool` profile named `kumquat`) |
 | `make icon` | redraws the icon from `Scripts/make-icon.swift` |
 
@@ -130,16 +131,32 @@ Sources/KumquatCore/   conversion engines, no UI, covered by tests
   Engines/             image, media (FFmpeg), speech, PDF, documents, language, spreadsheets, data,
                        subtitles, archives, folders, fonts, 3D models
   Executor.swift       runs an operation on a selection: dispatch, concurrency, progress, file names
+  Updates/             the updater: release list, signature check, download, install
 Sources/Kumquat/       the menu-bar app: drag detection, wheel, jobs, actions, Basket shelf, settings
 Tests/                 catalogue and end-to-end engine tests
-Scripts/               app bundle and icon build scripts
+Scripts/               app bundle, icon and release-signing scripts
 ```
 
 ## Releases and feedback
 
 Stable versions are the [latest release](https://github.com/organetto8/Kumquat/releases/latest); betas appear as
-pre-releases. Kumquat doesn't check for updates on its own: watch the repository (**Watch ▸ Custom ▸ Releases**)
-to hear about new versions. Changes are listed in the [changelog](CHANGELOG.md).
+pre-releases. Changes are listed in the [changelog](CHANGELOG.md).
+
+### Updates
+
+Once a day Kumquat asks GitHub for its list of releases. When there is a newer version it downloads it, checks
+it, and offers to install it and relaunch. It installs only what passes every check:
+
+- the download must carry an Ed25519 signature made with the release key, whose private half never leaves the
+  maintainer's Mac: not GitHub, not CI. A hijacked GitHub account or a tampered connection can't produce it;
+- the signature covers the app's identifier, the version and the file's SHA-256, and only a version higher than
+  the installed one is accepted, so an old release can't be passed off as new;
+- the unpacked app must be Kumquat at exactly that version, with an intact code signature, before it replaces
+  the old one. Kumquat never asks for an administrator password: if it can't write where it is installed, it
+  sends you to the download page instead.
+
+The requests go over HTTPS to GitHub only, with no cookies, no identifiers and nothing about your files.
+**Settings ▸ General ▸ Updates** turns the daily check off, includes betas, or checks right away.
 
 - Questions and ideas: [Discussions](https://github.com/organetto8/Kumquat/discussions).
 - Bugs and requests: [issues](https://github.com/organetto8/Kumquat/issues/new/choose). For a bug, paste the text
