@@ -275,9 +275,16 @@ A few formats need free software that Kumquat uses if it finds it:
 | TrueType ↔ OpenType outlines | `brew install fonttools` |
 | Pages, Keynote, PowerPoint, Numbers, XLS | Pages, Keynote and Numbers from the Mac App Store |
 
-The `brew` commands need [Homebrew](https://brew.sh). After installing, open **Settings ▸ Engines** and
-click **Check Again**. Each line turns green when its program is found; **Copy Command** copies the install
-command for anything missing.
+The easiest way is **Settings ▸ Engines**: click **Install** next to anything missing. Kumquat runs the
+`brew` command for you in the background, shows each step under the line, and turns it green when the
+program is ready; you can keep working meanwhile, and several installs wait their turn. For Pages, Keynote
+and Numbers, **Install** opens the app's page in the App Store.
+
+The `brew` commands need [Homebrew](https://brew.sh). If it isn't on the Mac, **Install Homebrew…** at the
+top of the tab opens its official installer in Terminal: follow the prompts, type your password when asked,
+then come back to Kumquat and the Install buttons are ready. To use Terminal yourself instead, right-click a
+line and choose **Copy Command**. Something installed while Kumquat was open is found when you come back to
+Settings, or with **Check Again**.
 
 ## 8. Settings
 
@@ -300,7 +307,7 @@ Open it from the menu bar icon ▸ **Settings…** (or ⌘, while a Kumquat wind
 **Send**: favourite folders for Copy To and Move, and the shell scripts the Script action offers. Each
 script runs in zsh with the files as `"$@"` (also one per line in `$KUMQUAT_FILES`).
 
-**Engines**: which optional programs are installed (section 7).
+**Engines**: which optional programs are installed, with an **Install** button for each missing one (section 7).
 
 **About**: version and licence.
 
@@ -353,7 +360,8 @@ Enable Kumquat in System Settings ▸ Privacy & Security ▸ Input Monitoring, t
 Allow Kumquat to control Finder in System Settings ▸ Privacy & Security ▸ Automation.
 
 **Video or audio options are dimmed**
-FFmpeg is not installed. Run `brew install ffmpeg`, then Settings ▸ Engines ▸ **Check Again**.
+FFmpeg is not installed. Click **Install** next to Audio & video in Settings ▸ Engines (or run
+`brew install ffmpeg`, then **Check Again**).
 
 **Translate or Summarize is dimmed**
 Both need macOS 26. Translate also needs the language downloaded in System Settings ▸ General ▸ Language &

@@ -5,6 +5,13 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Added
+
+- **Install** buttons in Settings ▸ Engines: missing engines install through Homebrew in the background, one
+  after another, with each step shown under the line. Pages, Keynote and Numbers open in the App Store.
+  Without Homebrew, **Install Homebrew…** opens its official installer in Terminal. **Copy Command** moved to
+  the right-click menu.
+
 ## [1.0.0] - 2026-10-30
 
 First public release.

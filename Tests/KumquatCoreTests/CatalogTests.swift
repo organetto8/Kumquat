@@ -105,4 +105,10 @@ import Testing
         #expect(Catalog.previewsStill(.crop, category: .pdf))
         #expect(!Catalog.previewsStill(.resize, category: .image))
     }
+
+    @Test func installCommands() {
+        #expect(Homebrew.Package.formula("ffmpeg").command == "brew install ffmpeg")
+        #expect(Homebrew.Package.cask("calibre").arguments == ["install", "--cask", "calibre"])
+        #expect(Engines.App.allCases.allSatisfy { $0.appStoreURL.scheme == "macappstore" })
+    }
 }

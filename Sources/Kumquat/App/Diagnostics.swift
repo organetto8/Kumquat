@@ -11,7 +11,7 @@ enum Diagnostics {
         let engines: [(String, URL?)] = [
             ("ffmpeg", Engines.ffmpeg), ("cwebp", Engines.cwebp), ("cjxl", Engines.cjxl), ("potrace", Engines.potrace),
             ("pandoc", Engines.pandoc), ("calibre", Engines.ebookConvert), ("7-Zip", Engines.sevenZip),
-            ("woff2", Engines.woff2Compress), ("fonttools", Engines.fonttools),
+            ("woff2", Engines.woff2Compress), ("fonttools", Engines.fonttools), ("Homebrew", Homebrew.brew),
         ]
         // English names, whatever language the app shows: the report is read by the maintainer.
         let names: [WheelKind: String] = [.convert: "Convert", .tools: "Edit", .actions: "Send"]

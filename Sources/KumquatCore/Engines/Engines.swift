@@ -32,6 +32,16 @@ public enum Engines {
                 FileManager.default.fileExists(atPath: "\($0)/\(rawValue).app")
             }
         }
+
+        /// Its page in the Mac App Store, where it is free.
+        public var appStoreURL: URL {
+            let id = switch self {
+            case .pages: 409201541
+            case .keynote: 409183694
+            case .numbers: 409203825
+            }
+            return URL(string: "macappstore://apps.apple.com/app/id\(id)")!
+        }
     }
 
     public static let ffmpegHint = String(localized: "Needs FFmpeg — brew install ffmpeg")

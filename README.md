@@ -86,13 +86,15 @@ Most formats work out of the box. A few rely on free programs Kumquat finds if t
 | WOFF2 fonts · TrueType ↔ OpenType | `brew install woff2` · `brew install fonttools` |
 | Pages, Keynote, PowerPoint, Numbers, XLS | Pages, Keynote and Numbers from the Mac App Store |
 
-**Settings ▸ Engines** shows what is ready. Options that need something missing appear dimmed in the wheel.
+**Settings ▸ Engines** shows what is ready and installs what is missing with one click, through Homebrew
+(or the App Store, for Pages, Keynote and Numbers). Options that need something missing appear dimmed in the wheel.
 Translate and Summarize need macOS 26; Summarize also needs Apple Intelligence.
 
 ## Privacy
 
 All work happens locally with Apple frameworks (ImageIO, PDFKit, Vision, Core Image, Speech, Translation,
-Foundation Models, Model I/O, AppKit) and the optional tools above. Kumquat makes no requests to the internet;
+Foundation Models, Model I/O, AppKit) and the optional tools above. Kumquat makes no requests to the internet:
+the Install buttons in Settings ▸ Engines hand the download to Homebrew or the App Store, and only when you click them.
 Wi-Fi Share only serves the files you chose, through a private link in its QR code, to devices on your own network while its window is open.
 It asks for permissions only when a feature needs them:
 

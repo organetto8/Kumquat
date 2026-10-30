@@ -3320,6 +3320,26 @@
         }
       }
     },
+    "Install" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa"
+          }
+        }
+      }
+    },
+    "Install Homebrew…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa Homebrew…"
+          }
+        }
+      }
+    },
     "Instant" : {
       "localizations" : {
         "it" : {
@@ -4798,6 +4818,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri le ruote durante il trascinamento dei file"
+          }
+        }
+      }
+    },
+    "Opens %@ in the App Store" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apre %@ su App Store"
           }
         }
       }
@@ -6410,6 +6440,16 @@
         }
       }
     },
+    "Starting Homebrew…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvio di Homebrew…"
+          }
+        }
+      }
+    },
     "Still frame" : {
       "localizations" : {
         "it" : {
@@ -6678,6 +6718,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Testo"
+          }
+        }
+      }
+    },
+    "The Install buttons use Homebrew, the free package manager for macOS. It isn't on this Mac yet." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I pulsanti Installa usano Homebrew, il gestore di pacchetti gratuito per macOS, che non è ancora su questo Mac."
           }
         }
       }
@@ -7160,6 +7210,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Font web WOFF2"
+          }
+        }
+      }
+    },
+    "Waiting…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In attesa…"
           }
         }
       }

@@ -238,40 +238,52 @@ private struct ActionSettings: View {
 }
 
 private struct EngineSettings: View {
-    @State private var refresh = 0
+    private var installer: EngineInstaller { .shared }
 
     var body: some View {
         Form {
+            if Homebrew.brew == nil {
+                Section {
+                    HStack {
+                        Text("The Install buttons use Homebrew, the free package manager for macOS. It isn't on this Mac yet.")
+                            .font(.caption).foregroundStyle(.orange)
+                        Spacer()
+                        Button("Install Homebrew…") { installer.installHomebrew() }
+                            .controlSize(.small)
+                    }
+                }
+            }
             Section {
-                engine(String(localized: "Images, PDF, documents, spreadsheets, subtitles, archives"),
-                       detail: String(localized: "Built in (ImageIO, PDFKit, Vision, libarchive)"), ready: true)
-                engine(String(localized: "Audio & video"), detail: Engines.ffmpeg?.path ?? "brew install ffmpeg", ready: Engines.ffmpeg != nil, command: "brew install ffmpeg")
-                engine(String(localized: "WebP output"), detail: Engines.cwebp?.path ?? "brew install webp", ready: Engines.cwebp != nil, command: "brew install webp")
-                engine(String(localized: "JPEG XL output"), detail: Engines.cjxl?.path ?? "brew install jpeg-xl", ready: Engines.cjxl != nil, command: "brew install jpeg-xl")
-                engine(String(localized: "Pictures to SVG"), detail: Engines.potrace?.path ?? "brew install potrace", ready: Engines.potrace != nil, command: "brew install potrace")
-                engine(String(localized: "LaTeX, reST, AsciiDoc, Org"), detail: Engines.pandoc?.path ?? "brew install pandoc", ready: Engines.pandoc != nil, command: "brew install pandoc")
-                engine(String(localized: "Kindle e-books"), detail: Engines.ebookConvert?.path ?? "brew install --cask calibre", ready: Engines.ebookConvert != nil,
-                       command: "brew install --cask calibre")
-                engine(String(localized: "7-Zip archives"), detail: Engines.sevenZip?.path ?? "brew install sevenzip", ready: Engines.sevenZip != nil, command: "brew install sevenzip")
-                engine(String(localized: "WOFF2 web fonts"), detail: Engines.woff2Compress?.path ?? "brew install woff2", ready: Engines.woff2Compress != nil, command: "brew install woff2")
-                engine(String(localized: "TrueType ↔ OpenType outlines"), detail: Engines.fonttools?.path ?? "brew install fonttools", ready: Engines.fonttools != nil,
-                       command: "brew install fonttools")
+                row(String(localized: "Images, PDF, documents, spreadsheets, subtitles, archives"),
+                    detail: String(localized: "Built in (ImageIO, PDFKit, Vision, libarchive)"), ready: true) { EmptyView() }
+                engine(String(localized: "Audio & video"), at: Engines.ffmpeg, from: .formula("ffmpeg"))
+                engine(String(localized: "WebP output"), at: Engines.cwebp, from: .formula("webp"))
+                engine(String(localized: "JPEG XL output"), at: Engines.cjxl, from: .formula("jpeg-xl"))
+                engine(String(localized: "Pictures to SVG"), at: Engines.potrace, from: .formula("potrace"))
+                engine(String(localized: "LaTeX, reST, AsciiDoc, Org"), at: Engines.pandoc, from: .formula("pandoc"))
+                engine(String(localized: "Kindle e-books"), at: Engines.ebookConvert, from: .cask("calibre"))
+                engine(String(localized: "7-Zip archives"), at: Engines.sevenZip, from: .formula("sevenzip"))
+                engine(String(localized: "WOFF2 web fonts"), at: Engines.woff2Compress, from: .formula("woff2"))
+                engine(String(localized: "TrueType ↔ OpenType outlines"), at: Engines.fonttools, from: .formula("fonttools"))
                 ForEach(Engines.App.allCases, id: \.self) { app in
-                    engine(app.rawValue, detail: purpose(app), ready: app.isInstalled)
+                    row(app.rawValue, detail: purpose(app), ready: app.isInstalled) {
+                        Button("Install") { NSWorkspace.shared.open(app.appStoreURL) }
+                            .controlSize(.small)
+                            .help("Opens \(app.rawValue) in the App Store")
+                    }
                 }
             } footer: {
                 HStack {
                     Text("Everything runs on this Mac. Nothing is uploaded.").font(.caption).foregroundStyle(.secondary)
                     Spacer()
-                    Button("Check Again") {
-                        ExternalTool.resetCache()
-                        refresh += 1
-                    }
+                    Button("Check Again") { installer.recheck() }
                 }
             }
         }
         .formStyle(.grouped)
-        .id(refresh)
+        .id(installer.generation)
+        // Picks up Homebrew, or an engine, installed in Terminal while Kumquat was in the background.
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in installer.recheck() }
     }
 
     private func purpose(_ app: Engines.App) -> String {
@@ -282,21 +294,39 @@ private struct EngineSettings: View {
         }
     }
 
-    private func engine(_ title: String, detail: String, ready: Bool, command: String? = nil) -> some View {
+    /// An engine from Homebrew: where it was found, or an Install button and how far the install has got.
+    private func engine(_ title: String, at location: URL?, from package: Homebrew.Package) -> some View {
+        let progress = installer.progress[package], failure = installer.failures[package]
+        return row(title, detail: location?.path ?? progress ?? failure ?? package.command, ready: location != nil,
+                   failed: location == nil && progress == nil && failure != nil) {
+            if progress != nil {
+                ProgressView().controlSize(.small)
+            } else {
+                Button("Install") { installer.install(package) }
+                    .controlSize(.small)
+                    .disabled(Homebrew.brew == nil)
+            }
+        }
+        .contextMenu {
+            Button("Copy Command") {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(package.command, forType: .string)
+            }
+        }
+    }
+
+    /// `accessory` (the Install button) shows only while the engine is missing.
+    private func row<Accessory: View>(_ title: String, detail: String, ready: Bool, failed: Bool = false,
+                                      @ViewBuilder accessory: () -> Accessory) -> some View {
         HStack(alignment: .firstTextBaseline) {
             Image(systemName: ready ? "checkmark.circle.fill" : "minus.circle").foregroundStyle(ready ? .green : .secondary)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                Text(detail).font(.caption).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
+                Text(detail).font(.caption).foregroundStyle(failed ? Color.red : Color.secondary)
+                    .lineLimit(failed ? 3 : 1).truncationMode(.middle).help(detail)
             }
             Spacer()
-            if !ready, let command {
-                Button("Copy Command") {
-                    NSPasteboard.general.clearContents()
-                    NSPasteboard.general.setString(command, forType: .string)
-                }
-                .controlSize(.small)
-            }
+            if !ready { accessory() }
         }
     }
 }
