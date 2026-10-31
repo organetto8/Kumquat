@@ -45,6 +45,36 @@ import Testing
         #expect(markdown.items.first { $0.operation == .tool(.compress) }?.isAvailable == false)
     }
 
+    @Test func browsingListsEverything() {
+        let sources = FormatCategory.allCases.flatMap(Catalog.convertSources(in:))
+        #expect(Set(sources).count == sources.count)
+        #expect(sources.reduce(0) { $0 + Catalog.convertTargets(for: $1).count } == Catalog.conversionCount)
+        #expect(Catalog.convertSources(in: .image).first == .jpg && Catalog.convertSources(in: .image).last?.isInputOnly == true)
+        let kinds = FormatCategory.allCases.map { Optional($0) } + [nil]
+        let tools = kinds.flatMap(Catalog.specificTools(for:)) + Catalog.anyFile
+        #expect(Set(tools) == Set(ToolKind.allCases))
+        let actions = Catalog.actionGroups.flatMap { $0.actions }
+        #expect(actions.count == ActionKind.allCases.count && Set(actions) == Set(ActionKind.allCases))
+        #expect(ToolKind.flatten.summary(for: nil) != ToolKind.flatten.summary(for: .pdf))
+    }
+
+    @Test func browsedChoicesPickTheirFiles() throws {
+        let jpg = URL(fileURLWithPath: "/tmp/a.jpg"), heic = URL(fileURLWithPath: "/tmp/b.heic"), pdf = URL(fileURLWithPath: "/tmp/c.pdf")
+        let clip = URL(fileURLWithPath: "/tmp/talk.mp4"), subtitles = URL(fileURLWithPath: "/tmp/talk.srt")
+        #expect(Catalog.inputs(among: [jpg, heic, pdf], for: .convert(.png), under: .format(.heic)) == [heic])
+        #expect(Catalog.inputs(among: [jpg, clip, pdf], for: .tool(.crop), under: .category(.image)) == [jpg])
+        #expect(Catalog.inputs(among: [subtitles, clip], for: .tool(.addSubtitles), under: .category(.video)) == [subtitles, clip])
+        #expect(Catalog.inputs(among: [subtitles], for: .tool(.addSubtitles), under: .category(.video)).isEmpty)
+        #expect(Catalog.inputs(among: [jpg, pdf], for: .action(.wallpaper), under: .anything) == [jpg])
+        #expect(Catalog.inputs(among: [jpg, pdf], for: .tool(.lock), under: .anything) == [jpg, pdf])
+        #expect(Catalog.inputs(among: [pdf], for: .tool(.flatten), under: .category(.pdf)) == [pdf])
+        let folder = try Fixtures.tempDirectory()
+        defer { try? FileManager.default.removeItem(at: folder) }
+        #expect(Catalog.inputs(among: [folder, pdf], for: .tool(.flatten), under: .folder) == [folder])
+        #expect(Catalog.inputs(among: [folder, pdf], for: .tool(.sortFolder), under: .folder) == [folder])
+        #expect(!Catalog.accepts(folder, for: .action(.print), under: .anything))
+    }
+
     @Test func inputOnlyFormatsAreNeverTargets() {
         let targets = Set(FileFormat.allCases.flatMap(Catalog.convertTargets(for:)))
         for format in FileFormat.allCases where format.isInputOnly { #expect(!targets.contains(format)) }
@@ -104,5 +134,28 @@ import Testing
         #expect(!Catalog.previewsVideo(.compress, category: .video))
         #expect(Catalog.previewsStill(.crop, category: .pdf))
         #expect(!Catalog.previewsStill(.resize, category: .image))
+    }
+
+    @Test func installCommands() {
+        #expect(Homebrew.Package.formula("ffmpeg").command == "brew install ffmpeg")
+        #expect(Homebrew.Package.cask("calibre").arguments == ["install", "--cask", "calibre"])
+        #expect(Engines.App.allCases.allSatisfy { $0.appStoreURL.scheme == "macappstore" })
+    }
+
+    @Test func enginePack() throws {
+        // Every pinned file belongs to an engine the pack knows, for one of the two processors.
+        for key in EnginePack.assets.keys {
+            let parts = key.split(separator: "-")
+            #expect(EnginePack.engines.contains(parts.dropLast().joined(separator: "-")), "\(key)")
+            #expect(["arm64", "x86_64"].contains(String(parts.last ?? "")), "\(key)")
+        }
+        let ffmpeg = EnginePack.folder("ffmpeg").appendingPathComponent("bin")
+        #expect(ExternalTool.searchDirectories.contains(ffmpeg.path))
+        #expect(EnginePack.contains(ffmpeg.appendingPathComponent("ffmpeg")) && !EnginePack.contains(URL(fileURLWithPath: "/opt/homebrew/bin/ffmpeg")))
+
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("kumquat-\(UUID().uuidString)")
+        try Data("abc".utf8).write(to: file)
+        defer { try? FileManager.default.removeItem(at: file) }
+        #expect(try EnginePack.sha256(of: file) == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
     }
 }

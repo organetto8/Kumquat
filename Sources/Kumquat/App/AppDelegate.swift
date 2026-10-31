@@ -65,6 +65,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         handleLaunchArguments()
         if !Prefs.welcomed { welcome.show() }
+
+        Updater.shared.notice = { [weak self] title, detail, failed in self?.jobs.notice(title, detail: detail, failed: failed) }
+        // A relaunch would also cut short an engine being downloaded or unpacked from Settings ▸ Engines.
+        Updater.shared.isBusy = { [weak self] in (self?.jobs.isRunning ?? false) || EngineInstaller.shared.isBusy }
+        Updater.shared.start()
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        Updater.shared.discardPending()
     }
 
     func application(_ application: NSApplication, open urls: [URL]) {
@@ -120,6 +129,60 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         openWheel(kind, files: selection)
     }
 
+    /// Where option panels open when no wheel is on screen.
+    private var screenCentre: NSPoint {
+        NSScreen.main.map { NSPoint(x: $0.visibleFrame.midX, y: $0.visibleFrame.midY) } ?? .zero
+    }
+
+    /// All Actions, for the panel's row and the right-click menu.
+    private var catalog: CatalogMenu {
+        CatalogMenu(target: self, action: #selector(runCatalogChoice(_:)))
+    }
+
+    /// An entry of All Actions: runs on the Finder selection when it holds files the entry suits,
+    /// otherwise on files the user picks.
+    @objc func runCatalogChoice(_ sender: NSMenuItem) {
+        guard let choice = sender.representedObject as? CatalogMenu.Choice else { return }
+        let operation = choice.operation
+        let selection = FinderBridge.isFinderFrontmost ? FinderBridge.selection() : []
+        var files = Catalog.inputs(among: selection, for: operation, under: choice.inputs)
+        if files.isEmpty { files = Catalog.inputs(among: chooseFiles(for: choice), for: operation, under: choice.inputs) }
+        guard !files.isEmpty else { return }
+        switch operation {
+        case .action(let action):
+            actions.perform(action, files: files)
+        case .convert:
+            jobs.start(operation, files: files)
+        case .tool(let tool):
+            runTool(tool, files: files, wheel: Catalog.wheel(.tools, for: files), anchor: screenCentre)
+        }
+    }
+
+    /// Open panel for an entry of All Actions; only the files it suits can be picked.
+    private func chooseFiles(for choice: CatalogMenu.Choice) -> [URL] {
+        let operation = choice.operation, inputs = choice.inputs
+        let filter = OpenPanelFilter { Catalog.accepts($0, for: operation, under: inputs) }
+        NSApp.activate()
+        let panel = NSOpenPanel()
+        panel.delegate = filter
+        panel.allowsMultipleSelection = true
+        panel.canChooseFiles = inputs != .folder
+        panel.canChooseDirectories = inputs == .folder || inputs == .anything
+        switch (operation, inputs) {
+        case (.convert(let target), .format(let source)):
+            panel.prompt = String(localized: "Convert")
+            panel.message = String(localized: "Choose \(source.displayName) files to convert to \(target.displayName).")
+        case (_, .folder):
+            panel.prompt = operation.title
+            panel.message = String(localized: "Choose the folders for “\(operation.title)”.")
+        default:
+            panel.prompt = operation.title
+            panel.message = String(localized: "Choose the files for “\(operation.title)”.")
+        }
+        let chosen = withExtendedLifetime(filter) { panel.runModal() == .OK }
+        return chosen ? panel.urls : []
+    }
+
     private func chooseFolder() -> URL? {
         NSApp.activate()
         let panel = NSOpenPanel()
@@ -153,7 +216,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let urls = files(after: flag)
             let wheel = Catalog.wheel(.tools, for: urls)
             guard !urls.isEmpty, wheel.items.contains(where: { $0.operation == .tool(tool) }) else { return }
-            let centre = NSScreen.main.map { NSPoint(x: $0.visibleFrame.midX, y: $0.visibleFrame.midY) } ?? .zero
+            let centre = screenCentre
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
                 self?.runTool(tool, files: urls, wheel: wheel, anchor: centre, showsOptions: true)
             }
@@ -215,6 +278,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func toggleBasket(_ sender: Any?) { basket.toggle() }
     @objc func showSettings(_ sender: Any?) { settings.show() }
     @objc func showWelcome(_ sender: Any?) { welcome.show() }
+    @objc func checkForUpdates(_ sender: Any?) { Updater.shared.check(userInitiated: true) }
+    @objc func installUpdate(_ sender: Any?) { Updater.shared.installPending() }
 
     @objc func toggleDragGesture(_ sender: Any?) {
         UserDefaults.standard.set(!Prefs.dragGesture, forKey: Prefs.Key.dragGesture)
@@ -267,7 +332,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showStatusPanel(takesKeyboard: Bool) {
         guard !statusPanel.isOpen, let status = statusItem, let anchor = status.buttonFrameOnScreen else { return }
-        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible) { [weak self] command in
+        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible, update: Updater.shared.pending?.version) { [weak self] command in
             self?.statusPanel.close()
             self?.handle(command)
         }
@@ -279,11 +344,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         switch command {
         case .selection(let kind): openWheelForFinderSelection(kind)
         case .files(let kind, let files): openWheel(kind, files: files)
+        case .allActions:
+            // Once the panel's click is over, under the icon where the panel was, as the right-click menu opens.
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                let menu = NSMenu()
+                for item in self.catalog.items(icons: true) { menu.addItem(item) }
+                self.statusItem?.showMenu(menu)
+            }
         case .basket: basket.toggle()
         case .settings: settings.show()
         case .welcome: welcome.show()
         case .about: showAbout(nil)
         case .diagnostics: copyDiagnostics(nil)
+        case .checkForUpdates: checkForUpdates(nil)
+        case .installUpdate: installUpdate(nil)
         case .quit: NSApp.terminate(nil)
         }
     }
@@ -291,6 +366,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Right-click: the same choices as a plain menu.
     private func statusMenu() -> NSMenu {
         let menu = NSMenu()
+        if let update = Updater.shared.pending {
+            menu.addItem(menuItem(String(localized: "Install Kumquat \(update.version.description) and Relaunch"), #selector(installUpdate(_:))))
+            menu.addItem(.separator())
+        }
         let keys = WheelKind.allCases.map { Prefs.modifier(for: $0).symbol }.joined(separator: " / ")
         let hint = NSMenuItem(title: String(localized: "Drag a file, then tap \(keys)"), action: nil, keyEquivalent: "")
         hint.isEnabled = false
@@ -303,6 +382,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem(WheelKind.actions.selectionTitle, #selector(actionsSelection(_:))))
         menu.addItem(menuItem(basket.isVisible ? String(localized: "Hide Basket") : String(localized: "Show Basket"), #selector(toggleBasket(_:))))
         menu.addItem(.separator())
+        for item in catalog.items() { menu.addItem(item) }
+        menu.addItem(.separator())
         let drag = menuItem(String(localized: "Open Wheels While Dragging"), #selector(toggleDragGesture(_:)))
         drag.state = Prefs.dragGesture ? .on : .off
         menu.addItem(drag)
@@ -312,6 +393,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem(String(localized: "Settings…"), #selector(showSettings(_:)), key: ","))
         menu.addItem(menuItem(String(localized: "How Kumquat Works"), #selector(showWelcome(_:))))
         menu.addItem(menuItem(String(localized: "About Kumquat"), #selector(showAbout(_:))))
+        if Updater.isAvailable { menu.addItem(menuItem(String(localized: "Check for Updates…"), #selector(checkForUpdates(_:)))) }
         menu.addItem(menuItem(String(localized: "Copy Diagnostic Info"), #selector(copyDiagnostics(_:))))
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(title: String(localized: "Quit Kumquat"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))

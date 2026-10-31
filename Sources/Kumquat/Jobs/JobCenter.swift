@@ -23,6 +23,7 @@ final class JobCenter {
     @ObservationIgnored var chooseFolder: () -> URL? = { nil }
 
     var isEmpty: Bool { jobs.isEmpty }
+    var isRunning: Bool { jobs.contains { $0.state == .running } }
 
     // MARK: - Running
 

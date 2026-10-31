@@ -6,7 +6,7 @@ import SwiftUI
 enum StatusCommand {
     case selection(WheelKind)
     case files(WheelKind, [URL])
-    case basket, settings, welcome, about, diagnostics, quit
+    case allActions, basket, settings, welcome, about, diagnostics, checkForUpdates, installUpdate, quit
 }
 
 /// The panel under the menu bar icon. Like a menu it closes on a click elsewhere, on Escape and
@@ -139,6 +139,8 @@ private final class FirstClickHostingView<Content: View>: NSHostingView<Content>
 struct StatusPanelView: View {
     let basket: BasketModel
     let basketVisible: Bool
+    /// A downloaded and verified update, waiting for the user to install it.
+    let update: ReleaseVersion?
     let perform: (StatusCommand) -> Void
 
     @AppStorage(Prefs.Key.dragGesture) private var dragGesture = true
@@ -227,6 +229,23 @@ struct StatusPanelView: View {
 
     private var options: some View {
         VStack(spacing: 2) {
+            if let update {
+                Button { perform(.installUpdate) } label: {
+                    RowLabel(symbol: "arrow.down.circle", title: "Install Kumquat \(update.description) and Relaunch")
+                }
+                .buttonStyle(RowButtonStyle())
+            }
+            Button { perform(.allActions) } label: {
+                HStack {
+                    RowLabel(symbol: "list.bullet", title: "All Actions")
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.tertiary)
+                }
+            }
+            .buttonStyle(RowButtonStyle())
+            .help("Every conversion, tool and action, by kind of file")
             Button { perform(.basket) } label: {
                 HStack {
                     RowLabel(symbol: "basket", title: basketVisible ? "Hide Basket" : "Show Basket")
@@ -267,6 +286,7 @@ struct StatusPanelView: View {
             Spacer()
             Menu {
                 Button("About Kumquat") { perform(.about) }
+                if Updater.isAvailable { Button("Check for Updates…") { perform(.checkForUpdates) } }
                 Button("Copy Diagnostic Info") { perform(.diagnostics) }
             } label: {
                 Image(systemName: "ellipsis.circle")

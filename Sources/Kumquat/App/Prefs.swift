@@ -116,6 +116,9 @@ enum Prefs {
         static let favoriteFolders = "favoriteFolders"
         static let recentFolders = "recentFolders"
         static let scripts = "scripts"
+        static let checkForUpdates = "checkForUpdates"
+        static let betaUpdates = "betaUpdates"
+        static let lastUpdateCheck = "lastUpdateCheck"
     }
 
     private static var defaults: UserDefaults { .standard }
@@ -131,6 +134,8 @@ enum Prefs {
             Key.revealWhenDone: false,
             Key.terminalApp: "com.apple.Terminal",
             Key.welcomed: false,
+            Key.checkForUpdates: true,
+            Key.betaUpdates: false,
         ])
     }
 
@@ -142,6 +147,14 @@ enum Prefs {
     static var welcomed: Bool {
         get { defaults.bool(forKey: Key.welcomed) }
         set { defaults.set(newValue, forKey: Key.welcomed) }
+    }
+
+    static var checkForUpdates: Bool { defaults.bool(forKey: Key.checkForUpdates) }
+    static var betaUpdates: Bool { defaults.bool(forKey: Key.betaUpdates) }
+
+    static var lastUpdateCheck: Date? {
+        get { defaults.object(forKey: Key.lastUpdateCheck) as? Date }
+        set { defaults.set(newValue, forKey: Key.lastUpdateCheck) }
     }
 
     static var outputLocation: OutputLocation {

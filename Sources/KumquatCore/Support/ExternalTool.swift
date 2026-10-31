@@ -9,7 +9,9 @@ public struct ProcessResult: Sendable {
 /// Out-of-process engines (ffmpeg, cwebp, bsdtar, osascript): crash-isolated, cancellable,
 /// with optional per-line streaming for progress parsing.
 public enum ExternalTool {
+    /// The usual install locations, then the engines Kumquat installed itself.
     static let searchDirectories = ["/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin", "/usr/bin", "/bin", "/usr/sbin"]
+        + EnginePack.binDirectories
 
     private static let cache = LockedBox<[String: URL?]>([:])
 
