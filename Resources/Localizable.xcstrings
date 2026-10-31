@@ -1202,6 +1202,16 @@
         }
       }
     },
+    "Back" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indietro"
+          }
+        }
+      }
+    },
     "Background" : {
       "localizations" : {
         "it" : {
@@ -5070,6 +5080,16 @@
         }
       }
     },
+    "No matches" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun risultato"
+          }
+        }
+      }
+    },
     "No matches for “%@” in “%@”." : {
       "localizations" : {
         "en" : {
@@ -7140,6 +7160,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Script"
+          }
+        }
+      }
+    },
+    "Search all actions" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca tra tutte le azioni"
+          }
+        }
+      }
+    },
+    "Search or browse all actions" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca o sfoglia tutte le azioni"
           }
         }
       }

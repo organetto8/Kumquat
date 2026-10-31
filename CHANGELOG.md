@@ -7,9 +7,10 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ### Added
 
-- **All Actions** in the menu bar panel (and the right-click menu): every conversion, tool and action, browsable by
-  kind of file, with a one-line description of each tool and action and the reason a dimmed one can't run yet.
-  Choosing an entry runs it on the Finder selection, or asks for the files it works on.
+- **Search or browse all actions** in the menu bar panel: every conversion, tool and action on a page of the
+  panel, browsable by kind of file or found by typing, with a one-line description of each tool and action and
+  the reason a dimmed one can't run yet. Choosing an entry runs it on the Finder selection, or asks for the files
+  it works on. The right-click menu has the same catalogue under **All Actions**.
 - Automatic updates from GitHub releases, once a day or from **⋯ ▸ Check for Updates…** in the menu bar panel,
   with betas as an option (Settings ▸ General ▸ Updates). An update you put off waits in the panel as **Install
   Kumquat x.y.z and Relaunch**, and none is installed while a job or an engine install is running. An update is
