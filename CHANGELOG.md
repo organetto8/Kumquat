@@ -5,6 +5,8 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+## [1.1.0-beta.1] - 2026-10-31
+
 ### Added
 
 - **Search or browse all actions** in the menu bar panel: every conversion, tool and action on a page of the
@@ -54,5 +56,6 @@ First public release.
 - English and Italian.
 - **Copy Diagnostic Info** in the menu bar menu, for bug reports.
 
-[Unreleased]: https://github.com/organetto8/Kumquat/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/organetto8/Kumquat/compare/v1.1.0-beta.1...HEAD
+[1.1.0-beta.1]: https://github.com/organetto8/Kumquat/releases/tag/v1.1.0-beta.1
 [1.0.0]: https://github.com/organetto8/Kumquat/releases/tag/v1.0.0
