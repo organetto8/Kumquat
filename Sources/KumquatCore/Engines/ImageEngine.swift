@@ -151,7 +151,8 @@ public enum ImageEngine {
     }
 
     static func encodeWebP(_ input: URL, from source: FileFormat, output: URL, quality: Double) async throws {
-        let direct: Set<FileFormat> = [.jpg, .png, .tiff, .webp]
+        // TIFF goes through ImageIO: the cwebp in Kumquat's engine pack reads PNG and JPEG, not TIFF.
+        let direct: Set<FileFormat> = [.jpg, .png, .webp]
         if direct.contains(source), ImageProbe.orientation(input) == 1 {
             try await cwebp(input, output: output, quality: quality)
             return

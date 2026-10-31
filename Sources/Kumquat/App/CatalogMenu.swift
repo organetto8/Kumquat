@@ -127,7 +127,7 @@ struct CatalogMenu {
         let symbol: String
         let tip: String?
         let choice: Choice
-        /// Why this Mac can't run it yet, e.g. "Needs FFmpeg — brew install ffmpeg".
+        /// Why this Mac can't run it yet, e.g. "Needs FFmpeg — install it in Settings ▸ Engines".
         let unavailable: String?
     }
 

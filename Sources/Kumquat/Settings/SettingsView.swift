@@ -49,6 +49,8 @@ private struct GeneralSettings: View {
     @AppStorage(Prefs.Key.actionsKey) private var actionsKey = WheelModifier.control.rawValue
     @AppStorage(Prefs.Key.playSounds) private var playSounds = true
     @AppStorage(Prefs.Key.terminalApp) private var terminalApp = "com.apple.Terminal"
+    @AppStorage(Prefs.Key.checkForUpdates) private var checkForUpdates = true
+    @AppStorage(Prefs.Key.betaUpdates) private var betaUpdates = false
     @State private var launchAtLogin = LoginItem.isEnabled
     @State private var loginError: String?
     @State private var hotKey = Prefs.hotKey
@@ -115,22 +117,31 @@ private struct GeneralSettings: View {
                     HStack {
                         Text("Kumquat shows the new language after it restarts.").font(.caption).foregroundStyle(.secondary)
                         Spacer()
-                        Button("Restart Now", action: relaunch).controlSize(.small)
+                        Button("Restart Now") { AppRelaunch.now() }.controlSize(.small)
                     }
                 }
             }
+            Section {
+                if Updater.isAvailable {
+                    Toggle("Check for updates automatically", isOn: $checkForUpdates)
+                    Toggle("Include beta versions", isOn: $betaUpdates)
+                    HStack {
+                        Text("Version \(Updater.installedVersion?.description ?? "?")").foregroundStyle(.secondary)
+                        Spacer()
+                        Button("Check Now") { Updater.shared.check(userInitiated: true) }.controlSize(.small)
+                    }
+                } else {
+                    Text("This copy of Kumquat was built without the release key, so it can't update itself.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("Updates")
+            } footer: {
+                Text("Once a day Kumquat asks GitHub whether there is a new version, and installs it only if it is signed with Kumquat's release key. Apart from Install in Settings ▸ Engines, this is the only time Kumquat goes online, and nothing about you or your files is sent.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
-    }
-
-    /// Opens a fresh copy once this one has quit, so the new language is read at launch.
-    private func relaunch() {
-        let pid = ProcessInfo.processInfo.processIdentifier
-        let task = Process()
-        task.executableURL = URL(fileURLWithPath: "/bin/sh")
-        task.arguments = ["-c", "while kill -0 \(pid) 2>/dev/null; do sleep 0.1; done; open \"$0\"", Bundle.main.bundlePath]
-        try? task.run()
-        NSApp.terminate(nil)
     }
 
     private func keyPicker(_ title: LocalizedStringKey, selection: Binding<String>) -> some View {
@@ -238,40 +249,41 @@ private struct ActionSettings: View {
 }
 
 private struct EngineSettings: View {
-    @State private var refresh = 0
+    private var installer: EngineInstaller { .shared }
 
     var body: some View {
         Form {
             Section {
-                engine(String(localized: "Images, PDF, documents, spreadsheets, subtitles, archives"),
-                       detail: String(localized: "Built in (ImageIO, PDFKit, Vision, libarchive)"), ready: true)
-                engine(String(localized: "Audio & video"), detail: Engines.ffmpeg?.path ?? "brew install ffmpeg", ready: Engines.ffmpeg != nil, command: "brew install ffmpeg")
-                engine(String(localized: "WebP output"), detail: Engines.cwebp?.path ?? "brew install webp", ready: Engines.cwebp != nil, command: "brew install webp")
-                engine(String(localized: "JPEG XL output"), detail: Engines.cjxl?.path ?? "brew install jpeg-xl", ready: Engines.cjxl != nil, command: "brew install jpeg-xl")
-                engine(String(localized: "Pictures to SVG"), detail: Engines.potrace?.path ?? "brew install potrace", ready: Engines.potrace != nil, command: "brew install potrace")
-                engine(String(localized: "LaTeX, reST, AsciiDoc, Org"), detail: Engines.pandoc?.path ?? "brew install pandoc", ready: Engines.pandoc != nil, command: "brew install pandoc")
-                engine(String(localized: "Kindle e-books"), detail: Engines.ebookConvert?.path ?? "brew install --cask calibre", ready: Engines.ebookConvert != nil,
-                       command: "brew install --cask calibre")
-                engine(String(localized: "7-Zip archives"), detail: Engines.sevenZip?.path ?? "brew install sevenzip", ready: Engines.sevenZip != nil, command: "brew install sevenzip")
-                engine(String(localized: "WOFF2 web fonts"), detail: Engines.woff2Compress?.path ?? "brew install woff2", ready: Engines.woff2Compress != nil, command: "brew install woff2")
-                engine(String(localized: "TrueType ↔ OpenType outlines"), detail: Engines.fonttools?.path ?? "brew install fonttools", ready: Engines.fonttools != nil,
-                       command: "brew install fonttools")
+                row(String(localized: "Images, PDF, documents, spreadsheets, subtitles, archives"),
+                    detail: String(localized: "Built in (ImageIO, PDFKit, Vision, libarchive)"), ready: true) { EmptyView() }
+                engine(String(localized: "Audio & video"), at: Engines.ffmpeg, from: .formula("ffmpeg"))
+                engine(String(localized: "WebP output"), at: Engines.cwebp, from: .formula("webp"))
+                engine(String(localized: "JPEG XL output"), at: Engines.cjxl, from: .formula("jpeg-xl"))
+                engine(String(localized: "Pictures to SVG"), at: Engines.potrace, from: .formula("potrace"))
+                engine(String(localized: "LaTeX, reST, AsciiDoc, Org"), at: Engines.pandoc, from: .formula("pandoc"))
+                engine(String(localized: "Kindle e-books"), at: Engines.ebookConvert, from: .cask("calibre"))
+                engine(String(localized: "7-Zip archives"), at: Engines.sevenZip, from: .formula("sevenzip"))
+                engine(String(localized: "WOFF2 web fonts"), at: Engines.woff2Compress, from: .formula("woff2"))
+                engine(String(localized: "TrueType ↔ OpenType outlines"), at: Engines.fonttools, from: .formula("fonttools"))
                 ForEach(Engines.App.allCases, id: \.self) { app in
-                    engine(app.rawValue, detail: purpose(app), ready: app.isInstalled)
+                    row(app.rawValue, detail: purpose(app), ready: app.isInstalled) {
+                        Button("Install") { NSWorkspace.shared.open(app.appStoreURL) }
+                            .controlSize(.small)
+                            .help("Opens \(app.rawValue) in the App Store")
+                    }
                 }
             } footer: {
                 HStack {
                     Text("Everything runs on this Mac. Nothing is uploaded.").font(.caption).foregroundStyle(.secondary)
                     Spacer()
-                    Button("Check Again") {
-                        ExternalTool.resetCache()
-                        refresh += 1
-                    }
+                    Button("Check Again") { installer.recheck() }
                 }
             }
         }
         .formStyle(.grouped)
-        .id(refresh)
+        .id(installer.generation)
+        // Picks up an engine installed in Terminal while Kumquat was in the background.
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in installer.recheck() }
     }
 
     private func purpose(_ app: Engines.App) -> String {
@@ -282,21 +294,43 @@ private struct EngineSettings: View {
         }
     }
 
-    private func engine(_ title: String, detail: String, ready: Bool, command: String? = nil) -> some View {
+    /// An optional program: where it was found, or an Install button and how far the install has got.
+    private func engine(_ title: String, at location: URL?, from package: Homebrew.Package) -> some View {
+        let progress = installer.progress[package], failure = installer.failures[package]
+        let size = EnginePack.asset(for: package.name).map { ByteCountFormatter.string(fromByteCount: $0.size, countStyle: .file) }
+        let idle = size.map { String(localized: "\($0) download") } ?? package.command
+        let available = installer.canInstall(package)
+        return row(title, detail: location?.path ?? progress ?? failure ?? idle, ready: location != nil,
+                   failed: location == nil && progress == nil && failure != nil) {
+            if progress != nil {
+                ProgressView().controlSize(.small)
+            } else {
+                Button("Install") { installer.install(package) }
+                    .controlSize(.small)
+                    .disabled(!available)
+                    .help(available ? "" : String(localized: "Not available for this Mac yet. Right-click to copy the Homebrew command."))
+            }
+        }
+        .contextMenu {
+            Button("Copy Command") {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(package.command, forType: .string)
+            }
+        }
+    }
+
+    /// `accessory` (the Install button) shows only while the engine is missing.
+    private func row<Accessory: View>(_ title: String, detail: String, ready: Bool, failed: Bool = false,
+                                      @ViewBuilder accessory: () -> Accessory) -> some View {
         HStack(alignment: .firstTextBaseline) {
             Image(systemName: ready ? "checkmark.circle.fill" : "minus.circle").foregroundStyle(ready ? .green : .secondary)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                Text(detail).font(.caption).foregroundStyle(.secondary).lineLimit(1).truncationMode(.middle)
+                Text(detail).font(.caption).foregroundStyle(failed ? Color.red : Color.secondary)
+                    .lineLimit(failed ? 3 : 1).truncationMode(.middle).help(detail)
             }
             Spacer()
-            if !ready, let command {
-                Button("Copy Command") {
-                    NSPasteboard.general.clearContents()
-                    NSPasteboard.general.setString(command, forType: .string)
-                }
-                .controlSize(.small)
-            }
+            if !ready { accessory() }
         }
     }
 }

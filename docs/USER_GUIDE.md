@@ -139,8 +139,9 @@ list of every conversion, tool and action, so you can see what Kumquat does with
 
 Each tool and action says what it does under its name. Or just type: `heic png`, `sign` or `subtitles` find
 the entry straight away. **‹** (or Esc) goes back a step. Dimmed choices need something this Mac doesn't have
-yet, usually a free program from [section 7](#7-audio-video-and-iwork-support): the list says what.
-Right-clicking the icon offers the same catalogue as a plain menu, under **All Actions**.
+yet, usually a free program from [section 7](#7-audio-video-and-iwork-support): the list says what, and
+**Install** in Settings ▸ Engines adds it. Right-clicking the icon offers the same catalogue as a plain menu,
+under **All Actions**.
 
 Choosing an entry runs it on the files selected in Finder when Finder is in front and the selection suits
 it. Otherwise Kumquat asks for the files, and only the ones the entry works on can be picked. Tools ask for
@@ -282,9 +283,13 @@ to have Finder reveal each result automatically.
 ## 7. Audio, video and iWork support
 
 Images, PDFs, documents, spreadsheets, data, subtitles, archives and 3D models work right after installing.
-A few formats need free software that Kumquat uses if it finds it:
+A few formats need free software. Open **Settings ▸ Engines** and click **Install** next to anything
+missing: Kumquat downloads its own build of that program for your Mac, checks it, and turns the line green
+when it's ready. There's no Homebrew to set up and no password to type. You can keep working meanwhile, and
+several installs wait their turn. For Pages, Keynote and Numbers, **Install** opens the app's page in the
+App Store.
 
-| For | Install |
+| For | With Homebrew instead |
 |---|---|
 | Audio and video | [FFmpeg](https://ffmpeg.org): `brew install ffmpeg` |
 | Saving WebP images, animated WebP | `brew install webp` |
@@ -297,9 +302,16 @@ A few formats need free software that Kumquat uses if it finds it:
 | TrueType ↔ OpenType outlines | `brew install fonttools` |
 | Pages, Keynote, PowerPoint, Numbers, XLS | Pages, Keynote and Numbers from the Mac App Store |
 
-The `brew` commands need [Homebrew](https://brew.sh). After installing, open **Settings ▸ Engines** and
-click **Check Again**. Each line turns green when its program is found; **Copy Command** copies the install
-command for anything missing.
+Programs installed with [Homebrew](https://brew.sh) work just as well, and Kumquat uses them first; right-click
+a line in Settings ▸ Engines and choose **Copy Command** for its `brew` command. Something installed while
+Kumquat was open is found when you come back to Settings, or with **Check Again**.
+
+The downloads come from Kumquat's own [engines releases](https://github.com/organetto8/Kumquat/releases) on
+GitHub, only when you click Install; apart from the update check ([section 10](#10-updating-and-uninstalling)),
+it's the only time Kumquat goes online. Each file is checked against a
+fingerprint built into the app before it's used. They live in `~/Library/Application Support/Kumquat/Engines`,
+one folder per program: delete a folder to remove that program. A program that needs a newer macOS than
+yours isn't offered; its line keeps the Homebrew command instead.
 
 ## 8. Settings
 
@@ -316,13 +328,15 @@ Open it with the gear button in the menu bar panel (or ⌘, while the panel or a
 - **Terminal action opens**: pick Terminal, iTerm, Warp or Ghostty, when more than one is installed.
 - **Language**: English or Italiano, or **Same as the system** to follow macOS. Click **Restart Now** to
   switch straight away.
+- **Updates**: **Check for updates automatically** (on by default), **Include beta versions**, and
+  **Check Now**. See [section 10](#10-updating-and-uninstalling).
 
 **Output**: where results go (section 6).
 
 **Send**: favourite folders for Copy To and Move, and the shell scripts the Script action offers. Each
 script runs in zsh with the files as `"$@"` (also one per line in `$KUMQUAT_FILES`).
 
-**Engines**: which optional programs are installed (section 7).
+**Engines**: which optional programs are installed, with an **Install** button for each missing one (section 7).
 
 **About**: version and licence.
 
@@ -339,23 +353,44 @@ Kumquat asks only when a feature needs it.
 | Photos | First Add to Library with photos or videos | System Settings ▸ Privacy & Security ▸ Photos |
 | Local Network | First Wi-Fi Share | System Settings ▸ Privacy & Security ▸ Local Network |
 
-Modifier keys (⇧ ⌘ ⌃ ⌥) need no permission. Kumquat does not ask for Accessibility access and never
-connects to the internet; Wi-Fi Share only answers devices on your own network that have its private link, while its window is open.
+Modifier keys (⇧ ⌘ ⌃ ⌥) need no permission. Kumquat does not ask for Accessibility access. It connects to the
+internet only to GitHub, never with your files: to look for updates (section 10) and, when you click **Install**
+in Settings ▸ Engines, to download that program (section 7). Wi-Fi Share only answers devices on your own network
+that have its private link, while its window is open.
 
 ## 10. Updating and uninstalling
 
-**Update**: quit Kumquat (the power button in the menu bar panel), download the new DMG and drag Kumquat onto
-Applications again, choosing **Replace**. Your settings are kept. If you use number keys, macOS may ask
-for Input Monitoring again after an update: remove Kumquat from that list and add it back.
+**Update**: Kumquat looks for a new version on GitHub once a day. When one is out it downloads it, checks
+that it is signed with Kumquat's release key, and asks you: **Install and Relaunch** replaces the app and opens
+the new version within seconds; **Later** keeps it ready at the top of the menu bar panel as **Install Kumquat
+x.y.z and Relaunch** (and in the right-click menu). To look straight away, click the kumquat icon and choose
+**⋯ ▸ Check for Updates…**. Your settings are kept. Kumquat never installs an update in the middle of a job or
+an engine install: the daily check then leaves it waiting in the panel.
+
+- Nothing is installed unless its signature matches, and never a version older than yours. Kumquat never asks
+  for your password to update.
+- The daily check only asks GitHub for the list of releases: it sends nothing about you, your Mac or your files.
+  Turn it off in Settings ▸ General ▸ Updates; **Check Now** there still works.
+- **Include beta versions** also offers pre-releases, such as `1.2.0-beta.1`.
+- If Kumquat can't replace itself where it is (it's running from the disk image, or the folder needs an
+  administrator), it offers the download page instead. If macOS blocks it, allow Kumquat in System Settings ▸
+  Privacy & Security ▸ App Management and choose **⋯ ▸ Check for Updates…** again. Or update by hand: quit Kumquat
+  (the power button in the menu bar panel), download the new DMG and drag Kumquat onto Applications again, choosing
+  **Replace**.
+
+If you use number keys, macOS may ask for Input Monitoring again after an update: remove Kumquat from that list
+and add it back.
 
 **Uninstall**
 
 1. Quit Kumquat.
 2. Move `/Applications/Kumquat.app` to the Bin.
-3. Optionally delete its settings:
+3. Optionally delete its settings, and the folder with your saved signature and the engines it installed
+   (section 7):
 
 ```bash
 defaults delete app.kumquat.Kumquat
+rm -rf ~/Library/Application\ Support/Kumquat
 ```
 
 ## 11. Troubleshooting
@@ -375,7 +410,7 @@ Enable Kumquat in System Settings ▸ Privacy & Security ▸ Input Monitoring, t
 Allow Kumquat to control Finder in System Settings ▸ Privacy & Security ▸ Automation.
 
 **Video or audio options are dimmed**
-FFmpeg is not installed. Run `brew install ffmpeg`, then Settings ▸ Engines ▸ **Check Again**.
+FFmpeg is not installed. Click **Install** next to Audio & video in Settings ▸ Engines.
 
 **Translate or Summarize is dimmed**
 Both need macOS 26. Translate also needs the language downloaded in System Settings ▸ General ▸ Language &
@@ -387,6 +422,10 @@ macOS is set to.
 
 **A Pages, Keynote or Numbers conversion fails**
 Install the app from the Mac App Store, open it once, and allow Kumquat to control it when asked.
+
+**An update "isn't signed with Kumquat's release key" or "doesn't contain a valid copy of Kumquat"**
+Kumquat refused a download that doesn't come from its maintainer, and installed nothing. Don't install that
+version by hand: report it privately as [SECURITY.md](../SECURITY.md) explains.
 
 **Still stuck?**
 Open an [issue](https://github.com/organetto8/Kumquat/issues) with your macOS version, the file type and

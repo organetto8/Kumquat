@@ -36,10 +36,12 @@ and an app build) is green.
    link at the bottom. For a beta, use `## [x.y.z-beta.n]`.
 3. Write the version in `VERSION`.
 4. Commit: `git commit -am "Kumquat x.y.z"`.
-5. Build: `make release`. This makes the universal DMG, the ZIP and `SHA256SUMS.txt` in `build/`.
+5. Build: `make release`. This makes the universal DMG, the ZIP, the ZIP's update signature
+   (`Kumquat-x.y.z.zip.sig`) and `SHA256SUMS.txt` in `build/`. macOS may ask once to let `swift` use the
+   signing key in the keychain.
 6. Smoke test the DMG on a Mac, ideally in a second user account that never ran Kumquat:
    install it, open it, drag a photo and convert it to PNG, open the Edit and Send wheels, look at
-   Settings ▸ Engines, and check that **Copy Diagnostic Info** shows the new version.
+   Settings ▸ Engines, and check that **⋯ ▸ Copy Diagnostic Info** in the menu bar panel shows the new version.
 7. Publish: `make publish`. It tags `vx.y.z`, pushes the commit and the tag, and creates the GitHub release
    with the files from `build/` and the notes from that version's `CHANGELOG.md` section. A hyphenated
    version becomes a pre-release; anything else becomes Latest.
@@ -48,8 +50,74 @@ and an app build) is green.
 Releases are **immutable**: once published, their files and tag can't be changed or moved, so nobody can
 swap a download later. A mistake in a published release is fixed with a new patch version.
 
+## Engine pack
+
+**Install** in Settings ▸ Engines downloads the optional programs from an `engines-N` release of this
+repository, not from Homebrew. `Scripts/engines/build.sh` builds each one for Apple silicon and Intel, to run
+on macOS 14 with nothing else installed (pandoc and Calibre are upstream's own builds and may need newer). The
+**Engines** workflow runs it whenever `Scripts/engines/` changes, so a branch shows whether the builds still
+work; its artifacts are the files a release would contain.
+
+To publish a new pack, for example after raising a version in `build.sh`:
+
+1. Check that the Engines workflow is green for the commit.
+2. Tag it and push the tag: `git tag engines-2 && git push origin engines-2`. The workflow builds everything
+   again and publishes the release with the archives, every source archive (`engines-2-sources.tar`) and
+   `EnginePackManifest.swift`. It is never marked Latest, so the README's download link keeps pointing at
+   the app.
+3. Replace `Sources/KumquatCore/Support/EnginePackManifest.swift` with the copy attached to the release (the
+   workflow summary shows it too) and commit it. Apps built from then on install from the new pack; older
+   ones keep using the pack they were built with, which stays online because releases are immutable.
+
+Never delete an engines release: published apps download from it. Downloads with an unpinned SHA-256 show
+as notices in the workflow log; pin them in `build.sh` after a build you trust.
+
 ## Signing
 
 Releases are signed ad hoc and not notarised, so the first launch needs **Open Anyway** in
 System Settings ▸ Privacy & Security, as the README explains. With an Apple Developer ID, set
 `SIGN_IDENTITY` and run `make notarize` after `make release` to remove that step.
+
+## Update signing key
+
+The in-app updater installs a release only if its ZIP comes with `Kumquat-x.y.z.zip.sig`: an Ed25519 signature,
+made with the release key, of
+
+```
+kumquat-update-1
+app.kumquat.Kumquat
+x.y.z
+<SHA-256 of Kumquat-x.y.z.zip, lowercase hex>
+```
+
+The app carries the public half in `Resources/Info.plist` (`KumquatUpdatePublicKey`). The private half lives
+only in the maintainer's login keychain, so whoever takes over the GitHub account, the CI or the network still
+can't ship an update. A build whose `KumquatUpdatePublicKey` is empty never looks for updates, and
+`make publish` refuses to publish it.
+
+**Once, before the first release with the updater**
+
+1. `make update-key`. It creates the key in the login keychain (item *Kumquat update signing key*) and writes
+   the public half into `Resources/Info.plist`.
+2. Commit `Resources/Info.plist`.
+3. Back the key up offline, for example in a password manager:
+   `swift Scripts/update-signing.swift export` prints it. Never commit it, paste it in an issue or give it to CI.
+
+**On another Mac**: `swift Scripts/update-signing.swift import`, then paste the backed-up key.
+
+**If the key is lost**, copies already installed can't be updated automatically any more: run `make update-key`
+again, release, and tell users in the release notes and Discussions to download that version by hand once.
+
+**If the key leaks**, whoever holds it can sign an update; they would still need to publish it as a release of
+this repository, since that is the only place the app downloads from, but don't wait for that. Rotate at once:
+
+1. `swift Scripts/update-signing.swift rotate`: a new key goes into the keychain next to the current one, and its
+   public half into `Resources/Info.plist`. Commit it.
+2. Release a patch version as usual. It is signed with the current key, so installed copies accept it, and it
+   carries the new public key, so from then on they trust only the new one.
+3. `swift Scripts/update-signing.swift finish-rotation`: the new key becomes the signing key. Back it up.
+4. Announce it as a security fix.
+
+The first version with the updater has to be installed by hand by people on 1.0.0; after that, updates arrive
+by themselves. Because releases are signed ad hoc, macOS treats each version as a new app for Input Monitoring,
+as it does when updating by hand.

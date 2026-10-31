@@ -65,6 +65,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         handleLaunchArguments()
         if !Prefs.welcomed { welcome.show() }
+
+        Updater.shared.notice = { [weak self] title, detail, failed in self?.jobs.notice(title, detail: detail, failed: failed) }
+        // A relaunch would also cut short an engine being downloaded or unpacked from Settings ▸ Engines.
+        Updater.shared.isBusy = { [weak self] in (self?.jobs.isRunning ?? false) || EngineInstaller.shared.isBusy }
+        Updater.shared.start()
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        Updater.shared.discardPending()
     }
 
     func application(_ application: NSApplication, open urls: [URL]) {
@@ -273,6 +282,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func toggleBasket(_ sender: Any?) { basket.toggle() }
     @objc func showSettings(_ sender: Any?) { settings.show() }
     @objc func showWelcome(_ sender: Any?) { welcome.show() }
+    @objc func checkForUpdates(_ sender: Any?) { Updater.shared.check(userInitiated: true) }
+    @objc func installUpdate(_ sender: Any?) { Updater.shared.installPending() }
 
     @objc func toggleDragGesture(_ sender: Any?) {
         UserDefaults.standard.set(!Prefs.dragGesture, forKey: Prefs.Key.dragGesture)
@@ -325,7 +336,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showStatusPanel(takesKeyboard: Bool) {
         guard !statusPanel.isOpen, let status = statusItem, let anchor = status.buttonFrameOnScreen else { return }
-        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible) { [weak self] command in
+        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible, update: Updater.shared.pending?.version) { [weak self] command in
             self?.statusPanel.close()
             self?.handle(command)
         }
@@ -343,6 +354,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .welcome: welcome.show()
         case .about: showAbout(nil)
         case .diagnostics: copyDiagnostics(nil)
+        case .checkForUpdates: checkForUpdates(nil)
+        case .installUpdate: installUpdate(nil)
         case .quit: NSApp.terminate(nil)
         }
     }
@@ -350,6 +363,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// Right-click: the same choices as a plain menu.
     private func statusMenu() -> NSMenu {
         let menu = NSMenu()
+        if let update = Updater.shared.pending {
+            menu.addItem(menuItem(String(localized: "Install Kumquat \(update.version.description) and Relaunch"), #selector(installUpdate(_:))))
+            menu.addItem(.separator())
+        }
         let keys = WheelKind.allCases.map { Prefs.modifier(for: $0).symbol }.joined(separator: " / ")
         let hint = NSMenuItem(title: String(localized: "Drag a file, then tap \(keys)"), action: nil, keyEquivalent: "")
         hint.isEnabled = false
@@ -373,6 +390,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem(String(localized: "Settings…"), #selector(showSettings(_:)), key: ","))
         menu.addItem(menuItem(String(localized: "How Kumquat Works"), #selector(showWelcome(_:))))
         menu.addItem(menuItem(String(localized: "About Kumquat"), #selector(showAbout(_:))))
+        if Updater.isAvailable { menu.addItem(menuItem(String(localized: "Check for Updates…"), #selector(checkForUpdates(_:)))) }
         menu.addItem(menuItem(String(localized: "Copy Diagnostic Info"), #selector(copyDiagnostics(_:))))
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(title: String(localized: "Quit Kumquat"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
