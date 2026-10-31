@@ -125,15 +125,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSScreen.main.map { NSPoint(x: $0.visibleFrame.midX, y: $0.visibleFrame.midY) } ?? .zero
     }
 
-    /// All Actions, for the panel's row and the right-click menu.
+    /// All Actions in the right-click menu.
     private var catalog: CatalogMenu {
         CatalogMenu(target: self, action: #selector(runCatalogChoice(_:)))
     }
 
-    /// An entry of All Actions: runs on the Finder selection when it holds files the entry suits,
-    /// otherwise on files the user picks.
     @objc func runCatalogChoice(_ sender: NSMenuItem) {
         guard let choice = sender.representedObject as? CatalogMenu.Choice else { return }
+        runEntry(choice)
+    }
+
+    /// An entry of All Actions, from the panel or the right-click menu: runs on the Finder selection when it
+    /// holds files the entry suits, otherwise on files the user picks.
+    private func runEntry(_ choice: CatalogMenu.Choice) {
         let operation = choice.operation
         let selection = FinderBridge.isFinderFrontmost ? FinderBridge.selection() : []
         var files = Catalog.inputs(among: selection, for: operation, under: choice.inputs)
@@ -333,14 +337,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         switch command {
         case .selection(let kind): openWheelForFinderSelection(kind)
         case .files(let kind, let files): openWheel(kind, files: files)
-        case .allActions:
-            // Once the panel's click is over, under the icon where the panel was, as the right-click menu opens.
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                let menu = NSMenu()
-                for item in self.catalog.items(icons: true) { menu.addItem(item) }
-                self.statusItem?.showMenu(menu)
-            }
+        case .run(let choice): runEntry(choice)
         case .basket: basket.toggle()
         case .settings: settings.show()
         case .welcome: welcome.show()

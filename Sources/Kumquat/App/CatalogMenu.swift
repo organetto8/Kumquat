@@ -1,8 +1,8 @@
 import AppKit
 import KumquatCore
 
-/// "All Actions", from the menu bar panel and the right-click menu: everything the three wheels can offer,
-/// browsable by kind of file.
+/// "All Actions" in the right-click menu: everything the three wheels can offer, browsable by kind of file.
+/// The panel shows the same catalogue as a page of its own (`CatalogBrowser`).
 /// Hovering shows what an entry does; ones that need something installed are dimmed, with the reason.
 /// Submenus are built as they open, so the status menu itself opens at once.
 struct CatalogMenu {
@@ -16,12 +16,11 @@ struct CatalogMenu {
     let target: AnyObject
     let action: Selector
 
-    /// A section header, then Convert, Edit and Send; `icons` gives them the panel's wheel symbols, for a menu
-    /// of their own (the right-click menu has no icons).
-    func items(icons: Bool = false) -> [NSMenuItem] {
+    /// A section header, then Convert, Edit and Send.
+    func items() -> [NSMenuItem] {
         var items = [NSMenuItem.sectionHeader(title: String(localized: "All Actions"))]
         for kind in WheelKind.allCases {
-            items.append(submenuItem(kind.title, symbol: icons ? kind.symbol : nil, subtitle: Self.count(for: kind)) { menu in
+            items.append(submenuItem(kind.title, subtitle: Self.count(for: kind)) { menu in
                 menu.addItem(Self.note(String(localized: "Runs on the files selected in Finder, or asks for them")))
                 menu.addItem(.separator())
                 switch kind {
@@ -34,12 +33,38 @@ struct CatalogMenu {
         return items
     }
 
-    private static func count(for kind: WheelKind) -> String {
+    static func count(for kind: WheelKind) -> String {
         switch kind {
         case .convert: String(localized: "\(Catalog.conversionCount) conversions")
         case .tools: String(localized: "\(ToolKind.allCases.count) tools")
         case .actions: String(localized: "\(ActionKind.allCases.count) actions")
         }
+    }
+
+    /// Edit tools for a kind of file, then folders (`nil`); Lock and Zip are listed apart.
+    static let toolKinds: [FormatCategory?] = (FormatCategory.allCases.map { Optional($0) } + [nil])
+        .filter { !Catalog.specificTools(for: $0).isEmpty }
+
+    /// What a tool does, and the formats it is limited to, if any.
+    static func notes(for tool: ToolKind, in category: FormatCategory?) -> [String] {
+        let limit = Catalog.formats(for: tool, category: category).map { Catalog.onlyFor($0.map(\.displayName).sorted()) }
+        return [tool.summary(for: category), limit].compactMap { $0 }
+    }
+
+    /// What an action does, and the kinds of file it is limited to, if any.
+    static func notes(for action: ActionKind) -> [String] {
+        let kinds = FormatCategory.allCases.filter { Catalog.actions(for: $0).contains(action) }
+        let limit = kinds.count < FormatCategory.allCases.count ? Catalog.onlyFor(kinds.map(\.title)) : nil
+        return [action.summary, limit].compactMap { $0 }
+    }
+
+    /// Why a tool can't run on this Mac yet, judged on a typical file of its kind.
+    static func missing(_ tool: ToolKind, in category: FormatCategory?) -> String? {
+        Engines.missingRequirement(for: .tool(tool), input: sample(of: category))
+    }
+
+    static func sample(of category: FormatCategory?) -> FileFormat? {
+        category.flatMap { kind in FileFormat.allCases.first { $0.category == kind } }
     }
 
     // MARK: - The three catalogues
@@ -66,15 +91,12 @@ struct CatalogMenu {
 
     /// Kind of file ▸ its tools; Lock and Zip, which every file gets, once at the end.
     private func fillEdit(_ menu: NSMenu) {
-        let kinds = FormatCategory.allCases.map { Optional($0) } + [nil]
-        for category in kinds where !Catalog.specificTools(for: category).isEmpty {
+        for category in Self.toolKinds {
             menu.addItem(submenuItem(category?.folderName ?? String(localized: "Folders"), symbol: category?.symbol ?? "folder") { menu in
-                let sample = FileFormat.allCases.first { $0.category == category }
                 add(Catalog.specificTools(for: category).map { tool in
-                    let limit = Catalog.formats(for: tool, category: category).map { Catalog.onlyFor($0.map(\.displayName).sorted()) }
-                    return Entry(title: tool.title, symbol: tool.symbol, tip: [tool.summary(for: category), limit].compactMap { $0 }.joined(separator: "\n"),
-                                 choice: Choice(operation: .tool(tool), inputs: category.map(InputKind.category) ?? .folder),
-                                 unavailable: Engines.missingRequirement(for: .tool(tool), input: sample))
+                    Entry(title: tool.title, symbol: tool.symbol, tip: Self.notes(for: tool, in: category).joined(separator: "\n"),
+                          choice: Choice(operation: .tool(tool), inputs: category.map(InputKind.category) ?? .folder),
+                          unavailable: Self.missing(tool, in: category))
                 }, to: menu)
             })
         }
@@ -92,10 +114,8 @@ struct CatalogMenu {
             if index > 0 { menu.addItem(.separator()) }
             menu.addItem(.sectionHeader(title: group.title))
             add(group.actions.map { action in
-                let kinds = FormatCategory.allCases.filter { Catalog.actions(for: $0).contains(action) }
-                let limit = kinds.count < FormatCategory.allCases.count ? Catalog.onlyFor(kinds.map(\.title)) : nil
-                return Entry(title: action.title, symbol: action.symbol, tip: [action.summary, limit].compactMap { $0 }.joined(separator: "\n"),
-                             choice: Choice(operation: .action(action), inputs: .anything), unavailable: nil)
+                Entry(title: action.title, symbol: action.symbol, tip: Self.notes(for: action).joined(separator: "\n"),
+                      choice: Choice(operation: .action(action), inputs: .anything), unavailable: nil)
             }, to: menu)
         }
     }

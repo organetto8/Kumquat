@@ -6,7 +6,9 @@ import SwiftUI
 enum StatusCommand {
     case selection(WheelKind)
     case files(WheelKind, [URL])
-    case allActions, basket, settings, welcome, about, diagnostics, quit
+    /// An entry picked in All Actions.
+    case run(CatalogMenu.Choice)
+    case basket, settings, welcome, about, diagnostics, quit
 }
 
 /// The panel under the menu bar icon. Like a menu it closes on a click elsewhere, on Escape and
@@ -143,12 +145,31 @@ struct StatusPanelView: View {
 
     @AppStorage(Prefs.Key.dragGesture) private var dragGesture = true
     @State private var launchAtLogin = LoginItem.isEnabled
+    /// All Actions takes the panel's place, at the same size.
+    @State private var browsing = false
 
     private var wheelKeys: String {
         WheelKind.allCases.map { Prefs.modifier(for: $0).symbol }.joined(separator: " / ")
     }
 
     var body: some View {
+        home
+            .opacity(browsing ? 0 : 1)
+            .allowsHitTesting(!browsing)
+            .accessibilityHidden(browsing)
+            .overlay {
+                if browsing {
+                    CatalogBrowser(choose: { perform(.run($0)) }, close: { browsing = false })
+                }
+            }
+            .frame(width: StatusPanel.width)
+            // Long translations wrap and the panel grows to fit, instead of truncating to one line.
+            .fixedSize(horizontal: false, vertical: true)
+            .overlay(RoundedRectangle(cornerRadius: StatusPanel.cornerRadius).strokeBorder(Color.primary.opacity(0.1), lineWidth: 0.5))
+            .tint(.orange)
+    }
+
+    private var home: some View {
         VStack(alignment: .leading, spacing: 0) {
             header
                 .padding(.horizontal, 14)
@@ -169,11 +190,6 @@ struct StatusPanelView: View {
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
         }
-        .frame(width: StatusPanel.width)
-        // Long translations wrap and the panel grows to fit, instead of truncating to one line.
-        .fixedSize(horizontal: false, vertical: true)
-        .overlay(RoundedRectangle(cornerRadius: StatusPanel.cornerRadius).strokeBorder(Color.primary.opacity(0.1), lineWidth: 0.5))
-        .tint(.orange)
     }
 
     private var header: some View {
@@ -201,6 +217,7 @@ struct StatusPanelView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
+            SearchBarButton { browsing = true }
         }
     }
 
@@ -227,17 +244,6 @@ struct StatusPanelView: View {
 
     private var options: some View {
         VStack(spacing: 2) {
-            Button { perform(.allActions) } label: {
-                HStack {
-                    RowLabel(symbol: "list.bullet", title: "All Actions")
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 10, weight: .semibold))
-                        .foregroundStyle(.tertiary)
-                }
-            }
-            .buttonStyle(RowButtonStyle())
-            .help("Every conversion, tool and action, by kind of file")
             Button { perform(.basket) } label: {
                 HStack {
                     RowLabel(symbol: "basket", title: basketVisible ? "Hide Basket" : "Show Basket")
@@ -368,8 +374,36 @@ private struct SwitchRow: View {
     }
 }
 
+/// Opens All Actions; looks like the search field it leads to.
+private struct SearchBarButton: View {
+    let action: () -> Void
+    @State private var hovering = false
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: "magnifyingglass")
+                Text("Search or browse all actions").lineLimit(1)
+                Spacer(minLength: 4)
+                Image(systemName: "chevron.right").font(.system(size: 10, weight: .semibold)).foregroundStyle(.tertiary)
+            }
+            .font(.system(size: 12))
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(RoundedRectangle(cornerRadius: 8).fill(hovering ? Color.orange.opacity(0.12) : Color.primary.opacity(0.04)))
+            .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(Color.primary.opacity(0.06), lineWidth: 0.5))
+            .contentShape(RoundedRectangle(cornerRadius: 8))
+            .animation(.easeOut(duration: 0.12), value: hovering)
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering = $0 }
+        .help("Every conversion, tool and action, by kind of file")
+    }
+}
+
 /// Lights up under the pointer, like a menu item.
-private struct RowButtonStyle: ButtonStyle {
+struct RowButtonStyle: ButtonStyle {
     var fillsWidth = true
 
     func makeBody(configuration: ButtonStyleConfiguration) -> some View {
@@ -393,7 +427,7 @@ private struct RowButtonStyle: ButtonStyle {
     }
 }
 
-private struct IconButton: View {
+struct IconButton: View {
     let symbol: String
     let help: LocalizedStringKey
     var shortcut: KeyEquivalent?
@@ -417,7 +451,7 @@ private struct IconButton: View {
     }
 }
 
-private struct KeyCap: View {
+struct KeyCap: View {
     let text: String
 
     var body: some View {
