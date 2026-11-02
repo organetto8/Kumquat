@@ -5,6 +5,8 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+## [1.1.0-beta.2] - 2026-11-02
+
 ### Added
 
 - **Setup window** at first launch, in three pages: what Kumquat does, the optional extras, and how the
@@ -74,6 +76,7 @@ First public release.
 - English and Italian.
 - **Copy Diagnostic Info** in the menu bar menu, for bug reports.
 
-[Unreleased]: https://github.com/organetto8/Kumquat/compare/v1.1.0-beta.1...HEAD
+[Unreleased]: https://github.com/organetto8/Kumquat/compare/v1.1.0-beta.2...HEAD
+[1.1.0-beta.2]: https://github.com/organetto8/Kumquat/releases/tag/v1.1.0-beta.2
 [1.1.0-beta.1]: https://github.com/organetto8/Kumquat/releases/tag/v1.1.0-beta.1
 [1.0.0]: https://github.com/organetto8/Kumquat/releases/tag/v1.0.0
