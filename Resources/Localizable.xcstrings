@@ -116,6 +116,16 @@
         }
       }
     },
+    "%@ couldn't be installed. Try again in Settings ▸ Engines." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è stato possibile installare %@. Riprova da Impostazioni ▸ Motori."
+          }
+        }
+      }
+    },
     "%@ didn't produce %@." : {
       "localizations" : {
         "en" : {
@@ -732,6 +742,16 @@
         }
       }
     },
+    "A newer build is available" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È disponibile una versione più recente"
+          }
+        }
+      }
+    },
     "About" : {
       "localizations" : {
         "it" : {
@@ -798,6 +818,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prima aggiungi un account nell'app Mail"
+          }
+        }
+      }
+    },
+    "Add audio, video and more formats" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi audio, video e altri formati"
           }
         }
       }
@@ -1532,6 +1562,16 @@
         }
       }
     },
+    "Change it: compress, trim, crop, merge, sign, read text with OCR." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modificalo: comprimi, taglia, ritaglia, unisci, firma, leggi il testo con l'OCR."
+          }
+        }
+      }
+    },
     "Channels" : {
       "localizations" : {
         "it" : {
@@ -1614,6 +1654,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scegli i file %@ da convertire in %@."
+          }
+        }
+      }
+    },
+    "Choose Extras…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli gli extra…"
           }
         }
       }
@@ -1888,6 +1938,16 @@
         }
       }
     },
+    "Continue" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continua"
+          }
+        }
+      }
+    },
     "Convert" : {
       "localizations" : {
         "it" : {
@@ -1918,6 +1978,26 @@
         }
       }
     },
+    "Convert LaTeX, reST, AsciiDoc and Org documents" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converti documenti LaTeX, reST, AsciiDoc e Org"
+          }
+        }
+      }
+    },
+    "Convert MOBI and AZW3 e-books" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converti e-book MOBI e AZW3"
+          }
+        }
+      }
+    },
     "Convert any file by dragging it. Offline, instant, unlimited." : {
       "localizations" : {
         "it" : {
@@ -1944,6 +2024,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ruota Converti"
+          }
+        }
+      }
+    },
+    "Convert, trim and compress video and audio, and make GIFs" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converti, taglia e comprimi video e audio, e crea GIF"
           }
         }
       }
@@ -2664,6 +2754,26 @@
         }
       }
     },
+    "Documents and fonts" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documenti e font"
+          }
+        }
+      }
+    },
+    "Don't Show Again" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non mostrare più"
+          }
+        }
+      }
+    },
     "Download %@ and %@ in System Settings ▸ General ▸ Language & Region ▸ Translation Languages, then try again." : {
       "localizations" : {
         "en" : {
@@ -2676,6 +2786,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scarica %1$@ e %2$@ in Impostazioni di Sistema ▸ Generali ▸ Lingua e Zona ▸ Lingue di traduzione, poi riprova."
+          }
+        }
+      }
+    },
+    "Download: %@." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da scaricare: %@."
           }
         }
       }
@@ -3206,6 +3326,16 @@
         }
       }
     },
+    "Everything happens on this Mac. No account, no uploads, no limits." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto avviene su questo Mac. Nessun account, nessun caricamento online, nessun limite."
+          }
+        }
+      }
+    },
     "Everything runs on this Mac. Nothing is uploaded." : {
       "localizations" : {
         "it" : {
@@ -3252,6 +3382,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estrai pagine"
+          }
+        }
+      }
+    },
+    "Extras Installed" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra installati"
+          }
+        }
+      }
+    },
+    "Extras installed" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra installati"
           }
         }
       }
@@ -3576,12 +3726,32 @@
         }
       }
     },
+    "Free from Apple, for Pages, Keynote, PowerPoint, Numbers and XLS files" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratuite di Apple, per file Pages, Keynote, PowerPoint, Numbers e XLS"
+          }
+        }
+      }
+    },
     "From" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Da"
+          }
+        }
+      }
+    },
+    "From the App Store" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dall'App Store"
           }
         }
       }
@@ -3786,6 +3956,16 @@
         }
       }
     },
+    "How it works" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come funziona"
+          }
+        }
+      }
+    },
     "Icon Set" : {
       "localizations" : {
         "it" : {
@@ -3906,6 +4086,26 @@
         }
       }
     },
+    "Install Recommended" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa i consigliati"
+          }
+        }
+      }
+    },
+    "Install and Continue" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa e continua"
+          }
+        }
+      }
+    },
     "Install and Relaunch" : {
       "localizations" : {
         "it" : {
@@ -3922,6 +4122,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Installa l'aggiornamento dall'icona nella barra dei menu quando ha finito."
+          }
+        }
+      }
+    },
+    "Installed" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installato"
+          }
+        }
+      }
+    },
+    "Installing Extras… %@" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installazione extra… %@"
+          }
+        }
+      }
+    },
+    "Installing extras…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installazione degli extra…"
           }
         }
       }
@@ -4152,6 +4382,16 @@
         }
       }
     },
+    "Kumquat can install the free programs it uses for them, all in one go." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumquat può installare in un colpo solo i programmi gratuiti che usa per farlo."
+          }
+        }
+      }
+    },
     "Kumquat can't add to Photos" : {
       "localizations" : {
         "it" : {
@@ -4238,6 +4478,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lingua"
+          }
+        }
+      }
+    },
+    "Large" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grandi"
           }
         }
       }
@@ -4462,6 +4712,16 @@
         }
       }
     },
+    "Make and open 7z archives" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea e apri archivi 7z"
+          }
+        }
+      }
+    },
     "Make forms and comments part of the page" : {
       "localizations" : {
         "it" : {
@@ -4674,6 +4934,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Altro %1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Most formats work right away. These free programs add audio and video and a few more formats. Kumquat downloads its own build of each one from GitHub and checks it before use; nothing about you or your files is sent." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La maggior parte dei formati funziona subito. Questi programmi gratuiti aggiungono audio, video e qualche formato in più. Kumquat scarica da GitHub la propria versione di ciascuno e la verifica prima di usarla; non viene inviato nulla su di te o sui tuoi file."
           }
         }
       }
@@ -5326,6 +5596,16 @@
         }
       }
     },
+    "Not available for this Mac yet" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non ancora disponibile per questo Mac"
+          }
+        }
+      }
+    },
     "Not available for this Mac yet. Right-click to copy the Homebrew command." : {
       "localizations" : {
         "it" : {
@@ -5342,6 +5622,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Non scelta"
+          }
+        }
+      }
+    },
+    "Not enough free space for %@: it needs about %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Not enough free space for %1$@: it needs about %2$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spazio libero insufficiente per %@: servono circa %@."
           }
         }
       }
@@ -5732,6 +6028,16 @@
         }
       }
     },
+    "Optional extras" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra facoltativi"
+          }
+        }
+      }
+    },
     "Options · ⌥ skips" : {
       "localizations" : {
         "it" : {
@@ -5924,6 +6230,16 @@
         }
       }
     },
+    "Pages, Keynote and Numbers" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pages, Keynote e Numbers"
+          }
+        }
+      }
+    },
     "Palette" : {
       "localizations" : {
         "it" : {
@@ -5940,6 +6256,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dimensione parti"
+          }
+        }
+      }
+    },
+    "Pass it on: AirDrop, the Basket shelf, a favorite folder, Photos." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passalo avanti: AirDrop, il Cesto, una cartella preferita, Foto."
           }
         }
       }
@@ -6544,6 +6870,16 @@
         }
       }
     },
+    "Recommended" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consigliati"
+          }
+        }
+      }
+    },
     "Redact" : {
       "localizations" : {
         "it" : {
@@ -6990,6 +7326,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salva i fotogrammi come immagini"
+          }
+        }
+      }
+    },
+    "Save pictures and animations as WebP" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva immagini e animazioni in WebP"
+          }
+        }
+      }
+    },
+    "Save pictures as JPEG XL" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva immagini in JPEG XL"
           }
         }
       }
@@ -7544,6 +7900,16 @@
         }
       }
     },
+    "Skip" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salta"
+          }
+        }
+      }
+    },
     "Skipped" : {
       "localizations" : {
         "it" : {
@@ -7970,6 +8336,16 @@
         }
       }
     },
+    "Switch fonts between TrueType and OpenType outlines" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passa i font tra contorni TrueType e OpenType"
+          }
+        }
+      }
+    },
     "Switchable track" : {
       "localizations" : {
         "it" : {
@@ -8262,6 +8638,16 @@
         }
       }
     },
+    "They carry on if you close this window." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuano anche se chiudi questa finestra."
+          }
+        }
+      }
+    },
     "This Mac doesn't support Apple Intelligence" : {
       "localizations" : {
         "it" : {
@@ -8328,6 +8714,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "In alto a destra"
+          }
+        }
+      }
+    },
+    "Trace pictures into SVG drawings" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricalca immagini in disegni SVG"
           }
         }
       }
@@ -8438,12 +8834,32 @@
         }
       }
     },
+    "Turn a file into another format: HEIC to JPG, MOV to MP4, PDF to Word… %lld combinations in all." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trasforma un file in un altro formato: da HEIC a JPG, da MOV a MP4, da PDF a Word… %lld combinazioni in tutto."
+          }
+        }
+      }
+    },
     "Turn a photo of a page into a clean scan" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trasforma la foto di un foglio in una scansione pulita"
+          }
+        }
+      }
+    },
+    "Turn fonts into WOFF2 web fonts and back" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trasforma i font in web font WOFF2 e viceversa"
           }
         }
       }
@@ -8554,6 +8970,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fino a 10 MB"
+          }
+        }
+      }
+    },
+    "Update" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiorna"
+          }
+        }
+      }
+    },
+    "Update All" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiorna tutti"
+          }
+        }
+      }
+    },
+    "Update Extras (%lld)" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiorna extra (%lld)"
           }
         }
       }
@@ -8940,6 +9386,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sì"
+          }
+        }
+      }
+    },
+    "You can change this later in Settings ▸ Engines." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi cambiarlo in seguito da Impostazioni ▸ Motori."
           }
         }
       }

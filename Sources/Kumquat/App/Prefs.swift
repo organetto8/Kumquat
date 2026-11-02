@@ -112,7 +112,10 @@ enum Prefs {
         static let revealWhenDone = "revealWhenDone"
         static let hotKey = "hotKey"
         static let terminalApp = "terminalApp"
+        /// Before the setup window: true once the welcome window was closed with Start Converting.
         static let welcomed = "welcomed"
+        static let setupVersion = "setupVersion"
+        static let pendingEngines = "pendingEngines"
         static let favoriteFolders = "favoriteFolders"
         static let recentFolders = "recentFolders"
         static let scripts = "scripts"
@@ -133,7 +136,6 @@ enum Prefs {
             Key.outputLocation: OutputLocation.nextToOriginal.rawValue,
             Key.revealWhenDone: false,
             Key.terminalApp: "com.apple.Terminal",
-            Key.welcomed: false,
             Key.checkForUpdates: true,
             Key.betaUpdates: false,
         ])
@@ -144,9 +146,16 @@ enum Prefs {
     static var revealWhenDone: Bool { defaults.bool(forKey: Key.revealWhenDone) }
     static var terminalApp: String { defaults.string(forKey: Key.terminalApp) ?? "com.apple.Terminal" }
 
-    static var welcomed: Bool {
-        get { defaults.bool(forKey: Key.welcomed) }
-        set { defaults.set(newValue, forKey: Key.welcomed) }
+    /// The last `SetupView.version` the user went through; the old welcome window counts as 1.
+    static var setupVersion: Int {
+        get { max(defaults.integer(forKey: Key.setupVersion), defaults.bool(forKey: Key.welcomed) ? 1 : 0) }
+        set { defaults.set(newValue, forKey: Key.setupVersion) }
+    }
+
+    /// Engine installs queued or running, so that quitting doesn't lose them.
+    static var pendingEngines: [Engine] {
+        get { (defaults.stringArray(forKey: Key.pendingEngines) ?? []).compactMap(Engine.init(rawValue:)) }
+        set { defaults.set(newValue.map(\.rawValue), forKey: Key.pendingEngines) }
     }
 
     static var checkForUpdates: Bool { defaults.bool(forKey: Key.checkForUpdates) }

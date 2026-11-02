@@ -37,8 +37,9 @@ Every key can be changed in Settings. Nothing is uploaded, there is no account, 
 3. Open Kumquat from Applications. macOS blocks the first launch because the app is not notarised by Apple:
    go to **System Settings ▸ Privacy & Security**, scroll down and click **Open Anyway**.
 
-A kumquat appears in the menu bar and a short welcome window explains the basics. The
-[user guide](docs/USER_GUIDE.md) covers everything else, including the optional extras for audio and video.
+A kumquat appears in the menu bar and a setup window explains the basics. It also offers the optional extras
+for audio, video and a few more formats, with the small recommended ones already ticked: one click installs them
+while you read on. The [user guide](docs/USER_GUIDE.md) covers everything else.
 
 Requires macOS 14 Sonoma or later, on Apple silicon or Intel.
 
@@ -76,8 +77,8 @@ reading aloud, translation and summaries also run on the Mac.
 
 ## Optional extras
 
-Most formats work out of the box. A few rely on free programs: open **Settings ▸ Engines** and click
-**Install** next to the ones you want. Kumquat downloads its own build for your Mac, with no Homebrew and no
+Most formats work out of the box. A few rely on free programs: the setup window installs them the first time
+Kumquat opens, and **Settings ▸ Engines** has an **Install** button next to each one. Kumquat downloads its own build for your Mac, with no Homebrew and no
 password needed. If you already use Homebrew, these commands work too and Kumquat finds what they install:
 
 | For | With Homebrew |
@@ -100,8 +101,8 @@ Translate and Summarize need macOS 26; Summarize also needs Apple Intelligence.
 
 All work happens locally with Apple frameworks (ImageIO, PDFKit, Vision, Core Image, Speech, Translation,
 Foundation Models, Model I/O, AppKit) and the optional tools above; your files never leave the Mac. Kumquat goes
-online only to GitHub, for two things: the daily [update check](#updates), which you can turn off, and **Install**
-in Settings ▸ Engines, which downloads that one program from Kumquat's own
+online only to GitHub, for two things: the daily [update check](#updates), which you can turn off, and installing
+the optional extras you choose in the setup window or Settings ▸ Engines, which downloads those programs from Kumquat's own
 [engines releases](https://github.com/organetto8/Kumquat/releases) and checks it against a fingerprint built into the app.
 Wi-Fi Share only serves the files you chose, through a private link in its QR code, to devices on your own network while its window is open.
 It asks for permissions only when a feature needs them:

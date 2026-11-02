@@ -9,6 +9,17 @@ enum StatusCommand {
     /// An entry picked in All Actions.
     case run(CatalogMenu.Choice)
     case basket, settings, welcome, about, diagnostics, checkForUpdates, installUpdate, quit
+    /// The setup window's page of optional engines; their updates; or no more offers of them.
+    case extras, updateExtras, dismissExtras
+}
+
+/// What the panel says about the optional engines.
+enum ExtrasNotice {
+    /// Nothing installed yet from the setup window: a card that offers it.
+    case offer
+    case installing
+    /// How many engines came from an older engine pack.
+    case updates(Int)
 }
 
 /// The panel under the menu bar icon. Like a menu it closes on a click elsewhere, on Escape and
@@ -143,6 +154,7 @@ struct StatusPanelView: View {
     let basketVisible: Bool
     /// A downloaded and verified update, waiting for the user to install it.
     let update: ReleaseVersion?
+    let extras: ExtrasNotice?
     let perform: (StatusCommand) -> Void
 
     @AppStorage(Prefs.Key.dragGesture) private var dragGesture = true
@@ -180,6 +192,11 @@ struct StatusPanelView: View {
             wheels
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12)
+            if case .offer = extras {
+                extrasOffer
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 12)
+            }
             Divider().padding(.horizontal, 12)
             tips
                 .padding(.horizontal, 14)
@@ -252,6 +269,23 @@ struct StatusPanelView: View {
                 }
                 .buttonStyle(RowButtonStyle())
             }
+            switch extras {
+            case .installing:
+                let installer = EngineInstaller.shared
+                Button { perform(.extras) } label: {
+                    RowLabel(symbol: "arrow.down.circle", title: installer.isBusy
+                             ? "Installing Extras… \(installer.overallProgress.formatted(.percent.precision(.fractionLength(0))))"
+                             : "Extras Installed")
+                }
+                .buttonStyle(RowButtonStyle())
+            case .updates(let count):
+                Button { perform(.updateExtras) } label: {
+                    RowLabel(symbol: "arrow.triangle.2.circlepath", title: "Update Extras (\(count))")
+                }
+                .buttonStyle(RowButtonStyle())
+            case .offer, nil:
+                EmptyView()
+            }
             Button { perform(.basket) } label: {
                 HStack {
                     RowLabel(symbol: "basket", title: basketVisible ? "Hide Basket" : "Show Basket")
@@ -280,6 +314,27 @@ struct StatusPanelView: View {
                     }
                 }
         }
+    }
+
+    private var extrasOffer: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline) {
+                Image(systemName: "shippingbox").foregroundStyle(.orange)
+                Text("Add audio, video and more formats").font(.system(size: 13, weight: .semibold))
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 4)
+                Button { perform(.dismissExtras) } label: { Image(systemName: "xmark").font(.system(size: 10, weight: .semibold)) }
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(.secondary)
+                    .help("Don't Show Again")
+            }
+            Text("Kumquat can install the free programs it uses for them, all in one go.")
+                .font(.system(size: 11)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            Button("Choose Extras…") { perform(.extras) }.controlSize(.small)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color.orange.opacity(0.1)))
     }
 
     private var footer: some View {

@@ -15,7 +15,10 @@ public enum EnginePack {
     }
 
     /// The engines the pack can hold, by their Homebrew names; each one gets its own folder.
-    static let engines = ["ffmpeg", "webp", "jpeg-xl", "potrace", "pandoc", "calibre", "sevenzip", "woff2", "fonttools"]
+    static var engines: [String] { Engine.allCases.map(\.rawValue) }
+
+    /// In each engine's folder: the engines-N release it was unpacked from.
+    static let releaseMarker = ".release"
 
     public static let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         .appendingPathComponent("Kumquat/Engines", isDirectory: true)
@@ -50,6 +53,7 @@ public enum EnginePack {
         }
         let files = FileManager.default
         try files.createDirectory(at: directory, withIntermediateDirectories: true)
+        try checkSpace(for: engine, size: asset.size)
         let archive = directory.appendingPathComponent(".\(asset.file)")
         defer { try? files.removeItem(at: archive) }
         try await download(url, to: archive, size: asset.size, progress: progress)
@@ -61,9 +65,32 @@ public enum EnginePack {
         try files.createDirectory(at: staging, withIntermediateDirectories: true)
         defer { try? files.removeItem(at: staging) }
         try await ExternalTool.check(Engines.tar, ["-xf", archive.path, "-C", staging.path])
+        try recordRelease(tag, in: staging)
         try? files.removeItem(at: folder(engine))
         try files.moveItem(at: staging, to: folder(engine))
         ExternalTool.resetCache()
+    }
+
+    /// The release `engine` was installed from, or nil when the pack hasn't installed it.
+    public static func installedRelease(_ engine: String) -> String? { release(in: folder(engine)) }
+
+    /// Folders without a marker were unpacked before markers were written, from engines-1: the only pack then.
+    static func release(in folder: URL) -> String? {
+        guard FileManager.default.fileExists(atPath: folder.path) else { return nil }
+        guard let data = try? Data(contentsOf: folder.appendingPathComponent(releaseMarker)) else { return "engines-1" }
+        return String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    static func recordRelease(_ tag: String, in folder: URL) throws {
+        try Data(tag.utf8).write(to: folder.appendingPathComponent(releaseMarker))
+    }
+
+    /// An xz archive unpacks to about three times its size, and the archive stays beside it until then.
+    private static func checkSpace(for engine: String, size: Int64) throws {
+        let values = try? directory.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+        guard let free = values?.volumeAvailableCapacityForImportantUsage, free < size * 4 else { return }
+        let needed = ByteCountFormatter.string(fromByteCount: size * 4, countStyle: .file)
+        throw KumquatError.noResult(String(localized: "Not enough free space for \(engine): it needs about \(needed)."))
     }
 
     /// Through the updater's `Transfer`: GitHub over HTTPS only, no cookies or cache, stopped past the pinned

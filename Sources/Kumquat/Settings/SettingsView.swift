@@ -256,26 +256,23 @@ private struct EngineSettings: View {
             Section {
                 row(String(localized: "Images, PDF, documents, spreadsheets, subtitles, archives"),
                     detail: String(localized: "Built in (ImageIO, PDFKit, Vision, libarchive)"), ready: true) { EmptyView() }
-                engine(String(localized: "Audio & video"), at: Engines.ffmpeg, from: .formula("ffmpeg"))
-                engine(String(localized: "WebP output"), at: Engines.cwebp, from: .formula("webp"))
-                engine(String(localized: "JPEG XL output"), at: Engines.cjxl, from: .formula("jpeg-xl"))
-                engine(String(localized: "Pictures to SVG"), at: Engines.potrace, from: .formula("potrace"))
-                engine(String(localized: "LaTeX, reST, AsciiDoc, Org"), at: Engines.pandoc, from: .formula("pandoc"))
-                engine(String(localized: "Kindle e-books"), at: Engines.ebookConvert, from: .cask("calibre"))
-                engine(String(localized: "7-Zip archives"), at: Engines.sevenZip, from: .formula("sevenzip"))
-                engine(String(localized: "WOFF2 web fonts"), at: Engines.woff2Compress, from: .formula("woff2"))
-                engine(String(localized: "TrueType ↔ OpenType outlines"), at: Engines.fonttools, from: .formula("fonttools"))
+                ForEach(Engine.allCases) { engine($0) }
                 ForEach(Engines.App.allCases, id: \.self) { app in
                     row(app.rawValue, detail: purpose(app), ready: app.isInstalled) {
-                        Button("Install") { NSWorkspace.shared.open(app.appStoreURL) }
-                            .controlSize(.small)
-                            .help("Opens \(app.rawValue) in the App Store")
+                        if !app.isInstalled {
+                            Button("Install") { NSWorkspace.shared.open(app.appStoreURL) }
+                                .controlSize(.small)
+                                .help("Opens \(app.rawValue) in the App Store")
+                        }
                     }
                 }
             } footer: {
                 HStack {
                     Text("Everything runs on this Mac. Nothing is uploaded.").font(.caption).foregroundStyle(.secondary)
                     Spacer()
+                    let missing = installer.missingRecommended, outdated = installer.outdated
+                    if !missing.isEmpty { Button("Install Recommended") { installer.install(missing) } }
+                    if !outdated.isEmpty { Button("Update All") { installer.install(outdated) } }
                     Button("Check Again") { installer.recheck() }
                 }
             }
@@ -295,31 +292,33 @@ private struct EngineSettings: View {
     }
 
     /// An optional program: where it was found, or an Install button and how far the install has got.
-    private func engine(_ title: String, at location: URL?, from package: Homebrew.Package) -> some View {
-        let progress = installer.progress[package], failure = installer.failures[package]
-        let size = EnginePack.asset(for: package.name).map { ByteCountFormatter.string(fromByteCount: $0.size, countStyle: .file) }
-        let idle = size.map { String(localized: "\($0) download") } ?? package.command
-        let available = installer.canInstall(package)
-        return row(title, detail: location?.path ?? progress ?? failure ?? idle, ready: location != nil,
-                   failed: location == nil && progress == nil && failure != nil) {
+    private func engine(_ engine: Engine) -> some View {
+        let progress = installer.progress[engine], failure = installer.failures[engine]
+        let location = engine.location, update = engine.needsUpdate
+        let size = engine.asset.map { ByteCountFormatter.string(fromByteCount: $0.size, countStyle: .file) }
+        let idle = size.map { String(localized: "\($0) download") } ?? engine.package.command
+        let found = update ? String(localized: "A newer build is available") : location?.path
+        return row(engine.title, detail: progress ?? failure ?? found ?? idle, ready: location != nil,
+                   failed: progress == nil && failure != nil) {
             if progress != nil {
                 ProgressView().controlSize(.small)
-            } else {
-                Button("Install") { installer.install(package) }
+            } else if location == nil {
+                Button("Install") { installer.install([engine]) }
                     .controlSize(.small)
-                    .disabled(!available)
-                    .help(available ? "" : String(localized: "Not available for this Mac yet. Right-click to copy the Homebrew command."))
+                    .disabled(!engine.canInstall)
+                    .help(engine.canInstall ? "" : String(localized: "Not available for this Mac yet. Right-click to copy the Homebrew command."))
+            } else if update {
+                Button("Update") { installer.install([engine]) }.controlSize(.small)
             }
         }
         .contextMenu {
             Button("Copy Command") {
                 NSPasteboard.general.clearContents()
-                NSPasteboard.general.setString(package.command, forType: .string)
+                NSPasteboard.general.setString(engine.package.command, forType: .string)
             }
         }
     }
 
-    /// `accessory` (the Install button) shows only while the engine is missing.
     private func row<Accessory: View>(_ title: String, detail: String, ready: Bool, failed: Bool = false,
                                       @ViewBuilder accessory: () -> Accessory) -> some View {
         HStack(alignment: .firstTextBaseline) {
@@ -330,7 +329,7 @@ private struct EngineSettings: View {
                     .lineLimit(failed ? 3 : 1).truncationMode(.middle).help(detail)
             }
             Spacer()
-            if !ready { accessory() }
+            accessory()
         }
     }
 }
@@ -355,55 +354,6 @@ private struct AboutView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity)
-    }
-}
-
-struct WelcomeView: View {
-    let done: () -> Void
-    @State private var launchAtLogin = LoginItem.isEnabled
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            HStack(spacing: 14) {
-                Image(nsImage: NSApp.applicationIconImage).resizable().frame(width: 64, height: 64)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Welcome to Kumquat").font(.title.weight(.bold))
-                    Text("Convert any file by dragging it. Offline, instant, unlimited.").foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-            VStack(alignment: .leading, spacing: 12) {
-                step("1", "Start dragging a file (or several) in Finder.")
-                step(Prefs.modifier(for: .convert).symbol, "Tap \(Prefs.modifier(for: .convert).title) for the Convert wheel — \(Catalog.conversionCount) formats.")
-                step(Prefs.modifier(for: .tools).symbol, "Tap \(Prefs.modifier(for: .tools).title) for Edit — compress, trim, crop, merge, OCR…")
-                step(Prefs.modifier(for: .actions).symbol, "Tap \(Prefs.modifier(for: .actions).title) for Send — AirDrop, Basket, copy, move, path, Terminal.")
-                step("✓", "Release the key and drop the file on a slice of the wheel. The new file is saved beside the original.")
-            }
-            if let combo = Prefs.hotKey {
-                Text("Keyboard only? Select files in Finder and press \(combo.display).").font(.callout).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            HStack {
-                Toggle("Launch at login", isOn: $launchAtLogin)
-                    .onChange(of: launchAtLogin) { _, enabled in try? LoginItem.setEnabled(enabled) }
-                Spacer()
-                Button("Start Converting", action: done).keyboardShortcut(.defaultAction).tint(.orange)
-            }
-        }
-        .padding(26)
-        .frame(width: 520)
-        // Long translations wrap and the window grows to fit, instead of truncating to one line.
-        .fixedSize(horizontal: false, vertical: true)
-    }
-
-    private func step(_ badge: String, _ text: LocalizedStringKey) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 12) {
-            Text(badge)
-                .font(.system(size: 13, weight: .bold))
-                .frame(width: 28, height: 28)
-                .background(Circle().fill(Color.orange.opacity(0.18)))
-            Text(text).fixedSize(horizontal: false, vertical: true)
-        }
     }
 }
 

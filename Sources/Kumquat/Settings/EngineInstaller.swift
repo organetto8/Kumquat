@@ -2,41 +2,69 @@ import AppKit
 import KumquatCore
 import Observation
 
-/// Installs engines from Settings ▸ Engines: from Kumquat's own engine pack when it has a build for
-/// this Mac, otherwise with Homebrew if it's there. One at a time, as Homebrew refuses to run twice at
-/// once. Shared, so an install carries on, and stays visible, when the tab or the window changes.
+/// Installs engines from the setup window and Settings ▸ Engines: from Kumquat's own engine pack when it
+/// has a build for this Mac, otherwise with Homebrew if it's there. Two pack downloads run at once, Homebrew
+/// one install at a time, as it refuses to run twice. Shared, so an install carries on, and stays visible,
+/// when the window changes; what is left is saved, so an install a quit cut short resumes at the next launch.
 @Observable
 final class EngineInstaller {
     static let shared = EngineInstaller()
 
     /// What each queued or running install is doing, for its row's caption.
-    private(set) var progress: [Homebrew.Package: String] = [:]
+    private(set) var progress: [Engine: String] = [:]
     /// Why the last attempt failed, until the next one.
-    private(set) var failures: [Homebrew.Package: String] = [:]
-    /// Changes whenever engines may have come or gone, so the Engines tab looks them up again.
+    private(set) var failures: [Engine: String] = [:]
+    /// Changes whenever engines may have come or gone, so the lists look them up again.
     private(set) var generation = 0
-    @ObservationIgnored private var downloaded: [Homebrew.Package: Double] = [:]
-    @ObservationIgnored private var queue: Task<Void, Never>?
+    /// Everything asked for since the installer was last idle, for the overall progress.
+    private(set) var batch: [Engine] = []
+    /// How far each running pack download has got, from 0 to 1.
+    private var downloaded: [Engine: Double] = [:]
+    @ObservationIgnored private var waiting: [Engine] = []
+    @ObservationIgnored private var running: Set<Engine> = []
 
     private init() {}
 
     /// Whether an install is queued or running, which an app update waits for.
     var isBusy: Bool { !progress.isEmpty }
 
-    /// Whether Install can do anything for `package` on this Mac.
-    func canInstall(_ package: Homebrew.Package) -> Bool {
-        EnginePack.asset(for: package.name) != nil || Homebrew.brew != nil
+    /// The recommended engines still missing that Install can add to this Mac.
+    var missingRecommended: [Engine] {
+        Engine.allCases.filter { $0.group == .recommended && $0.location == nil && $0.canInstall }
     }
 
-    func install(_ package: Homebrew.Package) {
-        guard progress[package] == nil else { return }
-        failures[package] = nil
-        progress[package] = String(localized: "Waiting…")
-        let previous = queue
-        queue = Task {
-            await previous?.value
-            await self.run(package)
+    /// Engines unpacked from an older engine pack than the one this version installs from.
+    var outdated: [Engine] { Engine.allCases.filter(\.needsUpdate) }
+
+    /// How far the batch has got, from 0 to 1, weighed by download size. A Homebrew install, whose size
+    /// isn't known, weighs as much as 10 MB; a finished or failed engine counts as done.
+    var overallProgress: Double {
+        let weights = batch.map { Double($0.asset?.size ?? 10_000_000) }
+        let total = weights.reduce(0, +)
+        guard total > 0 else { return 0 }
+        let done = zip(batch, weights).reduce(0.0) { sum, item in
+            sum + item.1 * (progress[item.0] == nil ? 1 : downloaded[item.0, default: 0])
         }
+        return done / total
+    }
+
+    func install(_ engines: [Engine]) {
+        let new = engines.filter { progress[$0] == nil }
+        guard !new.isEmpty else { return }
+        if progress.isEmpty { batch = [] }
+        for engine in new {
+            failures[engine] = nil
+            progress[engine] = String(localized: "Waiting…")
+            waiting.append(engine)
+            batch.append(engine)
+        }
+        savePending()
+        startWaiting()
+    }
+
+    /// Carries on with the installs the last quit cut short.
+    func resumePending() {
+        install(Prefs.pendingEngines.filter { $0.location == nil || $0.needsUpdate })
     }
 
     /// Forgets every lookup, e.g. after something was installed outside Kumquat.
@@ -45,38 +73,65 @@ final class EngineInstaller {
         generation += 1
     }
 
-    private func run(_ package: Homebrew.Package) async {
-        do {
-            if EnginePack.asset(for: package.name) != nil {
-                progress[package] = String(localized: "Downloading…")
-                try await EnginePack.install(package.name) { fraction in
-                    Task { @MainActor [weak self] in self?.advance(package, downloaded: fraction) }
+    /// Starts whatever is waiting, as far as two pack downloads and one Homebrew install allow.
+    private func startWaiting() {
+        for engine in waiting {
+            let fromPack = engine.asset != nil
+            guard running.count(where: { ($0.asset != nil) == fromPack }) < (fromPack ? 2 : 1) else { continue }
+            waiting.removeAll { $0 == engine }
+            running.insert(engine)
+            Task {
+                let succeeded = await run(engine)
+                running.remove(engine)
+                savePending()
+                if !succeeded {
+                    Sound.failed()
+                } else if running.isEmpty, waiting.isEmpty {
+                    Sound.done()
                 }
-            } else {
-                progress[package] = String(localized: "Starting Homebrew…")
-                try await Homebrew.install(package) { step in
-                    Task { @MainActor [weak self] in self?.advance(package, to: step) }
-                }
+                startWaiting()
             }
-            Sound.done()
-        } catch {
-            failures[package] = error.localizedDescription
-            Sound.failed()
         }
-        downloaded[package] = nil
-        progress[package] = nil
-        recheck()
     }
 
-    private func advance(_ package: Homebrew.Package, to step: String) {
-        if progress[package] != nil { progress[package] = step }
+    private func run(_ engine: Engine) async -> Bool {
+        defer {
+            downloaded[engine] = nil
+            progress[engine] = nil
+            recheck()
+        }
+        do {
+            if engine.asset != nil {
+                progress[engine] = String(localized: "Downloading…")
+                try await EnginePack.install(engine.rawValue) { fraction in
+                    Task { @MainActor [weak self] in self?.advance(engine, downloaded: fraction) }
+                }
+            } else {
+                progress[engine] = String(localized: "Starting Homebrew…")
+                try await Homebrew.install(engine.package) { step in
+                    Task { @MainActor [weak self] in self?.advance(engine, to: step) }
+                }
+            }
+            return true
+        } catch {
+            failures[engine] = error.localizedDescription
+            return false
+        }
+    }
+
+    private func savePending() {
+        Prefs.pendingEngines = Engine.allCases.filter { waiting.contains($0) || running.contains($0) }
+    }
+
+    private func advance(_ engine: Engine, to step: String) {
+        if progress[engine] != nil { progress[engine] = step }
     }
 
     /// Only forward: a late byte count must not undo "Installing…".
-    private func advance(_ package: Homebrew.Package, downloaded fraction: Double) {
-        guard fraction > downloaded[package, default: 0] else { return }
-        downloaded[package] = fraction
-        advance(package, to: fraction < 1
+    private func advance(_ engine: Engine, downloaded fraction: Double) {
+        guard fraction > downloaded[engine, default: 0] else { return }
+        downloaded[engine] = fraction
+        advance(engine, to: fraction < 1
                 ? String(localized: "Downloading… \(fraction.formatted(.percent.precision(.fractionLength(0))))")
                 : String(localized: "Installing…"))
     }

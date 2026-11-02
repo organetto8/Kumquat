@@ -18,8 +18,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: StatusItemController?
     private let statusPanel = StatusPanel()
     private lazy var settings = WindowPresenter(title: String(localized: "Kumquat Settings")) { SettingsView() }
-    private lazy var welcome = WindowPresenter(title: String(localized: "Welcome to Kumquat")) { [weak self] in
-        WelcomeView { self?.finishWelcome() }
+    private let setupFlow = SetupFlow()
+    private lazy var setup = WindowPresenter(title: String(localized: "Welcome to Kumquat")) { [weak self, flow = self.setupFlow] in
+        SetupView(flow: flow) { self?.finishSetup() }
     }
     /// `.none` until the first registration, so the initial apply always registers.
     private var registeredHotKey: KeyCombo?? = .none
@@ -64,7 +65,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSUpdateDynamicServices()
 
         handleLaunchArguments()
-        if !Prefs.welcomed { welcome.show() }
+        EngineInstaller.shared.resumePending()
+        if Prefs.setupVersion == 0 { showSetup(at: .welcome) }
 
         Updater.shared.notice = { [weak self] title, detail, failed in self?.jobs.notice(title, detail: detail, failed: failed) }
         // A relaunch would also cut short an engine being downloaded or unpacked from Settings ▸ Engines.
@@ -247,9 +249,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func finishWelcome() {
-        Prefs.welcomed = true
-        welcome.close()
+    private func showSetup(at step: SetupStep) {
+        setupFlow.start(at: step)
+        setup.show()
+    }
+
+    private func finishSetup() {
+        Prefs.setupVersion = SetupView.version
+        setup.close()
     }
 
     // MARK: - Preferences
@@ -281,7 +288,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func actionsSelection(_ sender: Any?) { openWheelForFinderSelection(.actions) }
     @objc func toggleBasket(_ sender: Any?) { basket.toggle() }
     @objc func showSettings(_ sender: Any?) { settings.show() }
-    @objc func showWelcome(_ sender: Any?) { welcome.show() }
+    @objc func showWelcome(_ sender: Any?) { showSetup(at: .welcome) }
     @objc func checkForUpdates(_ sender: Any?) { Updater.shared.check(userInitiated: true) }
     @objc func installUpdate(_ sender: Any?) { Updater.shared.installPending() }
 
@@ -336,12 +343,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showStatusPanel(takesKeyboard: Bool) {
         guard !statusPanel.isOpen, let status = statusItem, let anchor = status.buttonFrameOnScreen else { return }
-        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible, update: Updater.shared.pending?.version) { [weak self] command in
+        let view = StatusPanelView(basket: basket.model, basketVisible: basket.isVisible, update: Updater.shared.pending?.version,
+                                   extras: extrasNotice) { [weak self] command in
             self?.statusPanel.close()
             self?.handle(command)
         }
         statusPanel.show(view, below: anchor, anchorWindow: status.buttonWindow, takesKeyboard: takesKeyboard)
         status.isPanelOpen = true
+    }
+
+    /// Decided as the panel opens, so a row doesn't appear or vanish while it's open.
+    private var extrasNotice: ExtrasNotice? {
+        let installer = EngineInstaller.shared
+        if installer.isBusy { return .installing }
+        let outdated = installer.outdated.count
+        if outdated > 0 { return .updates(outdated) }
+        if Prefs.setupVersion < SetupView.version, !installer.missingRecommended.isEmpty { return .offer }
+        return nil
     }
 
     private func handle(_ command: StatusCommand) {
@@ -351,7 +369,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .run(let choice): runEntry(choice)
         case .basket: basket.toggle()
         case .settings: settings.show()
-        case .welcome: welcome.show()
+        case .welcome: showSetup(at: .welcome)
+        case .extras: showSetup(at: .extras)
+        case .updateExtras: EngineInstaller.shared.install(EngineInstaller.shared.outdated)
+        case .dismissExtras: Prefs.setupVersion = SetupView.version
         case .about: showAbout(nil)
         case .diagnostics: copyDiagnostics(nil)
         case .checkForUpdates: checkForUpdates(nil)

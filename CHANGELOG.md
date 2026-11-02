@@ -5,6 +5,24 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Added
+
+- **Setup window** at first launch, in three pages: what Kumquat does, the optional extras, and how the
+  wheels work. The extras page lists every engine with what it adds and its download size, the small
+  recommended ones (FFmpeg, WebP, JPEG XL, potrace, 7-Zip, WOFF2: about 22 MB) already ticked;
+  **Install and Continue** downloads them while you read on. Pages, Keynote and Numbers get App Store links.
+- People who already went through the old welcome window get a one-time card in the menu bar panel that
+  opens the extras page.
+- **Update Extras** in the menu bar panel, and **Update** in Settings ▸ Engines, when the app installs from a
+  newer engine pack than the one an engine came from.
+- **Install Recommended** in Settings ▸ Engines.
+
+### Changed
+
+- Engine installs run two downloads at once, show their overall progress in the menu bar panel, and resume at
+  the next launch when Kumquat quits halfway. An install stops before downloading when the disk is too full
+  to unpack it.
+
 ## [1.1.0-beta.1] - 2026-10-31
 
 ### Added

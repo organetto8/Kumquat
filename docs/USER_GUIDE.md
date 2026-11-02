@@ -59,10 +59,11 @@ xattr -dr com.apple.quarantine /Applications/Kumquat.app
 
 You only do this once. Afterwards Kumquat opens like any other app.
 
-When it starts, a kumquat icon appears in the menu bar and the welcome window shows the basics. Tick
-**Launch at login** there if you want Kumquat available all the time. Click the icon at any time for
-Kumquat's panel: the three wheels, the Basket, the main switches, Settings and help. You can reopen the
-welcome window from there with **How Kumquat Works**.
+When it starts, a kumquat icon appears in the menu bar and the setup window opens. Its three pages show what
+Kumquat does, offer the optional extras for audio, video and a few more formats ([section 7](#7-audio-video-and-iwork-support)),
+and explain the wheels. Tick **Launch at login** on the last page if you want Kumquat available all the time.
+Click the icon at any time for Kumquat's panel: the three wheels, the Basket, the main switches, Settings and
+help. You can reopen the setup window from there with **How Kumquat Works**.
 
 ## 3. Using the wheels
 
@@ -283,11 +284,18 @@ to have Finder reveal each result automatically.
 ## 7. Audio, video and iWork support
 
 Images, PDFs, documents, spreadsheets, data, subtitles, archives and 3D models work right after installing.
-A few formats need free software. Open **Settings ▸ Engines** and click **Install** next to anything
-missing: Kumquat downloads its own build of that program for your Mac, checks it, and turns the line green
-when it's ready. There's no Homebrew to set up and no password to type. You can keep working meanwhile, and
-several installs wait their turn. For Pages, Keynote and Numbers, **Install** opens the app's page in the
-App Store.
+A few formats need free software. The setup window offers it the first time Kumquat opens, with the small
+recommended programs already ticked (about 22 MB): click **Install and Continue** and they download while you
+read the last page. Later, open **Settings ▸ Engines** and click **Install** next to anything missing, or
+**Install Recommended**. Kumquat downloads its own build of each program for your Mac, checks it, and turns
+the line green when it's ready. There's no Homebrew to set up and no password to type. You can keep working
+meanwhile: two downloads run at once, the others wait their turn, and the menu bar panel shows how far they
+have got. If you quit Kumquat halfway, it finishes them the next time it opens. For Pages, Keynote and
+Numbers, **Install** opens the app's page in the App Store.
+
+If you skipped the setup window's extras, the menu bar panel offers them once more, in a card with
+**Choose Extras…**; its × hides it for good. When a new version of Kumquat brings newer builds of the programs
+it installed, the panel shows **Update Extras** and Settings ▸ Engines an **Update** button on each line.
 
 | For | With Homebrew instead |
 |---|---|
@@ -307,7 +315,7 @@ a line in Settings ▸ Engines and choose **Copy Command** for its `brew` comman
 Kumquat was open is found when you come back to Settings, or with **Check Again**.
 
 The downloads come from Kumquat's own [engines releases](https://github.com/organetto8/Kumquat/releases) on
-GitHub, only when you click Install; apart from the update check ([section 10](#10-updating-and-uninstalling)),
+GitHub, only when you ask for them (or to finish an install that quitting cut short); apart from the update check ([section 10](#10-updating-and-uninstalling)),
 it's the only time Kumquat goes online. Each file is checked against a
 fingerprint built into the app before it's used. They live in `~/Library/Application Support/Kumquat/Engines`,
 one folder per program: delete a folder to remove that program. A program that needs a newer macOS than
