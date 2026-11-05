@@ -5,6 +5,8 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+## [1.1.0-beta.3] - 2026-11-05
+
 ### Added
 
 - **Wi-Fi Receive** in the Send wheel: drop a folder and scan its QR code with a phone on the same network to
@@ -82,7 +84,8 @@ First public release.
 - English and Italian.
 - **Copy Diagnostic Info** in the menu bar menu, for bug reports.
 
-[Unreleased]: https://github.com/organetto8/Kumquat/compare/v1.1.0-beta.2...HEAD
+[Unreleased]: https://github.com/organetto8/Kumquat/compare/v1.1.0-beta.3...HEAD
+[1.1.0-beta.3]: https://github.com/organetto8/Kumquat/releases/tag/v1.1.0-beta.3
 [1.1.0-beta.2]: https://github.com/organetto8/Kumquat/releases/tag/v1.1.0-beta.2
 [1.1.0-beta.1]: https://github.com/organetto8/Kumquat/releases/tag/v1.1.0-beta.1
 [1.0.0]: https://github.com/organetto8/Kumquat/releases/tag/v1.0.0
