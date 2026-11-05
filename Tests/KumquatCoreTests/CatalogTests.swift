@@ -7,7 +7,7 @@ import Testing
         #expect(Catalog.conversionCount >= 900)
         let tools = Set(FormatCategory.allCases.flatMap { Catalog.tools(for: $0) } + Catalog.tools(for: nil))
         #expect(tools.count == ToolKind.allCases.count)
-        #expect(Catalog.actions.count == 27)
+        #expect(Catalog.actions.count == 28)
         #expect(Catalog.actions(for: .audio).contains(.addToLibrary) && !Catalog.actions(for: .audio).contains(.wallpaper))
     }
 
@@ -34,7 +34,7 @@ import Testing
 
         let folder = Catalog.wheel(.tools, for: [URL(fileURLWithPath: "/tmp/folder")])
         #expect(folder.items.map(\.operation) == [.tool(.sortFolder), .tool(.findDuplicates), .tool(.flatten), .tool(.listFiles), .tool(.lock), .tool(.archive)])
-        #expect(Catalog.wheel(.actions, for: photos).items.count == 27)
+        #expect(Catalog.wheel(.actions, for: photos).items.count == 28)
 
         let clip = [URL(fileURLWithPath: "/tmp/talk.srt"), URL(fileURLWithPath: "/tmp/talk.mp4")]
         #expect(Catalog.wheel(.tools, for: clip).category == .video)

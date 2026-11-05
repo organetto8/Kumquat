@@ -58,24 +58,30 @@ final class WiFiShare {
 
     private func show(url: URL, files: [URL]) {
         let view = WiFiShareView(url: url, subject: ActionPerformer.subject(files), qr: Self.qrCode(url.absoluteString)) { [weak self] in self?.stop() }
-        let panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 300, height: 400), styleMask: [.titled, .closable, .utilityWindow, .nonactivatingPanel],
-                            backing: .buffered, defer: false)
-        panel.title = ActionKind.wifiShare.title
-        panel.isFloatingPanel = true
-        panel.level = .floating
-        panel.hidesOnDeactivate = false
-        panel.isReleasedWhenClosed = false
-        panel.contentView = NSHostingView(rootView: view)
-        panel.setContentSize(panel.contentView?.fittingSize ?? NSSize(width: 300, height: 400))
-        panel.center()
-        NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: panel, queue: .main) { [weak self] _ in
-            MainActor.assumeIsolated { self?.stop() }
-        }
+        let panel = Self.panel(title: ActionKind.wifiShare.title, content: view) { [weak self] in self?.stop() }
         panel.orderFrontRegardless()
         self.panel = panel
         let work = DispatchWorkItem { [weak self] in self?.stop() }
         stopWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.lifetime, execute: work)
+    }
+
+    /// The floating window of Wi-Fi Share and Wi-Fi Receive; closing it runs `onClose`.
+    static func panel(title: String, content: some View, onClose: @escaping @MainActor @Sendable () -> Void) -> NSPanel {
+        let panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 300, height: 400), styleMask: [.titled, .closable, .utilityWindow, .nonactivatingPanel],
+                            backing: .buffered, defer: false)
+        panel.title = title
+        panel.isFloatingPanel = true
+        panel.level = .floating
+        panel.hidesOnDeactivate = false
+        panel.isReleasedWhenClosed = false
+        panel.contentView = NSHostingView(rootView: content)
+        panel.setContentSize(panel.contentView?.fittingSize ?? NSSize(width: 300, height: 400))
+        panel.center()
+        NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: panel, queue: .main) { _ in
+            MainActor.assumeIsolated { onClose() }
+        }
+        return panel
     }
 
     /// 128 random bits as hex. The link works as the password: anyone who can reach the port still
@@ -118,6 +124,23 @@ private struct WiFiShareView: View {
     let subject: String
     let qr: NSImage
     let stop: () -> Void
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Text(subject).font(.headline).lineLimit(1).truncationMode(.middle)
+            WiFiCode(url: url, qr: qr)
+            Text("Sharing stops when you close this window, or in 15 minutes.").font(.caption2).foregroundStyle(.tertiary).multilineTextAlignment(.center)
+            Button("Stop Sharing", action: stop).keyboardShortcut(.cancelAction).tint(.orange)
+        }
+        .padding(18)
+        .frame(width: 300)
+    }
+}
+
+/// The QR code, how to scan it, and the link with Copy: the middle of both Wi-Fi windows.
+struct WiFiCode: View {
+    let url: URL
+    let qr: NSImage
     @State private var copied = false
 
     /// The link on two lines, breaking before the token: left to itself the text hyphenates inside
@@ -131,7 +154,6 @@ private struct WiFiShareView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Text(subject).font(.headline).lineLimit(1).truncationMode(.middle)
             Image(nsImage: qr).interpolation(.none).resizable().frame(width: 220, height: 220)
                 .padding(10).background(.white, in: RoundedRectangle(cornerRadius: 10))
             Text("Scan with the phone's camera, on the same network.").font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
@@ -146,11 +168,7 @@ private struct WiFiShareView: View {
                 }
                 .controlSize(.small)
             }
-            Text("Sharing stops when you close this window, or in 15 minutes.").font(.caption2).foregroundStyle(.tertiary).multilineTextAlignment(.center)
-            Button("Stop Sharing", action: stop).keyboardShortcut(.cancelAction).tint(.orange)
         }
-        .padding(18)
-        .frame(width: 300)
     }
 }
 

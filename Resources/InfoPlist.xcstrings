@@ -75,13 +75,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi Share lets a phone on your network download the files you share."
+            "value": "Wi-Fi Share lets a phone on your network download the files you share; Wi-Fi Receive lets it send files into a folder you pick."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Condividi via Wi-Fi permette a un telefono sulla tua rete di scaricare i file che condividi."
+            "value": "Condividi via Wi-Fi permette a un telefono sulla tua rete di scaricare i file che condividi; Ricevi via Wi-Fi gli permette di inviare file in una cartella che scegli."
           }
         }
       }

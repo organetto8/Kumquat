@@ -254,6 +254,7 @@ Every file and folder also gets **Lock** (a password-protected disk image that o
 | Tag | Adds or removes a Finder colour tag. |
 | Mail | A new message with the files attached. |
 | Wi-Fi Share | Shows a QR code: scan it with any phone on the same network to download the files. Nothing goes to the internet; sharing stops when you close the window or after 15 minutes. |
+| Wi-Fi Receive | The other way round: drop a folder (or a file, for the folder it's in) and scan the QR code with the phone. A page opens where you pick photos, videos or any file; they go straight into that folder, a name already taken getting " 2" as in Finder. The window lists what arrived. Nothing goes to the internet; receiving stops when you close the window or after 15 minutes with nothing arriving. |
 | Print | Prints PDFs, pictures, documents and spreadsheets in one go. |
 | Wallpaper | Sets the picture as the desktop on every screen. |
 | Add to Library | Adds photos and videos to Photos, music to Music. |
@@ -359,12 +360,12 @@ Kumquat asks only when a feature needs it.
 | Input Monitoring | Only if a wheel is set to 1, 2 or 3 | System Settings ▸ Privacy & Security ▸ Input Monitoring |
 | Speech Recognition | First transcription to SRT, VTT or TXT | System Settings ▸ Privacy & Security ▸ Speech Recognition |
 | Photos | First Add to Library with photos or videos | System Settings ▸ Privacy & Security ▸ Photos |
-| Local Network | First Wi-Fi Share | System Settings ▸ Privacy & Security ▸ Local Network |
+| Local Network | First Wi-Fi Share or Wi-Fi Receive | System Settings ▸ Privacy & Security ▸ Local Network |
 
 Modifier keys (⇧ ⌘ ⌃ ⌥) need no permission. Kumquat does not ask for Accessibility access. It connects to the
 internet only to GitHub, never with your files: to look for updates (section 10) and, when you click **Install**
-in Settings ▸ Engines, to download that program (section 7). Wi-Fi Share only answers devices on your own network
-that have its private link, while its window is open.
+in Settings ▸ Engines, to download that program (section 7). Wi-Fi Share and Wi-Fi Receive only answer devices on your
+own network that have their private link, while their window is open.
 
 ## 10. Updating and uninstalling
 

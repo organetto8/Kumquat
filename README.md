@@ -25,8 +25,8 @@ the option you want and the new file appears in the same folder. The original is
   a video to its subtitles, a document to an audiobook: about 1,190 combinations.
 - **Edit** (⌘ Command) changes it: compress, trim, crop, merge, split, remove a photo background, read text
   with OCR, sign and redact PDFs, translate, summarise, cut silences, add subtitles: 73 tools in all.
-- **Send** (⌃ Control) passes it on: AirDrop, Wi-Fi to a phone, the Basket shelf, a favourite folder,
-  the Trash, Photos, a Shortcut or your own script: 27 actions.
+- **Send** (⌃ Control) passes it on: AirDrop, Wi-Fi to and from a phone, the Basket shelf, a favourite folder,
+  the Trash, Photos, a Shortcut or your own script: 28 actions.
 
 Every key can be changed in Settings. Nothing is uploaded, there is no account, and there is no usage cap.
 
@@ -104,12 +104,13 @@ Foundation Models, Model I/O, AppKit) and the optional tools above; your files n
 online only to GitHub, for two things: the daily [update check](#updates), which you can turn off, and installing
 the optional extras you choose in the setup window or Settings ▸ Engines, which downloads those programs from Kumquat's own
 [engines releases](https://github.com/organetto8/Kumquat/releases) and checks it against a fingerprint built into the app.
-Wi-Fi Share only serves the files you chose, through a private link in its QR code, to devices on your own network while its window is open.
+Wi-Fi Share only serves the files you chose, and Wi-Fi Receive only accepts files into the folder you chose, through a private link in
+their QR code, from devices on your own network while their window is open.
 It asks for permissions only when a feature needs them:
 
 - **Automation**, to read the Finder selection for the keyboard shortcut and to drive Pages, Keynote and Numbers.
 - **Input Monitoring**, only if you set a wheel to a number key (1, 2 or 3) instead of a modifier.
-- **Speech Recognition**, for transcriptions; **Photos**, for Add to Library; **Local Network**, for Wi-Fi Share.
+- **Speech Recognition**, for transcriptions; **Photos**, for Add to Library; **Local Network**, for Wi-Fi Share and Wi-Fi Receive.
 
 ## Build from source
 

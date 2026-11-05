@@ -23,7 +23,7 @@ extension Catalog {
 
     /// The Send actions in related groups; each action appears once.
     public static var actionGroups: [(title: String, actions: [ActionKind])] {
-        [(String(localized: "Share with Others"), [.airDrop, .share, .mail, .wifiShare]),
+        [(String(localized: "Share with Others"), [.airDrop, .share, .mail, .wifiShare, .wifiReceive]),
          (String(localized: "Organize"), [.basket, .copyTo, .move, .duplicate, .newFolder, .rename, .tag, .alias, .trash]),
          (String(localized: "Clipboard"), [.copy, .copyPath, .copyContents, .markdownLink, .base64, .checksum]),
          (String(localized: "Open & Use"), [.quickLook, .openWith, .terminal, .print, .wallpaper, .addToLibrary]),

@@ -1522,6 +1522,16 @@
         }
       }
     },
+    "Can't receive over Wi-Fi" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile ricevere via Wi-Fi"
+          }
+        }
+      }
+    },
     "Can't set the wallpaper" : {
       "localizations" : {
         "it" : {
@@ -1664,6 +1674,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scegli gli extra…"
+          }
+        }
+      }
+    },
+    "Choose Files" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli file"
           }
         }
       }
@@ -2714,6 +2734,26 @@
         }
       }
     },
+    "Didn't arrive" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non arrivato"
+          }
+        }
+      }
+    },
+    "Didn't arrive whole: %lld" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrivati incompleti: %lld"
+          }
+        }
+      }
+    },
     "Direction" : {
       "localizations" : {
         "it" : {
@@ -3492,6 +3532,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elenco file"
+          }
+        }
+      }
+    },
+    "Files go straight into this folder on the Mac." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I file finiscono direttamente in questa cartella del Mac."
           }
         }
       }
@@ -4408,6 +4458,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kumquat non può sostituirsi nella posizione in cui si trova. Spostalo nella cartella Applicazioni, oppure installa la nuova versione a mano."
+          }
+        }
+      }
+    },
+    "Kumquat can't write to this folder." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kumquat non può scrivere in questa cartella."
           }
         }
       }
@@ -5752,6 +5812,16 @@
         }
       }
     },
+    "Now in “%@”" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ora in “%@”"
+          }
+        }
+      }
+    },
     "Number" : {
       "localizations" : {
         "it" : {
@@ -6860,6 +6930,56 @@
         }
       }
     },
+    "Receive into “%@”" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricevi in “%@”"
+          }
+        }
+      }
+    },
+    "Received File" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File ricevuto"
+          }
+        }
+      }
+    },
+    "Received: %lld" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricevuti: %lld"
+          }
+        }
+      }
+    },
+    "Receiving stops when you close this window, or after 15 minutes with nothing arriving." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La ricezione si interrompe quando chiudi questa finestra, o dopo 15 minuti senza nuovi file."
+          }
+        }
+      }
+    },
+    "Receiving…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricezione in corso…"
+          }
+        }
+      }
+    },
     "Recent" : {
       "localizations" : {
         "it" : {
@@ -7600,6 +7720,16 @@
         }
       }
     },
+    "Send files from a phone into the folder" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invia file dal telefono nella cartella"
+          }
+        }
+      }
+    },
     "Send to a nearby Apple device" : {
       "localizations" : {
         "it" : {
@@ -7610,12 +7740,42 @@
         }
       }
     },
+    "Send to “%@”" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invia a “%@”"
+          }
+        }
+      }
+    },
     "Send wheel" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ruota Invia"
+          }
+        }
+      }
+    },
+    "Sending…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invio in corso…"
+          }
+        }
+      }
+    },
+    "Sent" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inviato"
           }
         }
       }
@@ -8186,6 +8346,16 @@
         }
       }
     },
+    "Stop Receiving" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interrompi ricezione"
+          }
+        }
+      }
+    },
     "Stop Sharing" : {
       "localizations" : {
         "it" : {
@@ -8478,6 +8648,16 @@
         }
       }
     },
+    "The Mac doesn't have enough free space." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Mac non ha abbastanza spazio libero."
+          }
+        }
+      }
+    },
     "The area to keep is the whole frame." : {
       "localizations" : {
         "it" : {
@@ -8504,6 +8684,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'area da mantenere è l'intera immagine."
+          }
+        }
+      }
+    },
+    "The connection to the Mac was lost." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La connessione con il Mac si è interrotta."
           }
         }
       }
@@ -9170,6 +9360,16 @@
         }
       }
     },
+    "Waiting for files from the phone…" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In attesa dei file dal telefono…"
+          }
+        }
+      }
+    },
     "Waiting…" : {
       "localizations" : {
         "it" : {
@@ -9296,6 +9496,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "I margini bianchi vengono rimossi da ogni pagina"
+          }
+        }
+      }
+    },
+    "Wi-Fi Receive" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricevi via Wi-Fi"
           }
         }
       }

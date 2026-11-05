@@ -13,6 +13,7 @@ final class ActionPerformer: NSObject {
     private let jobs: JobCenter
     private let prompt: ParameterPrompt
     private let wifi = WiFiShare()
+    private let wifiReceive = WiFiReceive()
     /// Opens Settings on the Actions tab (favourite folders, scripts).
     var showSettings: () -> Void = {}
     /// What Quick Look shows; the app delegate hands it to the panel.
@@ -79,6 +80,14 @@ final class ActionPerformer: NSObject {
             service.perform(withItems: files)
         case .wifiShare:
             wifi.share(files) { [weak self] message in self?.jobs.notice(String(localized: "Can't share over Wi-Fi"), detail: message, failed: true) }
+        case .wifiReceive:
+            // A file stands for the folder it's in, as in Terminal.
+            let folder = Catalog.isFolder(files[0]) ? files[0] : files[0].deletingLastPathComponent()
+            wifiReceive.receive(into: folder) { [weak self] message in
+                self?.jobs.notice(String(localized: "Can't receive over Wi-Fi"), detail: message, failed: true)
+            } finished: { [weak self] received, folder in
+                self?.jobs.notice(Self.subject(received), detail: String(localized: "Now in “\(folder.lastPathComponent)”"), outputs: received)
+            }
         case .print:
             print(files)
         case .wallpaper:

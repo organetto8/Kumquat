@@ -50,7 +50,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Kumquat adds the photos and videos you choose to your Photos library.</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Wi-Fi Share lets a phone on your network download the files you share.</string>
+	<string>Wi-Fi Share lets a phone on your network download the files you share; Wi-Fi Receive lets it send files into a folder you pick.</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

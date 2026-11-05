@@ -5,6 +5,12 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Added
+
+- **Wi-Fi Receive** in the Send wheel: drop a folder and scan its QR code with a phone on the same network to
+  send photos, videos or any file straight into that folder. Names already taken get " 2" as in Finder,
+  received files are marked as downloaded like AirDrop's, and the window lists what arrived.
+
 ## [1.1.0-beta.2] - 2026-11-02
 
 ### Added

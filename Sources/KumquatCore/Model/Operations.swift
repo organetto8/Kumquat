@@ -283,7 +283,7 @@ public enum ToolKind: String, Sendable, CaseIterable, Identifiable {
 public enum ActionKind: String, Sendable, CaseIterable, Identifiable {
     case airDrop, basket, copy, move, copyPath, terminal
     case share, quickLook, openWith, copyContents, rename, trash, copyTo, duplicate, newFolder, tag
-    case mail, wifiShare, print, wallpaper, addToLibrary, alias, checksum, base64, markdownLink, shortcut, script
+    case mail, wifiShare, wifiReceive, print, wallpaper, addToLibrary, alias, checksum, base64, markdownLink, shortcut, script
 
     public var id: String { rawValue }
 
@@ -307,6 +307,7 @@ public enum ActionKind: String, Sendable, CaseIterable, Identifiable {
         case .tag: String(localized: "Tag")
         case .mail: String(localized: "Mail")
         case .wifiShare: String(localized: "Wi-Fi Share")
+        case .wifiReceive: String(localized: "Wi-Fi Receive")
         case .print: String(localized: "Print")
         case .wallpaper: String(localized: "Wallpaper")
         case .addToLibrary: String(localized: "Add to Library")
@@ -339,6 +340,7 @@ public enum ActionKind: String, Sendable, CaseIterable, Identifiable {
         case .tag: "tag.circle"
         case .mail: "envelope"
         case .wifiShare: "qrcode"
+        case .wifiReceive: "iphone.and.arrow.forward"
         case .print: "printer"
         case .wallpaper: "photo.artframe"
         case .addToLibrary: "photo.on.rectangle.angled"
@@ -372,6 +374,7 @@ public enum ActionKind: String, Sendable, CaseIterable, Identifiable {
         case .tag: String(localized: "Add or remove a color tag")
         case .mail: String(localized: "A new message with the files attached")
         case .wifiShare: String(localized: "Scan a QR code to download on a phone")
+        case .wifiReceive: String(localized: "Send files from a phone into the folder")
         case .print: String(localized: "Print everything in one go")
         case .wallpaper: String(localized: "Set it as the desktop picture")
         case .addToLibrary: String(localized: "Add to Photos or Music")
