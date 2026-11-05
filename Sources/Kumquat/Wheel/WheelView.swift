@@ -274,7 +274,10 @@ final class WheelView: NSView {
         guard case .item(let index) = hit(convert(sender.draggingLocation, from: nil)),
               case .item(let item) = slots[index], item.isAvailable else { return false }
         let dropped = sender.fileURLs
-        onChoose(item, dropped.isEmpty ? files : dropped)
+        let chosen = dropped.isEmpty ? files : dropped
+        // Run the action after the drop returns: until then the system drag session stays open, so a
+        // menu or panel the action shows (Move, Copy To, Rename…) would hold every drag and gesture.
+        DispatchQueue.main.async { [weak self] in self?.onChoose(item, chosen) }
         return true
     }
 

@@ -7,8 +7,8 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [1.1.0] - 2026-11-05
 
-Everything from the 1.1.0 betas, for anyone coming from 1.0.0. Since 1.1.0-beta.3, only the disk image fix
-below is new.
+Everything from the 1.1.0 betas, for anyone coming from 1.0.0. Since 1.1.0-beta.3, only the disk image and
+wheel drop fixes below are new.
 
 ### Added
 
@@ -58,6 +58,8 @@ below is new.
   in full ([#2](https://github.com/organetto8/Kumquat/issues/2)).
 - Making, opening or checking a disk image no longer fails with "Resource temporarily unavailable" when macOS's
   disk image service is still busy with the previous one: Kumquat waits up to about 15 seconds and tries again.
+- Dropping files on a wheel action that opens a window or menu of its own (Move, Copy To, Rename…) no longer
+  leaves drags and gestures stuck until that window closes.
 
 ## [1.0.0] - 2026-10-30
 
