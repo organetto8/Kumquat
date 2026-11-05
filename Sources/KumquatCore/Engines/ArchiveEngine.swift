@@ -336,14 +336,19 @@ enum SevenZip {
 /// hdiutil, always with `-stdinpass`: without it an encrypted image would make the system put up a
 /// password dialog. Without a password, stdin is simply empty and hdiutil fails at once.
 /// Calls are serialised: the disk image service turns concurrent ones down ("Resource temporarily unavailable").
+/// It can still turn a call down for a few seconds after a volume was created or detached, by this process or
+/// another, so those calls are tried again, with the gate held meanwhile so no other call keeps it busy.
 enum DiskImage {
     private static let gate = SerialGate()
+
+    /// Pauses before each new try of a call turned down as busy: 0.5, 1, 2, 4 and 8 seconds.
+    static let busyPauses: [UInt64] = [500_000_000, 1_000_000_000, 2_000_000_000, 4_000_000_000, 8_000_000_000]
 
     @discardableResult
     static func hdiutil(_ arguments: [String], input: Data? = nil) async throws -> ProcessResult {
         await gate.enter()
         do {
-            let result = try await ExternalTool.check(Engines.hdiutil, arguments, input: input)
+            let result = try await retryingWhileBusy { try await ExternalTool.check(Engines.hdiutil, arguments, input: input) }
             await gate.leave()
             return result
         } catch {
@@ -352,10 +357,23 @@ enum DiskImage {
         }
     }
 
+    /// Runs `attempt`, and again after each of `pauses` (in nanoseconds) for as long as it fails with
+    /// "Resource temporarily unavailable" (EAGAIN). Any other failure, or a cancellation, ends it at once.
+    static func retryingWhileBusy<T>(pauses: [UInt64] = DiskImage.busyPauses, _ attempt: () async throws -> T) async throws -> T {
+        var remaining = pauses[...]
+        while true {
+            do {
+                return try await attempt()
+            } catch KumquatError.processFailed(let message) where message.contains("Resource temporarily unavailable") && !remaining.isEmpty {
+                try await Task.sleep(nanoseconds: remaining.removeFirst())
+            }
+        }
+    }
+
     /// Compressed (UDZO) APFS image of `folder`'s contents; AES-256 encrypted when `password` is given.
+    /// `-ov` replaces a file already at `output`, including one left by a try turned down as busy.
     static func create(from folder: URL, volumeName: String, password: String? = nil, output: URL) async throws {
-        try? FileManager.default.removeItem(at: output)  // hdiutil refuses to replace a file
-        var arguments = ["create", "-quiet", "-fs", "APFS", "-format", "UDZO", "-srcfolder", folder.path, "-volname", volumeName]
+        var arguments = ["create", "-quiet", "-ov", "-fs", "APFS", "-format", "UDZO", "-srcfolder", folder.path, "-volname", volumeName]
         if password != nil { arguments += ["-encryption", "AES-256", "-stdinpass"] }
         try await hdiutil(arguments + [output.path], input: password.map { Data($0.utf8) })
     }
@@ -375,15 +393,7 @@ enum DiskImage {
         let arguments = ["attach", "-nobrowse", "-readonly", "-noverify", "-noautoopen", "-mountrandom", root.path, "-plist", "-stdinpass", image.path]
         let result: ProcessResult
         do {
-            // A volume that was just detached can still be settling: one retry covers it.
-            do {
-                result = try await hdiutil(arguments, input: Data())
-            } catch is CancellationError {
-                throw CancellationError()
-            } catch {
-                try await Task.sleep(nanoseconds: 500_000_000)
-                result = try await hdiutil(arguments, input: Data())
-            }
+            result = try await hdiutil(arguments, input: Data())  // waits out a service still settling a detach
         } catch {
             try? FileManager.default.removeItem(at: root)
             throw error

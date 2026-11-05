@@ -5,6 +5,11 @@ and versions follow [Semantic Versioning](https://semver.org/). How releases are
 
 ## [Unreleased]
 
+### Fixed
+
+- Making, opening or checking a disk image no longer fails with "Resource temporarily unavailable" when macOS's
+  disk image service is still busy with the previous one: Kumquat waits up to about 15 seconds and tries again.
+
 ## [1.1.0-beta.3] - 2026-11-05
 
 ### Added

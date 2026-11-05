@@ -203,6 +203,34 @@ enum AFM {
             #expect(outcome.failures.first?.message.contains("password-protected") == true, "\(operation): \(outcome.failures.first?.message ?? "")")
         }
     }
+
+    /// hdiutil calls the disk image service turns down as busy are tried again; other failures are not.
+    @Test func diskImageCallsWaitOutABusyService() async throws {
+        let busy = KumquatError.processFailed("hdiutil: attach failed - Resource temporarily unavailable")
+        let damaged = KumquatError.processFailed("hdiutil: attach failed - image not recognized")
+
+        var calls = 0
+        let value = try await DiskImage.retryingWhileBusy(pauses: [0, 0, 0]) { () async throws -> Int in
+            calls += 1
+            if calls < 3 { throw busy }
+            return calls
+        }
+        #expect(value == 3)
+
+        for (failure, expectedCalls) in [(busy, 3), (damaged, 1)] {
+            calls = 0
+            do {
+                _ = try await DiskImage.retryingWhileBusy(pauses: [0, 0]) { () async throws -> Int in
+                    calls += 1
+                    throw failure
+                }
+                Issue.record("\(failure) should have been reported")
+            } catch {
+                #expect(error as? KumquatError == failure, "\(failure)")
+            }
+            #expect(calls == expectedCalls, "\(failure)")
+        }
+    }
 }
 
 // MARK: - Folders
